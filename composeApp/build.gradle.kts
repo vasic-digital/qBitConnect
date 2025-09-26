@@ -233,11 +233,11 @@ buildConfig {
     packageName("com.shareconnect.qbitconnect.generated")
 
     buildConfigField("Version", Versions.AppVersion)
-    buildConfigField("SourceCodeUrl", "https://github.com/Bartuzen/qBitConnect")
+    buildConfigField("SourceCodeUrl", "https://github.com/vasic-digital/qBitConnect")
 
     // Desktop only
     buildConfigField("EnableUpdateChecker", true)
-    buildConfigField("LatestReleaseUrl", "https://api.github.com/repos/Bartuzen/qBitConnect/releases/latest")
+    buildConfigField("LatestReleaseUrl", "https://api.github.com/repos/vasic-digital/qBitConnect/releases/latest")
 }
 
 android {
