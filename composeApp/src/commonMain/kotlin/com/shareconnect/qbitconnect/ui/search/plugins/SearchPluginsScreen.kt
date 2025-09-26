@@ -95,18 +95,18 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.dialog_cancel
-import qbitcontroller.composeapp.generated.resources.dialog_ok
-import qbitcontroller.composeapp.generated.resources.search_plugins
-import qbitcontroller.composeapp.generated.resources.search_plugins_action_install_plugins
-import qbitcontroller.composeapp.generated.resources.search_plugins_action_save
-import qbitcontroller.composeapp.generated.resources.search_plugins_action_update_plugins
-import qbitcontroller.composeapp.generated.resources.search_plugins_cannot_be_empty
-import qbitcontroller.composeapp.generated.resources.search_plugins_install_hint
-import qbitcontroller.composeapp.generated.resources.search_plugins_install_success
-import qbitcontroller.composeapp.generated.resources.search_plugins_save_success
-import qbitcontroller.composeapp.generated.resources.search_plugins_update_success
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.dialog_cancel
+import qbitconnect.composeapp.generated.resources.dialog_ok
+import qbitconnect.composeapp.generated.resources.search_plugins
+import qbitconnect.composeapp.generated.resources.search_plugins_action_install_plugins
+import qbitconnect.composeapp.generated.resources.search_plugins_action_save
+import qbitconnect.composeapp.generated.resources.search_plugins_action_update_plugins
+import qbitconnect.composeapp.generated.resources.search_plugins_cannot_be_empty
+import qbitconnect.composeapp.generated.resources.search_plugins_install_hint
+import qbitconnect.composeapp.generated.resources.search_plugins_install_success
+import qbitconnect.composeapp.generated.resources.search_plugins_save_success
+import qbitconnect.composeapp.generated.resources.search_plugins_update_success
 
 @Composable
 fun SearchPluginsScreen(

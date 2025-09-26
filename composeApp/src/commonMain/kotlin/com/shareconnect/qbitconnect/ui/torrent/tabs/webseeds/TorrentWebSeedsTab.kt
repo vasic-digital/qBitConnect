@@ -42,8 +42,8 @@ import com.shareconnect.qbitconnect.utils.getString
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.torrent_error_not_found
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.torrent_error_not_found
 
 @Composable
 fun TorrentWebSeedsTab(

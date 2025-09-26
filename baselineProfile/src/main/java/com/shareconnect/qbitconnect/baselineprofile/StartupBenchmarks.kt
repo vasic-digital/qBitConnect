@@ -1,4 +1,4 @@
-package dev.bartuzen.baselineprofile
+package com.shareconnect.qbitconnect.baselineprofile
 
 import androidx.benchmark.macro.BaselineProfileMode
 import androidx.benchmark.macro.CompilationMode

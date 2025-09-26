@@ -7,8 +7,8 @@ import com.shareconnect.qbitconnect.utils.stringResource
 import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
 import platform.UIKit.UIApplicationOpenSettingsURLString
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.settings_language
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.settings_language
 
 @Composable
 actual fun LanguagePreference() {

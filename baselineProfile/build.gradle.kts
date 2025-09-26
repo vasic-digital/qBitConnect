@@ -1,6 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
-import dev.bartuzen.qbitcontroller.Versions
+import com.shareconnect.qbitconnect.Versions
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.bartuzen.baselineprofile"
+    namespace = "com.shareconnect.qbitconnect.baselineprofile"
     compileSdk = Versions.Android.CompileSdk
 
     compileOptions {

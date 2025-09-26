@@ -66,8 +66,8 @@ import com.shareconnect.qbitconnect.utils.topAppBarColors
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.execution_log_title
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.execution_log_title
 
 @Composable
 fun LogScreen(

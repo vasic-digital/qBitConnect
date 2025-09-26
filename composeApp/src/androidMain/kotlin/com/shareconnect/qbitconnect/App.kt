@@ -26,8 +26,8 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.startKoin
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.shortcut_new_window
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.shortcut_new_window
 
 class App : Application() {
     override fun onCreate() {

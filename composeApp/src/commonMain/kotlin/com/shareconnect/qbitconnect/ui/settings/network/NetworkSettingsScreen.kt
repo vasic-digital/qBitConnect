@@ -32,16 +32,16 @@ import com.shareconnect.qbitconnect.utils.topAppBarColors
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.pluralStringResource
 import org.koin.compose.viewmodel.koinViewModel
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.error_invalid_interval
-import qbitcontroller.composeapp.generated.resources.error_invalid_interval_optional
-import qbitcontroller.composeapp.generated.resources.error_required_field
-import qbitcontroller.composeapp.generated.resources.settings_auto_refresh_interval
-import qbitcontroller.composeapp.generated.resources.settings_auto_refresh_interval_description
-import qbitcontroller.composeapp.generated.resources.settings_category_network
-import qbitcontroller.composeapp.generated.resources.settings_connection_timeout
-import qbitcontroller.composeapp.generated.resources.settings_connection_timeout_description
-import qbitcontroller.composeapp.generated.resources.settings_disabled
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.error_invalid_interval
+import qbitconnect.composeapp.generated.resources.error_invalid_interval_optional
+import qbitconnect.composeapp.generated.resources.error_required_field
+import qbitconnect.composeapp.generated.resources.settings_auto_refresh_interval
+import qbitconnect.composeapp.generated.resources.settings_auto_refresh_interval_description
+import qbitconnect.composeapp.generated.resources.settings_category_network
+import qbitconnect.composeapp.generated.resources.settings_connection_timeout
+import qbitconnect.composeapp.generated.resources.settings_connection_timeout_description
+import qbitconnect.composeapp.generated.resources.settings_disabled
 
 @Composable
 fun NetworkSettingsScreen(

@@ -14,9 +14,9 @@ import com.shareconnect.qbitconnect.generated.SupportedLanguages
 import com.shareconnect.qbitconnect.preferences.ListPreference
 import com.shareconnect.qbitconnect.preferences.Preference
 import com.shareconnect.qbitconnect.utils.stringResource
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.settings_language
-import qbitcontroller.composeapp.generated.resources.settings_language_system_default
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.settings_language
+import qbitconnect.composeapp.generated.resources.settings_language_system_default
 import java.util.Locale
 
 @Composable

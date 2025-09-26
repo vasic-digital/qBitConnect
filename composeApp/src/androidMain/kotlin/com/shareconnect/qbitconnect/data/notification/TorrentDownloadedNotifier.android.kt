@@ -22,8 +22,8 @@ import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.notification_torrent_downloaded
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.notification_torrent_downloaded
 
 actual class TorrentDownloadedNotifier : KoinComponent {
     private val context by inject<Context>()

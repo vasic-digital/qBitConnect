@@ -17,8 +17,8 @@ import com.shareconnect.qbitconnect.data.ServerManager
 import com.shareconnect.qbitconnect.data.SettingsManager
 import com.shareconnect.qbitconnect.utils.getString
 import kotlinx.coroutines.runBlocking
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.notification_channel_download_completed
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.notification_channel_download_completed
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes

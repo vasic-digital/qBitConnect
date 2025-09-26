@@ -1,4 +1,4 @@
-import dev.bartuzen.qbitcontroller.Versions
+import com.shareconnect.qbitconnect.Versions
 
 plugins {
     alias(libs.plugins.androidLibrary)
@@ -26,7 +26,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.bartuzen.qbitcontroller.preferences"
+    namespace = "com.shareconnect.qbitconnect.preferences"
     compileSdk = Versions.Android.CompileSdk
 
     defaultConfig {

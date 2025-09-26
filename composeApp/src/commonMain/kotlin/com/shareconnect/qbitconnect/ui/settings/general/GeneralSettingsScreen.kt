@@ -37,14 +37,14 @@ import com.shareconnect.qbitconnect.utils.topAppBarColors
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.pluralStringResource
 import org.koin.compose.viewmodel.koinViewModel
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.error_invalid_interval_optional
-import qbitcontroller.composeapp.generated.resources.settings_category_general
-import qbitcontroller.composeapp.generated.resources.settings_check_updates
-import qbitcontroller.composeapp.generated.resources.settings_disabled
-import qbitcontroller.composeapp.generated.resources.settings_enable_torrent_swipe_actions
-import qbitcontroller.composeapp.generated.resources.settings_notification_check_interval
-import qbitcontroller.composeapp.generated.resources.settings_notification_check_interval_description
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.error_invalid_interval_optional
+import qbitconnect.composeapp.generated.resources.settings_category_general
+import qbitconnect.composeapp.generated.resources.settings_check_updates
+import qbitconnect.composeapp.generated.resources.settings_disabled
+import qbitconnect.composeapp.generated.resources.settings_enable_torrent_swipe_actions
+import qbitconnect.composeapp.generated.resources.settings_notification_check_interval
+import qbitconnect.composeapp.generated.resources.settings_notification_check_interval_description
 
 @Composable
 fun GeneralSettingsScreen(

@@ -11,8 +11,8 @@ import kotlinx.coroutines.runBlocking
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.app_name
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.app_name
 import java.nio.file.Paths
 
 actual val platformModule = module {

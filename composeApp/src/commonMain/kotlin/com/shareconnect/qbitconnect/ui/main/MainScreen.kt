@@ -86,12 +86,12 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 import org.koin.compose.koinInject
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.destination_logs
-import qbitcontroller.composeapp.generated.resources.destination_rss
-import qbitcontroller.composeapp.generated.resources.destination_search
-import qbitcontroller.composeapp.generated.resources.destination_settings
-import qbitcontroller.composeapp.generated.resources.destination_torrents
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.destination_logs
+import qbitconnect.composeapp.generated.resources.destination_rss
+import qbitconnect.composeapp.generated.resources.destination_search
+import qbitconnect.composeapp.generated.resources.destination_settings
+import qbitconnect.composeapp.generated.resources.destination_torrents
 
 @Composable
 fun MainScreen(navigationFlow: Flow<DeepLinkDestination>? = null) {

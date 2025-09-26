@@ -1,4 +1,4 @@
-package dev.bartuzen.baselineprofile
+package com.shareconnect.qbitconnect.baselineprofile
 
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.ext.junit.runners.AndroidJUnit4

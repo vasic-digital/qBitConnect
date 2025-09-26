@@ -113,26 +113,26 @@ import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.pluralStringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.action_search
-import qbitcontroller.composeapp.generated.resources.action_select_all
-import qbitcontroller.composeapp.generated.resources.action_select_inverse
-import qbitcontroller.composeapp.generated.resources.rss_action_download
-import qbitcontroller.composeapp.generated.resources.rss_action_mark_all_as_read
-import qbitcontroller.composeapp.generated.resources.rss_action_refresh
-import qbitcontroller.composeapp.generated.resources.rss_all_articles
-import qbitcontroller.composeapp.generated.resources.rss_description
-import qbitcontroller.composeapp.generated.resources.rss_details
-import qbitcontroller.composeapp.generated.resources.rss_download
-import qbitcontroller.composeapp.generated.resources.rss_feed_not_found
-import qbitcontroller.composeapp.generated.resources.rss_filter
-import qbitcontroller.composeapp.generated.resources.rss_mark_all_articles_as_read_success
-import qbitcontroller.composeapp.generated.resources.rss_mark_article_as_read_success
-import qbitcontroller.composeapp.generated.resources.rss_mark_as_read
-import qbitcontroller.composeapp.generated.resources.rss_new
-import qbitcontroller.composeapp.generated.resources.rss_refresh_feed_success
-import qbitcontroller.composeapp.generated.resources.rss_torrents_selected
-import qbitcontroller.composeapp.generated.resources.torrent_add_success
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.action_search
+import qbitconnect.composeapp.generated.resources.action_select_all
+import qbitconnect.composeapp.generated.resources.action_select_inverse
+import qbitconnect.composeapp.generated.resources.rss_action_download
+import qbitconnect.composeapp.generated.resources.rss_action_mark_all_as_read
+import qbitconnect.composeapp.generated.resources.rss_action_refresh
+import qbitconnect.composeapp.generated.resources.rss_all_articles
+import qbitconnect.composeapp.generated.resources.rss_description
+import qbitconnect.composeapp.generated.resources.rss_details
+import qbitconnect.composeapp.generated.resources.rss_download
+import qbitconnect.composeapp.generated.resources.rss_feed_not_found
+import qbitconnect.composeapp.generated.resources.rss_filter
+import qbitconnect.composeapp.generated.resources.rss_mark_all_articles_as_read_success
+import qbitconnect.composeapp.generated.resources.rss_mark_article_as_read_success
+import qbitconnect.composeapp.generated.resources.rss_mark_as_read
+import qbitconnect.composeapp.generated.resources.rss_new
+import qbitconnect.composeapp.generated.resources.rss_refresh_feed_success
+import qbitconnect.composeapp.generated.resources.rss_torrents_selected
+import qbitconnect.composeapp.generated.resources.torrent_add_success
 
 object RssArticlesKeys {
     const val IsUpdated = "rssArticles.isUpdated"

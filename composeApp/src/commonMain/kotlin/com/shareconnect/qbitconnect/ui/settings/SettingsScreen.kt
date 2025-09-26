@@ -20,12 +20,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.shareconnect.qbitconnect.preferences.Preference
 import com.shareconnect.qbitconnect.utils.stringResource
 import com.shareconnect.qbitconnect.utils.topAppBarColors
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.settings_category_appearance
-import qbitcontroller.composeapp.generated.resources.settings_category_general
-import qbitcontroller.composeapp.generated.resources.settings_category_network
-import qbitcontroller.composeapp.generated.resources.settings_category_servers
-import qbitcontroller.composeapp.generated.resources.settings_title
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.settings_category_appearance
+import qbitconnect.composeapp.generated.resources.settings_category_general
+import qbitconnect.composeapp.generated.resources.settings_category_network
+import qbitconnect.composeapp.generated.resources.settings_category_servers
+import qbitconnect.composeapp.generated.resources.settings_title
 
 @Composable
 fun SettingsScreen(

@@ -61,12 +61,12 @@ import com.shareconnect.qbitconnect.utils.stringResource
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.torrent_tab_files
-import qbitcontroller.composeapp.generated.resources.torrent_tab_overview
-import qbitcontroller.composeapp.generated.resources.torrent_tab_peers
-import qbitcontroller.composeapp.generated.resources.torrent_tab_trackers
-import qbitcontroller.composeapp.generated.resources.torrent_tab_web_seeds
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.torrent_tab_files
+import qbitconnect.composeapp.generated.resources.torrent_tab_overview
+import qbitconnect.composeapp.generated.resources.torrent_tab_peers
+import qbitconnect.composeapp.generated.resources.torrent_tab_trackers
+import qbitconnect.composeapp.generated.resources.torrent_tab_web_seeds
 
 object TorrentKeys {
     const val ServerId = "torrent.serverId"

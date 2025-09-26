@@ -18,9 +18,9 @@ import com.shareconnect.qbitconnect.preferences.LocalPreferenceTheme
 import com.shareconnect.qbitconnect.preferences.preferenceTheme
 import com.shareconnect.qbitconnect.utils.stringResource
 import org.koin.compose.koinInject
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.dialog_cancel
-import qbitcontroller.composeapp.generated.resources.dialog_ok
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.dialog_cancel
+import qbitconnect.composeapp.generated.resources.dialog_ok
 
 @Composable
 fun AppTheme(content: @Composable () -> Unit) {

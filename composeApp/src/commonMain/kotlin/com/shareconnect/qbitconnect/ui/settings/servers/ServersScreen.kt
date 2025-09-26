@@ -48,13 +48,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.settings_category_servers
-import qbitcontroller.composeapp.generated.resources.settings_server_add_success
-import qbitcontroller.composeapp.generated.resources.settings_server_edit_success
-import qbitcontroller.composeapp.generated.resources.settings_server_remove_success
-import qbitcontroller.composeapp.generated.resources.settings_servers_add_server
-import qbitcontroller.composeapp.generated.resources.settings_servers_no_server_configured
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.settings_category_servers
+import qbitconnect.composeapp.generated.resources.settings_server_add_success
+import qbitconnect.composeapp.generated.resources.settings_server_edit_success
+import qbitconnect.composeapp.generated.resources.settings_server_remove_success
+import qbitconnect.composeapp.generated.resources.settings_servers_add_server
+import qbitconnect.composeapp.generated.resources.settings_servers_no_server_configured
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 

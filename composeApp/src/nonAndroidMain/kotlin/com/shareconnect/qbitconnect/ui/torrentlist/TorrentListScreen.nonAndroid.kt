@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
-import qbitcontroller.composeapp.generated.resources.Res
-import qbitcontroller.composeapp.generated.resources.ic_launcher
+import qbitconnect.composeapp.generated.resources.Res
+import qbitconnect.composeapp.generated.resources.ic_launcher
 
 @Composable
 actual fun AppIcon(modifier: Modifier) {
