@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.log
+package com.shareconnect.qbitconnect.ui.log
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -52,17 +52,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.bartuzen.qbitcontroller.model.Log
-import dev.bartuzen.qbitcontroller.model.LogType
-import dev.bartuzen.qbitcontroller.ui.components.DateText
-import dev.bartuzen.qbitcontroller.ui.components.LazyColumnItemMinHeight
-import dev.bartuzen.qbitcontroller.ui.components.PullToRefreshBox
-import dev.bartuzen.qbitcontroller.ui.components.SwipeableSnackbarHost
-import dev.bartuzen.qbitcontroller.ui.theme.LocalCustomColors
-import dev.bartuzen.qbitcontroller.utils.EventEffect
-import dev.bartuzen.qbitcontroller.utils.getErrorMessage
-import dev.bartuzen.qbitcontroller.utils.stringResource
-import dev.bartuzen.qbitcontroller.utils.topAppBarColors
+import com.shareconnect.qbitconnect.model.Log
+import com.shareconnect.qbitconnect.model.LogType
+import com.shareconnect.qbitconnect.ui.components.DateText
+import com.shareconnect.qbitconnect.ui.components.LazyColumnItemMinHeight
+import com.shareconnect.qbitconnect.ui.components.PullToRefreshBox
+import com.shareconnect.qbitconnect.ui.components.SwipeableSnackbarHost
+import com.shareconnect.qbitconnect.ui.theme.LocalCustomColors
+import com.shareconnect.qbitconnect.utils.EventEffect
+import com.shareconnect.qbitconnect.utils.getErrorMessage
+import com.shareconnect.qbitconnect.utils.stringResource
+import com.shareconnect.qbitconnect.utils.topAppBarColors
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf

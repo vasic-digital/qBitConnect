@@ -1,10 +1,10 @@
-package dev.bartuzen.qbitcontroller.ui.log
+package com.shareconnect.qbitconnect.ui.log
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.bartuzen.qbitcontroller.data.repositories.log.LogRepository
-import dev.bartuzen.qbitcontroller.model.Log
-import dev.bartuzen.qbitcontroller.network.RequestResult
+import com.shareconnect.qbitconnect.data.repositories.log.LogRepository
+import com.shareconnect.qbitconnect.model.Log
+import com.shareconnect.qbitconnect.network.RequestResult
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

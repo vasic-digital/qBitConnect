@@ -1,10 +1,10 @@
-package dev.bartuzen.qbitcontroller.ui.torrent.tabs.webseeds
+package com.shareconnect.qbitconnect.ui.torrent.tabs.webseeds
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.data.repositories.torrent.TorrentWebSeedsRepository
-import dev.bartuzen.qbitcontroller.network.RequestResult
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.data.repositories.torrent.TorrentWebSeedsRepository
+import com.shareconnect.qbitconnect.network.RequestResult
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

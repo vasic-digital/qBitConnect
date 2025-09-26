@@ -1,12 +1,12 @@
-package dev.bartuzen.qbitcontroller.utils
+package com.shareconnect.qbitconnect.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.model.TorrentFilePriority
-import dev.bartuzen.qbitcontroller.model.TorrentState
-import dev.bartuzen.qbitcontroller.network.RequestResult
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.model.TorrentFilePriority
+import com.shareconnect.qbitconnect.model.TorrentState
+import com.shareconnect.qbitconnect.network.RequestResult
 import io.ktor.http.parseUrl
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.TimeZone

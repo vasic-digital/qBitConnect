@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.main
+package com.shareconnect.qbitconnect.ui.main
 
 sealed class DeepLinkDestination {
     data class TorrentList(val serverId: Int?) : DeepLinkDestination()

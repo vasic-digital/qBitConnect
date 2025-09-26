@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.utils
+package com.shareconnect.qbitconnect.utils
 
 import androidx.activity.compose.LocalActivity
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass

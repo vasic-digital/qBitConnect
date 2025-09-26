@@ -1,6 +1,6 @@
-package dev.bartuzen.qbitcontroller.network
+package com.shareconnect.qbitconnect.network
 
-import dev.bartuzen.qbitcontroller.generated.BuildConfig
+import com.shareconnect.qbitconnect.generated.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation

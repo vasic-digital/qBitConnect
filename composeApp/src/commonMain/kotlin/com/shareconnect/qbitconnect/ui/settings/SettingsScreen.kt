@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.settings
+package com.shareconnect.qbitconnect.ui.settings
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,9 +17,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import dev.bartuzen.qbitcontroller.preferences.Preference
-import dev.bartuzen.qbitcontroller.utils.stringResource
-import dev.bartuzen.qbitcontroller.utils.topAppBarColors
+import com.shareconnect.qbitconnect.preferences.Preference
+import com.shareconnect.qbitconnect.utils.stringResource
+import com.shareconnect.qbitconnect.utils.topAppBarColors
 import qbitcontroller.composeapp.generated.resources.Res
 import qbitcontroller.composeapp.generated.resources.settings_category_appearance
 import qbitcontroller.composeapp.generated.resources.settings_category_general

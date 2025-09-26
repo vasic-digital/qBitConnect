@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.components
+package com.shareconnect.qbitconnect.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -8,8 +8,8 @@ import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import dev.bartuzen.qbitcontroller.utils.Platform
-import dev.bartuzen.qbitcontroller.utils.currentPlatform
+import com.shareconnect.qbitconnect.utils.Platform
+import com.shareconnect.qbitconnect.utils.currentPlatform
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox as MaterialPullToRefreshBox
 
 @Composable

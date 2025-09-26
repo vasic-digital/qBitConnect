@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller
+package com.shareconnect.qbitconnect
 
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics

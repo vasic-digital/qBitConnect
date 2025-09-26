@@ -1,3 +1,0 @@
-- Completely redesigned and updated user interface
-- Added support for iOS and desktop
-- Bug fixes

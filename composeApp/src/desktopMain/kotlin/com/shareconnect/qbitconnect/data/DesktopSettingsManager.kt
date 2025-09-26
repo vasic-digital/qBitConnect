@@ -1,7 +1,7 @@
-package dev.bartuzen.qbitcontroller.data
+package com.shareconnect.qbitconnect.data
 
 import com.russhwolf.settings.Settings
-import dev.bartuzen.qbitcontroller.model.WindowState
+import com.shareconnect.qbitconnect.model.WindowState
 
 class DesktopSettingsManager(
     settings: Settings,

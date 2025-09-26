@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.utils
+package com.shareconnect.qbitconnect.utils
 
 import android.Manifest
 import android.os.Build

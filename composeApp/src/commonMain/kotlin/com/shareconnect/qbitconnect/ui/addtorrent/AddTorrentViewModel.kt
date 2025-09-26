@@ -1,12 +1,12 @@
-package dev.bartuzen.qbitcontroller.ui.addtorrent
+package com.shareconnect.qbitconnect.ui.addtorrent
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.bartuzen.qbitcontroller.data.ServerManager
-import dev.bartuzen.qbitcontroller.data.repositories.AddTorrentRepository
-import dev.bartuzen.qbitcontroller.network.RequestResult
-import dev.bartuzen.qbitcontroller.utils.getSerializableStateFlow
+import com.shareconnect.qbitconnect.data.ServerManager
+import com.shareconnect.qbitconnect.data.repositories.AddTorrentRepository
+import com.shareconnect.qbitconnect.network.RequestResult
+import com.shareconnect.qbitconnect.utils.getSerializableStateFlow
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.name
 import io.github.vinceglb.filekit.readBytes

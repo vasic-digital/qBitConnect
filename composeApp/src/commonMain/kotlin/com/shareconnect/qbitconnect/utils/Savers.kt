@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.utils
+package com.shareconnect.qbitconnect.utils
 
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
@@ -25,7 +25,7 @@ inline fun <reified T> jsonSaver(json: Json = Json, serializer: KSerializer<T>? 
     restore = { if (serializer == null) json.decodeFromString(it) else json.decodeFromString(serializer, it) },
 )
 
-// Can't use Res.allStringResources because of https://github.com/Bartuzen/qBitController/issues/211
+// Can't use Res.allStringResources because of https://github.com/Bartuzen/qBitConnect/issues/211
 fun stringResourceSaver(vararg resources: StringResource) = Saver<StringResource?, String>(
     save = { it?.key },
     restore = { key -> resources.find { it.key == key } },

@@ -1,3 +1,3 @@
-package dev.bartuzen.qbitcontroller.utils
+package com.shareconnect.qbitconnect.utils
 
 actual val currentPlatform: Platform = Platform.Mobile.Android

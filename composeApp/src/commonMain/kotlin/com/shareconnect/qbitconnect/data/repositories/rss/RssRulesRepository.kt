@@ -1,6 +1,6 @@
-package dev.bartuzen.qbitcontroller.data.repositories.rss
+package com.shareconnect.qbitconnect.data.repositories.rss
 
-import dev.bartuzen.qbitcontroller.network.RequestManager
+import com.shareconnect.qbitconnect.network.RequestManager
 
 class RssRulesRepository(
     private val requestManager: RequestManager,

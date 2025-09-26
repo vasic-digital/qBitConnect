@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.components
+package com.shareconnect.qbitconnect.ui.components
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition

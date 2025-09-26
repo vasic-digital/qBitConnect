@@ -1,6 +1,6 @@
-package dev.bartuzen.qbitcontroller.data.repositories.search
+package com.shareconnect.qbitconnect.data.repositories.search
 
-import dev.bartuzen.qbitcontroller.network.RequestManager
+import com.shareconnect.qbitconnect.network.RequestManager
 
 class SearchPluginsRepository(
     private val requestManager: RequestManager,

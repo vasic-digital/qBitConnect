@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=qBitConnect
+Exec=/app/bin/qBitConnect
+Icon=com.shareconnect.qbitconnect
+Terminal=false

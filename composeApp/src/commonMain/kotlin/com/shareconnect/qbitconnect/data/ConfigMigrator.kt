@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.data
+package com.shareconnect.qbitconnect.data
 
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.get

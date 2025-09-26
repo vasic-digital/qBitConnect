@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.data.notification
+package com.shareconnect.qbitconnect.data.notification
 
 import android.app.NotificationManager
 import android.content.Context
@@ -7,10 +7,10 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import dev.bartuzen.qbitcontroller.data.ServerManager
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.network.RequestManager
-import dev.bartuzen.qbitcontroller.network.RequestResult
+import com.shareconnect.qbitconnect.data.ServerManager
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.network.RequestManager
+import com.shareconnect.qbitconnect.network.RequestResult
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Semaphore

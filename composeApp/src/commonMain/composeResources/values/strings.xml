@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">qBitController</string>
+    <string name="app_name" translatable="false">qBitConnect</string>
 
     <string name="language_code">en</string>
 
@@ -795,12 +795,12 @@
     <string name="settings_server_invalid_url">The URL format is invalid.</string>
     <string name="settings_server_connection_success">Connected to server successfully.</string>
 
-    <string name="about_description">qBitController allows you to control qBittorrent remotely from any device.\n\nFor more detailed information and source code: %1$s</string>
+    <string name="about_description">qBitConnect allows you to control qBittorrent remotely from any device.\n\nFor more detailed information and source code: %1$s</string>
 
     <string name="notification_channel_download_completed">Download completed</string>
     <string name="notification_torrent_downloaded">Torrent downloaded</string>
 
     <string name="update_dialog_title">Update Available</string>
-    <string name="update_dialog_message">qBitController %1$s is now available. You're currently using version %2$s.</string>
+    <string name="update_dialog_message">qBitConnect %1$s is now available. You're currently using version %2$s.</string>
     <string name="update_dialog_download">Download</string>
 </resources>

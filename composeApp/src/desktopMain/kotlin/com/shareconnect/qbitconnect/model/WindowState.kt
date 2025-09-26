@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.model
+package com.shareconnect.qbitconnect.model
 
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp

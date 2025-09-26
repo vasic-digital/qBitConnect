@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.theme
+package com.shareconnect.qbitconnect.ui.theme
 
 import android.os.Build
 import androidx.compose.material3.dynamicDarkColorScheme

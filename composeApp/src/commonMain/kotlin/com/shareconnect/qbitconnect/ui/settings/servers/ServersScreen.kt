@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.settings.servers
+package com.shareconnect.qbitconnect.ui.settings.servers
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
@@ -35,15 +35,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.bartuzen.qbitcontroller.preferences.Preference
-import dev.bartuzen.qbitcontroller.ui.components.ActionMenuItem
-import dev.bartuzen.qbitcontroller.ui.components.AppBarActions
-import dev.bartuzen.qbitcontroller.ui.components.EmptyListMessage
-import dev.bartuzen.qbitcontroller.ui.components.SwipeableSnackbarHost
-import dev.bartuzen.qbitcontroller.ui.settings.addeditserver.AddEditServerResult
-import dev.bartuzen.qbitcontroller.utils.getString
-import dev.bartuzen.qbitcontroller.utils.stringResource
-import dev.bartuzen.qbitcontroller.utils.topAppBarColors
+import com.shareconnect.qbitconnect.preferences.Preference
+import com.shareconnect.qbitconnect.ui.components.ActionMenuItem
+import com.shareconnect.qbitconnect.ui.components.AppBarActions
+import com.shareconnect.qbitconnect.ui.components.EmptyListMessage
+import com.shareconnect.qbitconnect.ui.components.SwipeableSnackbarHost
+import com.shareconnect.qbitconnect.ui.settings.addeditserver.AddEditServerResult
+import com.shareconnect.qbitconnect.utils.getString
+import com.shareconnect.qbitconnect.utils.stringResource
+import com.shareconnect.qbitconnect.utils.topAppBarColors
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

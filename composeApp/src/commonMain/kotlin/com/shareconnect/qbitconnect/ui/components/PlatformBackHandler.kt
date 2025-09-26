@@ -1,9 +1,9 @@
-package dev.bartuzen.qbitcontroller.ui.components
+package com.shareconnect.qbitconnect.ui.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.backhandler.BackHandler
-import dev.bartuzen.qbitcontroller.utils.Platform
-import dev.bartuzen.qbitcontroller.utils.currentPlatform
+import com.shareconnect.qbitconnect.utils.Platform
+import com.shareconnect.qbitconnect.utils.currentPlatform
 
 @Composable
 fun PlatformBackHandler(enabled: Boolean = true, onBack: () -> Unit) {

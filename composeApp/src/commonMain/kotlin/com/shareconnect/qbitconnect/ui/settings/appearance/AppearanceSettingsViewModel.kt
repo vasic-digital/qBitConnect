@@ -1,7 +1,7 @@
-package dev.bartuzen.qbitcontroller.ui.settings.appearance
+package com.shareconnect.qbitconnect.ui.settings.appearance
 
 import androidx.lifecycle.ViewModel
-import dev.bartuzen.qbitcontroller.data.SettingsManager
+import com.shareconnect.qbitconnect.data.SettingsManager
 
 class AppearanceSettingsViewModel(
     settingsManager: SettingsManager,

@@ -1,7 +1,7 @@
-package dev.bartuzen.qbitcontroller.ui.settings.servers
+package com.shareconnect.qbitconnect.ui.settings.servers
 
 import androidx.lifecycle.ViewModel
-import dev.bartuzen.qbitcontroller.data.ServerManager
+import com.shareconnect.qbitconnect.data.ServerManager
 
 class ServersViewModel(
     private val serverManager: ServerManager,

@@ -1,14 +1,14 @@
-package dev.bartuzen.qbitcontroller.ui.settings.appearance
+package com.shareconnect.qbitconnect.ui.settings.appearance
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.AnnotatedString
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.bartuzen.qbitcontroller.data.DesktopSettingsManager
-import dev.bartuzen.qbitcontroller.generated.SupportedLanguages
-import dev.bartuzen.qbitcontroller.preferences.ListPreference
-import dev.bartuzen.qbitcontroller.utils.stringResource
+import com.shareconnect.qbitconnect.data.DesktopSettingsManager
+import com.shareconnect.qbitconnect.generated.SupportedLanguages
+import com.shareconnect.qbitconnect.preferences.ListPreference
+import com.shareconnect.qbitconnect.utils.stringResource
 import org.koin.compose.koinInject
 import qbitcontroller.composeapp.generated.resources.Res
 import qbitcontroller.composeapp.generated.resources.settings_language

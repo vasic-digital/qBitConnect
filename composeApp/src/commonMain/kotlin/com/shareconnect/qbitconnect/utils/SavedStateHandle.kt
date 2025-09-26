@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.utils
+package com.shareconnect.qbitconnect.utils
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

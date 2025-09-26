@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.utils
+package com.shareconnect.qbitconnect.utils
 
 import androidx.compose.ui.platform.ClipEntry
 import java.awt.datatransfer.StringSelection

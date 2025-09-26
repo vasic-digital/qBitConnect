@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.torrent.tabs.webseeds
+package com.shareconnect.qbitconnect.ui.torrent.tabs.webseeds
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -34,11 +34,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.bartuzen.qbitcontroller.ui.components.LazyColumnItemMinHeight
-import dev.bartuzen.qbitcontroller.ui.components.PullToRefreshBox
-import dev.bartuzen.qbitcontroller.utils.EventEffect
-import dev.bartuzen.qbitcontroller.utils.getErrorMessage
-import dev.bartuzen.qbitcontroller.utils.getString
+import com.shareconnect.qbitconnect.ui.components.LazyColumnItemMinHeight
+import com.shareconnect.qbitconnect.ui.components.PullToRefreshBox
+import com.shareconnect.qbitconnect.utils.EventEffect
+import com.shareconnect.qbitconnect.utils.getErrorMessage
+import com.shareconnect.qbitconnect.utils.getString
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf

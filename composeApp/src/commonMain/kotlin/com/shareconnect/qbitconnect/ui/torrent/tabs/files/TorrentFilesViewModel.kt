@@ -1,12 +1,12 @@
-package dev.bartuzen.qbitcontroller.ui.torrent.tabs.files
+package com.shareconnect.qbitconnect.ui.torrent.tabs.files
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.data.repositories.torrent.TorrentFilesRepository
-import dev.bartuzen.qbitcontroller.model.TorrentFileNode
-import dev.bartuzen.qbitcontroller.model.TorrentFilePriority
-import dev.bartuzen.qbitcontroller.network.RequestResult
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.data.repositories.torrent.TorrentFilesRepository
+import com.shareconnect.qbitconnect.model.TorrentFileNode
+import com.shareconnect.qbitconnect.model.TorrentFilePriority
+import com.shareconnect.qbitconnect.network.RequestResult
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

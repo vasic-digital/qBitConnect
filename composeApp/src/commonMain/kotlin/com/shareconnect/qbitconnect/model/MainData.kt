@@ -1,6 +1,6 @@
-package dev.bartuzen.qbitcontroller.model
+package com.shareconnect.qbitconnect.model
 
-import dev.bartuzen.qbitcontroller.utils.formatUri
+import com.shareconnect.qbitconnect.utils.formatUri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.KSerializer

@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.data.notification
+package com.shareconnect.qbitconnect.data.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
@@ -13,9 +13,9 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import dev.bartuzen.qbitcontroller.data.ServerManager
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.utils.getString
+import com.shareconnect.qbitconnect.data.ServerManager
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.utils.getString
 import kotlinx.coroutines.runBlocking
 import qbitcontroller.composeapp.generated.resources.Res
 import qbitcontroller.composeapp.generated.resources.notification_channel_download_completed

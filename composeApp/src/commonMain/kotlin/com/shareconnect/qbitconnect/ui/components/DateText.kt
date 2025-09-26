@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.components
+package com.shareconnect.qbitconnect.ui.components
 
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.TooltipBox
@@ -7,9 +7,9 @@ import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.utils.formatDate
-import dev.bartuzen.qbitcontroller.utils.formatRelativeDate
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.utils.formatDate
+import com.shareconnect.qbitconnect.utils.formatRelativeDate
 import org.koin.compose.koinInject
 import kotlin.time.Instant
 

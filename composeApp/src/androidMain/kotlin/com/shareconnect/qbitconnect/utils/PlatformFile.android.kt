@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.utils
+package com.shareconnect.qbitconnect.utils
 
 import androidx.core.net.toUri
 import io.github.vinceglb.filekit.PlatformFile

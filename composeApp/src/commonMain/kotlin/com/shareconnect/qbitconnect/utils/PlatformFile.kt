@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.utils
+package com.shareconnect.qbitconnect.utils
 
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.path

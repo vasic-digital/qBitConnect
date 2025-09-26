@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.utils
+package com.shareconnect.qbitconnect.utils
 
 actual val currentPlatform: Platform = when {
     System.getProperty("os.name").startsWith("Windows", ignoreCase = true) -> Platform.Desktop.Windows

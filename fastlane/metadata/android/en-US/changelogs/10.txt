@@ -1,3 +1,0 @@
-- Fixed torrent list failing to load when a tracker cannot be parsed
-
-Check GitHub release for all changes.

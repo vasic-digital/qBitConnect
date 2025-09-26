@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.preferences
+package com.shareconnect.qbitconnect.preferences
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable

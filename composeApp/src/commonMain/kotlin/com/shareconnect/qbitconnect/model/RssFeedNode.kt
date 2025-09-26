@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.model
+package com.shareconnect.qbitconnect.model
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable

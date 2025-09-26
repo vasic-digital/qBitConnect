@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.preferences
+package com.shareconnect.qbitconnect.preferences
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

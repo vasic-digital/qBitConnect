@@ -1,6 +1,6 @@
-package dev.bartuzen.qbitcontroller.data.repositories.log
+package com.shareconnect.qbitconnect.data.repositories.log
 
-import dev.bartuzen.qbitcontroller.network.RequestManager
+import com.shareconnect.qbitconnect.network.RequestManager
 
 class LogRepository(
     private val requestManager: RequestManager,

@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.search
+package com.shareconnect.qbitconnect.ui.search
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.runtime.Composable
@@ -8,18 +8,18 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import dev.bartuzen.qbitcontroller.model.ServerConfig
-import dev.bartuzen.qbitcontroller.registerCurrentScreenTelemetry
-import dev.bartuzen.qbitcontroller.ui.addtorrent.AddTorrentKeys
-import dev.bartuzen.qbitcontroller.ui.addtorrent.AddTorrentScreen
-import dev.bartuzen.qbitcontroller.ui.components.PlatformNavHost
-import dev.bartuzen.qbitcontroller.ui.main.Destination
-import dev.bartuzen.qbitcontroller.ui.search.plugins.SearchPluginsScreen
-import dev.bartuzen.qbitcontroller.ui.search.result.SearchResultScreen
-import dev.bartuzen.qbitcontroller.ui.search.start.SearchStartScreen
-import dev.bartuzen.qbitcontroller.utils.DefaultTransitions
-import dev.bartuzen.qbitcontroller.utils.PersistentLaunchedEffect
-import dev.bartuzen.qbitcontroller.utils.navigateWithLifecycle
+import com.shareconnect.qbitconnect.model.ServerConfig
+import com.shareconnect.qbitconnect.registerCurrentScreenTelemetry
+import com.shareconnect.qbitconnect.ui.addtorrent.AddTorrentKeys
+import com.shareconnect.qbitconnect.ui.addtorrent.AddTorrentScreen
+import com.shareconnect.qbitconnect.ui.components.PlatformNavHost
+import com.shareconnect.qbitconnect.ui.main.Destination
+import com.shareconnect.qbitconnect.ui.search.plugins.SearchPluginsScreen
+import com.shareconnect.qbitconnect.ui.search.result.SearchResultScreen
+import com.shareconnect.qbitconnect.ui.search.start.SearchStartScreen
+import com.shareconnect.qbitconnect.utils.DefaultTransitions
+import com.shareconnect.qbitconnect.utils.PersistentLaunchedEffect
+import com.shareconnect.qbitconnect.utils.navigateWithLifecycle
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest

@@ -1,1 +1,0 @@
-Controle remotamente o qBittorrent a partir de qualquer dispositivo

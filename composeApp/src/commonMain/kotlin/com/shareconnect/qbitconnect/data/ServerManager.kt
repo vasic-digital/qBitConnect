@@ -1,9 +1,9 @@
-package dev.bartuzen.qbitcontroller.data
+package com.shareconnect.qbitconnect.data
 
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.get
 import com.russhwolf.settings.set
-import dev.bartuzen.qbitcontroller.model.ServerConfig
+import com.shareconnect.qbitconnect.model.ServerConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

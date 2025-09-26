@@ -1,11 +1,11 @@
-package dev.bartuzen.qbitcontroller.ui.rss.articles
+package com.shareconnect.qbitconnect.ui.rss.articles
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.bartuzen.qbitcontroller.data.repositories.rss.RssArticlesRepository
-import dev.bartuzen.qbitcontroller.model.Article
-import dev.bartuzen.qbitcontroller.network.RequestResult
+import com.shareconnect.qbitconnect.data.repositories.rss.RssArticlesRepository
+import com.shareconnect.qbitconnect.model.Article
+import com.shareconnect.qbitconnect.network.RequestResult
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

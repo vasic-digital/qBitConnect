@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.torrentlist
+package com.shareconnect.qbitconnect.ui.torrentlist
 
 import android.graphics.drawable.AdaptiveIconDrawable
 import android.os.Build
@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
-import dev.bartuzen.qbitcontroller.R
+import com.shareconnect.qbitconnect.R
 
 @Composable
 actual fun AppIcon(modifier: Modifier) {

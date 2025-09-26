@@ -1,10 +1,10 @@
-package dev.bartuzen.qbitcontroller.di
+package com.shareconnect.qbitconnect.di
 
 import android.content.Context
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
-import dev.bartuzen.qbitcontroller.data.notification.AppNotificationManager
-import dev.bartuzen.qbitcontroller.data.notification.TorrentDownloadedWorker
+import com.shareconnect.qbitconnect.data.notification.AppNotificationManager
+import com.shareconnect.qbitconnect.data.notification.TorrentDownloadedWorker
 import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named

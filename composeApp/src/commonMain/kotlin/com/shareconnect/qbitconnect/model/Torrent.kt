@@ -1,9 +1,9 @@
-package dev.bartuzen.qbitcontroller.model
+package com.shareconnect.qbitconnect.model
 
-import dev.bartuzen.qbitcontroller.model.serializers.InstantSerializer
-import dev.bartuzen.qbitcontroller.model.serializers.NullableDoubleSerializer
-import dev.bartuzen.qbitcontroller.model.serializers.NullableInstantSerializer
-import dev.bartuzen.qbitcontroller.model.serializers.NullableStringSerializer
+import com.shareconnect.qbitconnect.model.serializers.InstantSerializer
+import com.shareconnect.qbitconnect.model.serializers.NullableDoubleSerializer
+import com.shareconnect.qbitconnect.model.serializers.NullableInstantSerializer
+import com.shareconnect.qbitconnect.model.serializers.NullableStringSerializer
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.KeepGeneratedSerializer
 import kotlinx.serialization.SerialName

@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller
+package com.shareconnect.qbitconnect
 
 import android.app.Application
 import android.app.UiModeManager
@@ -10,12 +10,12 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.getSystemService
 import com.google.android.material.color.DynamicColors
-import dev.bartuzen.qbitcontroller.data.ConfigMigrator
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.data.Theme
-import dev.bartuzen.qbitcontroller.data.notification.AppNotificationManager
-import dev.bartuzen.qbitcontroller.di.appModule
-import dev.bartuzen.qbitcontroller.utils.getString
+import com.shareconnect.qbitconnect.data.ConfigMigrator
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.data.Theme
+import com.shareconnect.qbitconnect.data.notification.AppNotificationManager
+import com.shareconnect.qbitconnect.di.appModule
+import com.shareconnect.qbitconnect.utils.getString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest

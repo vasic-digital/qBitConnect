@@ -1,7 +1,7 @@
-package dev.bartuzen.qbitcontroller.data.repositories.torrent
+package com.shareconnect.qbitconnect.data.repositories.torrent
 
-import dev.bartuzen.qbitcontroller.model.QBittorrentVersion
-import dev.bartuzen.qbitcontroller.network.RequestManager
+import com.shareconnect.qbitconnect.model.QBittorrentVersion
+import com.shareconnect.qbitconnect.network.RequestManager
 import io.ktor.utils.io.ByteReadChannel
 
 class TorrentOverviewRepository(

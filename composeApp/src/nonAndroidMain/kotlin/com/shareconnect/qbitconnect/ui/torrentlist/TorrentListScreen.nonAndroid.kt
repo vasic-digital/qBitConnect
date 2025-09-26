@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.torrentlist
+package com.shareconnect.qbitconnect.ui.torrentlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size

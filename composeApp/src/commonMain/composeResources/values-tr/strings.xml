@@ -570,7 +570,7 @@
     <string name="torrent_add_invalid_file">Torrent dosyası geçersiz.</string>
     <string name="rss_add_folder_error">Klasör eklenemedi.</string>
     <string name="rss_rename_folder_error">Klasör yeniden adlandırılamadı.</string>
-    <string name="about_description">qBitController, qBittorrent\'i herhangi bir cihazdan uzaktan kontrol etmenizi sağlar.\n \nDaha ayrıntılı bilgi ve kaynak kodu için: %1$s</string>
+    <string name="about_description">qBitConnect, qBittorrent\'i herhangi bir cihazdan uzaktan kontrol etmenizi sağlar.\n \nDaha ayrıntılı bilgi ve kaynak kodu için: %1$s</string>
     <string name="settings_language">Dil</string>
     <string name="settings_language_system_default">Sistem Varsayılanı</string>
     <string name="search_result_filter_reset">Sıfırla</string>
@@ -660,7 +660,7 @@
     <string name="settings_check_updates">Güncellemeleri otomatik olarak denetle</string>
     <string name="update_dialog_title">Güncelleme Mevcut</string>
     <string name="update_dialog_download">İndir</string>
-    <string name="update_dialog_message">qBitController %1$s sürümü yayınlandı. Şu anda %2$s sürümünü kullanıyorsunuz.</string>
+    <string name="update_dialog_message">qBitConnect %1$s sürümü yayınlandı. Şu anda %2$s sürümünü kullanıyorsunuz.</string>
     <string name="error_no_internet">İnternet bağlantısı yok.</string>
     <string name="settings_enable_dynamic_colors">Dinamik renkleri etkinleştir</string>
     <string name="settings_app_color">Uygulama rengi</string>

@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller
+package com.shareconnect.qbitconnect
 
 import android.content.Intent
 import android.net.Uri
@@ -10,13 +10,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import dev.bartuzen.qbitcontroller.data.ServerManager
-import dev.bartuzen.qbitcontroller.data.notification.AppNotificationManager
-import dev.bartuzen.qbitcontroller.ui.main.DeepLinkDestination
-import dev.bartuzen.qbitcontroller.ui.main.MainScreen
-import dev.bartuzen.qbitcontroller.ui.torrent.TorrentKeys
-import dev.bartuzen.qbitcontroller.ui.torrentlist.TorrentListKeys
-import dev.bartuzen.qbitcontroller.utils.PersistentLaunchedEffect
+import com.shareconnect.qbitconnect.data.ServerManager
+import com.shareconnect.qbitconnect.data.notification.AppNotificationManager
+import com.shareconnect.qbitconnect.ui.main.DeepLinkDestination
+import com.shareconnect.qbitconnect.ui.main.MainScreen
+import com.shareconnect.qbitconnect.ui.torrent.TorrentKeys
+import com.shareconnect.qbitconnect.ui.torrentlist.TorrentListKeys
+import com.shareconnect.qbitconnect.utils.PersistentLaunchedEffect
 import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.dialogs.init
 import kotlinx.coroutines.channels.Channel

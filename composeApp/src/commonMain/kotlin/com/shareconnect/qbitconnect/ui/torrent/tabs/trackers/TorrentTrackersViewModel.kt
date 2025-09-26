@@ -1,11 +1,11 @@
-package dev.bartuzen.qbitcontroller.ui.torrent.tabs.trackers
+package com.shareconnect.qbitconnect.ui.torrent.tabs.trackers
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.data.repositories.torrent.TorrentTrackersRepository
-import dev.bartuzen.qbitcontroller.model.TorrentTracker
-import dev.bartuzen.qbitcontroller.network.RequestResult
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.data.repositories.torrent.TorrentTrackersRepository
+import com.shareconnect.qbitconnect.model.TorrentTracker
+import com.shareconnect.qbitconnect.network.RequestResult
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

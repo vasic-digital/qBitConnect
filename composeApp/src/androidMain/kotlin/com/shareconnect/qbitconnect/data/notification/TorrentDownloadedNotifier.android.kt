@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.data.notification
+package com.shareconnect.qbitconnect.data.notification
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,14 +9,14 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.set
-import dev.bartuzen.qbitcontroller.MainActivity
-import dev.bartuzen.qbitcontroller.R
-import dev.bartuzen.qbitcontroller.data.ServerManager
-import dev.bartuzen.qbitcontroller.model.Torrent
-import dev.bartuzen.qbitcontroller.model.TorrentState
-import dev.bartuzen.qbitcontroller.ui.torrent.TorrentKeys
-import dev.bartuzen.qbitcontroller.ui.torrentlist.TorrentListKeys
-import dev.bartuzen.qbitcontroller.utils.getString
+import com.shareconnect.qbitconnect.MainActivity
+import com.shareconnect.qbitconnect.R
+import com.shareconnect.qbitconnect.data.ServerManager
+import com.shareconnect.qbitconnect.model.Torrent
+import com.shareconnect.qbitconnect.model.TorrentState
+import com.shareconnect.qbitconnect.ui.torrent.TorrentKeys
+import com.shareconnect.qbitconnect.ui.torrentlist.TorrentListKeys
+import com.shareconnect.qbitconnect.utils.getString
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent

@@ -1,6 +1,6 @@
-package dev.bartuzen.qbitcontroller.data.repositories.torrent
+package com.shareconnect.qbitconnect.data.repositories.torrent
 
-import dev.bartuzen.qbitcontroller.network.RequestManager
+import com.shareconnect.qbitconnect.network.RequestManager
 
 class TorrentWebSeedsRepository(
     private val requestManager: RequestManager,

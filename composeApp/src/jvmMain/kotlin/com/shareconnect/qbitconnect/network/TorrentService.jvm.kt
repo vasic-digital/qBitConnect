@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.network
+package com.shareconnect.qbitconnect.network
 
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.InternalAPI

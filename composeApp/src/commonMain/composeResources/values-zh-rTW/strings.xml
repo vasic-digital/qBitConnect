@@ -148,7 +148,7 @@
     </plurals>
     <string name="settings_server_test_configuration">測試連接</string>
     <string name="settings_server_connection_success">已成功連接到伺服器。</string>
-    <string name="about_description">qBitController 是一款能從 Android 裝置中遠端控制 qBittorrent 的軟體。\n\n您可從此處獲取更多詳細資訊以及原始碼： %1$s</string>
+    <string name="about_description">qBitConnect 是一款能從 Android 裝置中遠端控制 qBittorrent 的軟體。\n\n您可從此處獲取更多詳細資訊以及原始碼： %1$s</string>
     <string name="notification_channel_download_completed">下載完成</string>
     <string name="search_result_size">大小：%1$s</string>
     <string name="search_result_site">網站：%1$s</string>
@@ -649,6 +649,6 @@
     <string name="settings_pure_black_dark_mode">純黑深色模式</string>
     <string name="settings_relative_timestamps">相對時間戳記</string>
     <string name="update_dialog_title">有可用的更新</string>
-    <string name="update_dialog_message">qBitController %1$s 現在已可用。您目前使用的版本為 %2$s。</string>
+    <string name="update_dialog_message">qBitConnect %1$s 現在已可用。您目前使用的版本為 %2$s。</string>
     <string name="update_dialog_download">下載</string>
 </resources>

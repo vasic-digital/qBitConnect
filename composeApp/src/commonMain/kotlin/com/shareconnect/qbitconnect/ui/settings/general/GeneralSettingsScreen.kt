@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.settings.general
+package com.shareconnect.qbitconnect.ui.settings.general
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.WindowInsets
@@ -26,14 +26,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.bartuzen.qbitcontroller.generated.BuildConfig
-import dev.bartuzen.qbitcontroller.preferences.SwitchPreference
-import dev.bartuzen.qbitcontroller.preferences.TextFieldPreference
-import dev.bartuzen.qbitcontroller.utils.Platform
-import dev.bartuzen.qbitcontroller.utils.areNotificationsEnabled
-import dev.bartuzen.qbitcontroller.utils.currentPlatform
-import dev.bartuzen.qbitcontroller.utils.stringResource
-import dev.bartuzen.qbitcontroller.utils.topAppBarColors
+import com.shareconnect.qbitconnect.generated.BuildConfig
+import com.shareconnect.qbitconnect.preferences.SwitchPreference
+import com.shareconnect.qbitconnect.preferences.TextFieldPreference
+import com.shareconnect.qbitconnect.utils.Platform
+import com.shareconnect.qbitconnect.utils.areNotificationsEnabled
+import com.shareconnect.qbitconnect.utils.currentPlatform
+import com.shareconnect.qbitconnect.utils.stringResource
+import com.shareconnect.qbitconnect.utils.topAppBarColors
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.pluralStringResource
 import org.koin.compose.viewmodel.koinViewModel

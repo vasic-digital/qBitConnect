@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.model
+package com.shareconnect.qbitconnect.model
 
 data class QBittorrentVersion(
     val major: Int,

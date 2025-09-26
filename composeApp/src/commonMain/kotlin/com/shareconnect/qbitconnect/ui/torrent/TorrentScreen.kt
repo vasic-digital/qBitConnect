@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.torrent
+package com.shareconnect.qbitconnect.ui.torrent
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.snap
@@ -46,18 +46,18 @@ import androidx.compose.ui.unit.max
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.currentStateAsState
-import dev.bartuzen.qbitcontroller.Telemetry
-import dev.bartuzen.qbitcontroller.ui.components.ActionMenuItem
-import dev.bartuzen.qbitcontroller.ui.components.AppBarActions
-import dev.bartuzen.qbitcontroller.ui.components.PrimaryScrollableTabRow
-import dev.bartuzen.qbitcontroller.ui.components.SwipeableSnackbarHost
-import dev.bartuzen.qbitcontroller.ui.torrent.tabs.files.TorrentFilesTab
-import dev.bartuzen.qbitcontroller.ui.torrent.tabs.overview.TorrentOverviewTab
-import dev.bartuzen.qbitcontroller.ui.torrent.tabs.peers.TorrentPeersTab
-import dev.bartuzen.qbitcontroller.ui.torrent.tabs.trackers.TorrentTrackersTab
-import dev.bartuzen.qbitcontroller.ui.torrent.tabs.webseeds.TorrentWebSeedsTab
-import dev.bartuzen.qbitcontroller.utils.calculateWindowSizeClass
-import dev.bartuzen.qbitcontroller.utils.stringResource
+import com.shareconnect.qbitconnect.Telemetry
+import com.shareconnect.qbitconnect.ui.components.ActionMenuItem
+import com.shareconnect.qbitconnect.ui.components.AppBarActions
+import com.shareconnect.qbitconnect.ui.components.PrimaryScrollableTabRow
+import com.shareconnect.qbitconnect.ui.components.SwipeableSnackbarHost
+import com.shareconnect.qbitconnect.ui.torrent.tabs.files.TorrentFilesTab
+import com.shareconnect.qbitconnect.ui.torrent.tabs.overview.TorrentOverviewTab
+import com.shareconnect.qbitconnect.ui.torrent.tabs.peers.TorrentPeersTab
+import com.shareconnect.qbitconnect.ui.torrent.tabs.trackers.TorrentTrackersTab
+import com.shareconnect.qbitconnect.ui.torrent.tabs.webseeds.TorrentWebSeedsTab
+import com.shareconnect.qbitconnect.utils.calculateWindowSizeClass
+import com.shareconnect.qbitconnect.utils.stringResource
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

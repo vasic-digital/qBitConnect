@@ -1,7 +1,7 @@
-package dev.bartuzen.qbitcontroller.ui.settings.general
+package com.shareconnect.qbitconnect.ui.settings.general
 
 import androidx.lifecycle.ViewModel
-import dev.bartuzen.qbitcontroller.data.SettingsManager
+import com.shareconnect.qbitconnect.data.SettingsManager
 
 class GeneralSettingsViewModel(
     settingsManager: SettingsManager,

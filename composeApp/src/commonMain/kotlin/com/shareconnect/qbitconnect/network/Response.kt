@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.network
+package com.shareconnect.qbitconnect.network
 
 class Response<T>(
     val code: Int,

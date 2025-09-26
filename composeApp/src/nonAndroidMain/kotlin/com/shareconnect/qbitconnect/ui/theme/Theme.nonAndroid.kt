@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.theme
+package com.shareconnect.qbitconnect.ui.theme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable

@@ -198,11 +198,11 @@ buildConfig {
     packageName("com.shareconnect.qbitconnect.generated")
 
     buildConfigField("Version", Versions.AppVersion)
-    buildConfigField("SourceCodeUrl", "https://github.com/Bartuzen/qBitController")
+    buildConfigField("SourceCodeUrl", "https://github.com/Bartuzen/qBitConnect")
 
     // Desktop only
     buildConfigField("EnableUpdateChecker", true)
-    buildConfigField("LatestReleaseUrl", "https://api.github.com/repos/Bartuzen/qBitController/releases/latest")
+    buildConfigField("LatestReleaseUrl", "https://api.github.com/repos/Bartuzen/qBitConnect/releases/latest")
 }
 
 android {
@@ -336,7 +336,7 @@ compose.desktop {
             ).toTypedArray()
 
             targetFormats(*formats)
-            packageName = "qBitController"
+            packageName = "qBitConnect"
             packageVersion = Versions.AppVersion
 
             linux {
@@ -408,7 +408,7 @@ listOf("" to "main", "Release" to "main-release").forEach { (buildType, buildFol
                 delete("$flatpakDir/lib/")
             }
             copy {
-                from("$buildDir/compose/binaries/$buildFolder/app/qBitController/")
+                from("$buildDir/compose/binaries/$buildFolder/app/qBitConnect/")
                 into("$flatpakDir/")
             }
             copy {
@@ -451,7 +451,7 @@ listOf("" to "main", "Release" to "main-release").forEach { (buildType, buildFol
                     "flatpak",
                     "build-bundle",
                     "build/flatpak-repo",
-                    "qBitController.flatpak",
+                    "qBitConnect.flatpak",
                     appId,
                 )
                 commandLine(bundleCommand)

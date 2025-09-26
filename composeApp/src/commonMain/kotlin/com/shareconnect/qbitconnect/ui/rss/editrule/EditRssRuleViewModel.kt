@@ -1,12 +1,12 @@
-package dev.bartuzen.qbitcontroller.ui.rss.editrule
+package com.shareconnect.qbitconnect.ui.rss.editrule
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.bartuzen.qbitcontroller.data.repositories.rss.EditRssRuleRepository
-import dev.bartuzen.qbitcontroller.model.RssFeedNode
-import dev.bartuzen.qbitcontroller.model.RssRule
-import dev.bartuzen.qbitcontroller.network.RequestResult
+import com.shareconnect.qbitconnect.data.repositories.rss.EditRssRuleRepository
+import com.shareconnect.qbitconnect.model.RssFeedNode
+import com.shareconnect.qbitconnect.model.RssRule
+import com.shareconnect.qbitconnect.network.RequestResult
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async

@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.log
+package com.shareconnect.qbitconnect.ui.log
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.runtime.Composable
@@ -7,12 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import dev.bartuzen.qbitcontroller.model.ServerConfig
-import dev.bartuzen.qbitcontroller.registerCurrentScreenTelemetry
-import dev.bartuzen.qbitcontroller.ui.components.PlatformNavHost
-import dev.bartuzen.qbitcontroller.ui.main.Destination
-import dev.bartuzen.qbitcontroller.utils.DefaultTransitions
-import dev.bartuzen.qbitcontroller.utils.PersistentLaunchedEffect
+import com.shareconnect.qbitconnect.model.ServerConfig
+import com.shareconnect.qbitconnect.registerCurrentScreenTelemetry
+import com.shareconnect.qbitconnect.ui.components.PlatformNavHost
+import com.shareconnect.qbitconnect.ui.main.Destination
+import com.shareconnect.qbitconnect.utils.DefaultTransitions
+import com.shareconnect.qbitconnect.utils.PersistentLaunchedEffect
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.serialization.json.Json

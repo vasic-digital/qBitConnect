@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.model
+package com.shareconnect.qbitconnect.model
 
 import kotlinx.datetime.UtcOffset
 import kotlinx.datetime.format.DateTimeComponents

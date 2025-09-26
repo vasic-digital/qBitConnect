@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.settings.addeditserver.advanced
+package com.shareconnect.qbitconnect.ui.settings.addeditserver.advanced
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.WindowInsets
@@ -31,17 +31,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
-import dev.bartuzen.qbitcontroller.model.DnsOverHttps
-import dev.bartuzen.qbitcontroller.model.ServerConfig
-import dev.bartuzen.qbitcontroller.network.supportsDnsOverHttps
-import dev.bartuzen.qbitcontroller.network.supportsSelfSignedCertificates
-import dev.bartuzen.qbitcontroller.preferences.ListPreference
-import dev.bartuzen.qbitcontroller.preferences.PreferenceCategory
-import dev.bartuzen.qbitcontroller.preferences.SwitchPreference
-import dev.bartuzen.qbitcontroller.preferences.TextFieldPreference
-import dev.bartuzen.qbitcontroller.utils.jsonSaver
-import dev.bartuzen.qbitcontroller.utils.stringResource
-import dev.bartuzen.qbitcontroller.utils.topAppBarColors
+import com.shareconnect.qbitconnect.model.DnsOverHttps
+import com.shareconnect.qbitconnect.model.ServerConfig
+import com.shareconnect.qbitconnect.network.supportsDnsOverHttps
+import com.shareconnect.qbitconnect.network.supportsSelfSignedCertificates
+import com.shareconnect.qbitconnect.preferences.ListPreference
+import com.shareconnect.qbitconnect.preferences.PreferenceCategory
+import com.shareconnect.qbitconnect.preferences.SwitchPreference
+import com.shareconnect.qbitconnect.preferences.TextFieldPreference
+import com.shareconnect.qbitconnect.utils.jsonSaver
+import com.shareconnect.qbitconnect.utils.stringResource
+import com.shareconnect.qbitconnect.utils.topAppBarColors
 import org.jetbrains.compose.resources.pluralStringResource
 import qbitcontroller.composeapp.generated.resources.Res
 import qbitcontroller.composeapp.generated.resources.settings_disabled

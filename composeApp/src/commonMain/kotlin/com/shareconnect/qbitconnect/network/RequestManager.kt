@@ -1,11 +1,11 @@
-package dev.bartuzen.qbitcontroller.network
+package com.shareconnect.qbitconnect.network
 
-import dev.bartuzen.qbitcontroller.data.ServerManager
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.generated.BuildConfig
-import dev.bartuzen.qbitcontroller.model.QBittorrentVersion
-import dev.bartuzen.qbitcontroller.model.ServerConfig
-import dev.bartuzen.qbitcontroller.utils.getString
+import com.shareconnect.qbitconnect.data.ServerManager
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.generated.BuildConfig
+import com.shareconnect.qbitconnect.model.QBittorrentVersion
+import com.shareconnect.qbitconnect.model.ServerConfig
+import com.shareconnect.qbitconnect.utils.getString
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.HttpTimeout

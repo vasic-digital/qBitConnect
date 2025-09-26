@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.theme
+package com.shareconnect.qbitconnect.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
@@ -12,11 +12,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.materialkolor.rememberDynamicColorScheme
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.data.Theme
-import dev.bartuzen.qbitcontroller.preferences.LocalPreferenceTheme
-import dev.bartuzen.qbitcontroller.preferences.preferenceTheme
-import dev.bartuzen.qbitcontroller.utils.stringResource
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.data.Theme
+import com.shareconnect.qbitconnect.preferences.LocalPreferenceTheme
+import com.shareconnect.qbitconnect.preferences.preferenceTheme
+import com.shareconnect.qbitconnect.utils.stringResource
 import org.koin.compose.koinInject
 import qbitcontroller.composeapp.generated.resources.Res
 import qbitcontroller.composeapp.generated.resources.dialog_cancel

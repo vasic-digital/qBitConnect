@@ -1,13 +1,13 @@
-id: dev.bartuzen.qbitcontroller
+id: com.shareconnect.qbitconnect
 sdk: org.freedesktop.Sdk
 runtime: org.freedesktop.Platform
 runtime-version: "24.08"
-command: /app/bin/qBitController
+command: /app/bin/qBitConnect
 finish-args:
   - --share=network
   - --socket=x11
   - --device=dri
-  - --filesystem=~/.config/qBitController:create
+  - --filesystem=~/.config/qBitConnect:create
 modules:
   - name: qbitcontroller
     buildsystem: simple
@@ -15,9 +15,9 @@ modules:
       - cp -r bin/ /app/bin/
       - cp -r lib/ /app/lib/
       - mkdir -p /app/share/applications
-      - install -D dev.bartuzen.qbitcontroller.desktop /app/share/applications/dev.bartuzen.qbitcontroller.desktop
+      - install -D com.shareconnect.qbitconnect.desktop /app/share/applications/com.shareconnect.qbitconnect.desktop
       - mkdir -p /app/share/icons/hicolor/scalable/apps/
-      - cp icon.svg /app/share/icons/hicolor/scalable/apps/dev.bartuzen.qbitcontroller.svg
+      - cp icon.svg /app/share/icons/hicolor/scalable/apps/com.shareconnect.qbitconnect.svg
     sources:
       - type: file
         path: icon.svg
@@ -28,4 +28,4 @@ modules:
         path: "lib/"
         dest: "lib/"
       - type: file
-        path: dev.bartuzen.qbitcontroller.desktop
+        path: com.shareconnect.qbitconnect.desktop

@@ -1,6 +1,6 @@
-package dev.bartuzen.qbitcontroller.data.notification
+package com.shareconnect.qbitconnect.data.notification
 
-import dev.bartuzen.qbitcontroller.model.Torrent
+import com.shareconnect.qbitconnect.model.Torrent
 
 actual class TorrentDownloadedNotifier {
     actual fun checkCompleted(serverId: Int, torrentList: List<Torrent>) {}

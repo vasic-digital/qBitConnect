@@ -1,1 +1,0 @@
-Controle o qBittorrent a partir do seu dispositivo Android

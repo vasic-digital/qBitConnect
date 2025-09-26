@@ -1,8 +1,8 @@
-package dev.bartuzen.qbitcontroller.utils
+package com.shareconnect.qbitconnect.utils
 
 import androidx.compose.runtime.Composable
-import dev.bartuzen.qbitcontroller.model.TorrentState
-import dev.bartuzen.qbitcontroller.ui.theme.LocalCustomColors
+import com.shareconnect.qbitconnect.model.TorrentState
+import com.shareconnect.qbitconnect.ui.theme.LocalCustomColors
 
 @Composable
 fun getTorrentStateColor(state: TorrentState) = when (state) {

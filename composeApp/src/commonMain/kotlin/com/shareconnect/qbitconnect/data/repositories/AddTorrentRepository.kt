@@ -1,8 +1,8 @@
-package dev.bartuzen.qbitcontroller.data.repositories
+package com.shareconnect.qbitconnect.data.repositories
 
-import dev.bartuzen.qbitcontroller.model.QBittorrentVersion
-import dev.bartuzen.qbitcontroller.network.RequestManager
-import dev.bartuzen.qbitcontroller.network.RequestResult
+import com.shareconnect.qbitconnect.model.QBittorrentVersion
+import com.shareconnect.qbitconnect.network.RequestManager
+import com.shareconnect.qbitconnect.network.RequestResult
 import io.ktor.client.request.forms.InputProvider
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData

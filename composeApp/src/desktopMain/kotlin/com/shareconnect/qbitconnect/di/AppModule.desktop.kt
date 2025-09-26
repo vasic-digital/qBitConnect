@@ -1,12 +1,12 @@
-package dev.bartuzen.qbitcontroller.di
+package com.shareconnect.qbitconnect.di
 
 import com.russhwolf.settings.Settings
-import dev.bartuzen.qbitcontroller.data.DesktopSettingsManager
-import dev.bartuzen.qbitcontroller.data.JsonSettings
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.utils.Platform
-import dev.bartuzen.qbitcontroller.utils.currentPlatform
-import dev.bartuzen.qbitcontroller.utils.getString
+import com.shareconnect.qbitconnect.data.DesktopSettingsManager
+import com.shareconnect.qbitconnect.data.JsonSettings
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.utils.Platform
+import com.shareconnect.qbitconnect.utils.currentPlatform
+import com.shareconnect.qbitconnect.utils.getString
 import kotlinx.coroutines.runBlocking
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind

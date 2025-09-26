@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.icons
+package com.shareconnect.qbitconnect.ui.icons
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.ui.graphics.Color

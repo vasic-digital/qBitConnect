@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.components
+package com.shareconnect.qbitconnect.ui.components
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement

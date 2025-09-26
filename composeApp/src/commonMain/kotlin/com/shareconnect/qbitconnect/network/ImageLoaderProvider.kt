@@ -1,11 +1,11 @@
-package dev.bartuzen.qbitcontroller.network
+package com.shareconnect.qbitconnect.network
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import coil3.ImageLoader
 import coil3.compose.LocalPlatformContext
 import coil3.network.ktor3.KtorNetworkFetcherFactory
-import dev.bartuzen.qbitcontroller.data.ServerManager
+import com.shareconnect.qbitconnect.data.ServerManager
 
 class ImageLoaderProvider(
     serverManager: ServerManager,

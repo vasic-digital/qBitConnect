@@ -1,12 +1,12 @@
-package dev.bartuzen.qbitcontroller.ui.settings.addeditserver
+package com.shareconnect.qbitconnect.ui.settings.addeditserver
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.bartuzen.qbitcontroller.data.ServerManager
-import dev.bartuzen.qbitcontroller.model.ServerConfig
-import dev.bartuzen.qbitcontroller.network.RequestManager
-import dev.bartuzen.qbitcontroller.network.RequestResult
-import dev.bartuzen.qbitcontroller.network.catchRequestError
+import com.shareconnect.qbitconnect.data.ServerManager
+import com.shareconnect.qbitconnect.model.ServerConfig
+import com.shareconnect.qbitconnect.network.RequestManager
+import com.shareconnect.qbitconnect.network.RequestResult
+import com.shareconnect.qbitconnect.network.catchRequestError
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel

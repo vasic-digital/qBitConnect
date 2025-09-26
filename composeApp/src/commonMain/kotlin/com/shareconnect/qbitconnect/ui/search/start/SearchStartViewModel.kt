@@ -1,10 +1,10 @@
-package dev.bartuzen.qbitcontroller.ui.search.start
+package com.shareconnect.qbitconnect.ui.search.start
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.bartuzen.qbitcontroller.data.repositories.search.SearchStartRepository
-import dev.bartuzen.qbitcontroller.model.Plugin
-import dev.bartuzen.qbitcontroller.network.RequestResult
+import com.shareconnect.qbitconnect.data.repositories.search.SearchStartRepository
+import com.shareconnect.qbitconnect.model.Plugin
+import com.shareconnect.qbitconnect.network.RequestResult
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

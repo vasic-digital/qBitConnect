@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.settings.appearance
+package com.shareconnect.qbitconnect.ui.settings.appearance
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -40,16 +40,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.materialkolor.PaletteStyle
-import dev.bartuzen.qbitcontroller.data.Theme
-import dev.bartuzen.qbitcontroller.preferences.ListPreference
-import dev.bartuzen.qbitcontroller.preferences.ListPreferenceType
-import dev.bartuzen.qbitcontroller.preferences.LocalPreferenceTheme
-import dev.bartuzen.qbitcontroller.preferences.Preference
-import dev.bartuzen.qbitcontroller.preferences.SwitchPreference
-import dev.bartuzen.qbitcontroller.ui.components.Dialog
-import dev.bartuzen.qbitcontroller.ui.theme.defaultPrimaryColor
-import dev.bartuzen.qbitcontroller.utils.stringResource
-import dev.bartuzen.qbitcontroller.utils.topAppBarColors
+import com.shareconnect.qbitconnect.data.Theme
+import com.shareconnect.qbitconnect.preferences.ListPreference
+import com.shareconnect.qbitconnect.preferences.ListPreferenceType
+import com.shareconnect.qbitconnect.preferences.LocalPreferenceTheme
+import com.shareconnect.qbitconnect.preferences.Preference
+import com.shareconnect.qbitconnect.preferences.SwitchPreference
+import com.shareconnect.qbitconnect.ui.components.Dialog
+import com.shareconnect.qbitconnect.ui.theme.defaultPrimaryColor
+import com.shareconnect.qbitconnect.utils.stringResource
+import com.shareconnect.qbitconnect.utils.topAppBarColors
 import dev.zt64.compose.pipette.HsvColor
 import dev.zt64.compose.pipette.RingColorPicker
 import dev.zt64.compose.pipette.SquareColorPicker

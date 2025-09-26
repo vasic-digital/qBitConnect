@@ -1,14 +1,14 @@
-package dev.bartuzen.qbitcontroller.ui.torrent.tabs.overview
+package com.shareconnect.qbitconnect.ui.torrent.tabs.overview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.data.notification.TorrentDownloadedNotifier
-import dev.bartuzen.qbitcontroller.data.repositories.torrent.TorrentOverviewRepository
-import dev.bartuzen.qbitcontroller.model.PieceState
-import dev.bartuzen.qbitcontroller.model.Torrent
-import dev.bartuzen.qbitcontroller.model.TorrentProperties
-import dev.bartuzen.qbitcontroller.network.RequestResult
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.data.notification.TorrentDownloadedNotifier
+import com.shareconnect.qbitconnect.data.repositories.torrent.TorrentOverviewRepository
+import com.shareconnect.qbitconnect.model.PieceState
+import com.shareconnect.qbitconnect.model.Torrent
+import com.shareconnect.qbitconnect.model.TorrentProperties
+import com.shareconnect.qbitconnect.network.RequestResult
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.delete
 import io.github.vinceglb.filekit.sink

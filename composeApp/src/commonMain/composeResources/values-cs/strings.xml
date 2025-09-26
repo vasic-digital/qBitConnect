@@ -609,7 +609,7 @@
     <string name="settings_server_name">Jméno</string>
     <string name="settings_server_username">Uživatelské jméno</string>
     <string name="settings_server_trust_self_signed_certificates">Důvěřovat certifikátům podepsaným sám sebou</string>
-    <string name="about_description">qBitController dovoluje ovládání qBittorrent z Android zařízení.\n\nPro více informací a zdrojový kód: %1$s</string>
+    <string name="about_description">qBitConnect dovoluje ovládání qBittorrent z Android zařízení.\n\nPro více informací a zdrojový kód: %1$s</string>
     <string name="notification_channel_download_completed">Stahování dokončeno</string>
     <string name="notification_torrent_downloaded">Torrent stažen</string>
     <string name="torrent_overview_availability">Dostupnost</string>

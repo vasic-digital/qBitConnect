@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.ui.settings.addeditserver
+package com.shareconnect.qbitconnect.ui.settings.addeditserver
 
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 

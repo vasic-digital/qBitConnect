@@ -1,14 +1,14 @@
-package dev.bartuzen.qbitcontroller.ui.search.result
+package com.shareconnect.qbitconnect.ui.search.result
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.bartuzen.qbitcontroller.data.SearchSort
-import dev.bartuzen.qbitcontroller.data.SettingsManager
-import dev.bartuzen.qbitcontroller.data.repositories.search.SearchResultRepository
-import dev.bartuzen.qbitcontroller.model.Search
-import dev.bartuzen.qbitcontroller.network.RequestResult
-import dev.bartuzen.qbitcontroller.utils.getSerializableStateFlow
+import com.shareconnect.qbitconnect.data.SearchSort
+import com.shareconnect.qbitconnect.data.SettingsManager
+import com.shareconnect.qbitconnect.data.repositories.search.SearchResultRepository
+import com.shareconnect.qbitconnect.model.Search
+import com.shareconnect.qbitconnect.network.RequestResult
+import com.shareconnect.qbitconnect.utils.getSerializableStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel

@@ -1,7 +1,7 @@
-package dev.bartuzen.qbitcontroller.network
+package com.shareconnect.qbitconnect.network
 
-import dev.bartuzen.qbitcontroller.model.Protocol
-import dev.bartuzen.qbitcontroller.model.ServerConfig
+import com.shareconnect.qbitconnect.model.Protocol
+import com.shareconnect.qbitconnect.model.ServerConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.okhttp.OkHttp

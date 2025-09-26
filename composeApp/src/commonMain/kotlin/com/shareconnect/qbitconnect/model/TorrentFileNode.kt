@@ -1,4 +1,4 @@
-package dev.bartuzen.qbitcontroller.model
+package com.shareconnect.qbitconnect.model
 
 sealed class TorrentFileNode(
     open val name: String,

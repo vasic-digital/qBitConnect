@@ -1,6 +1,6 @@
-package dev.bartuzen.qbitcontroller.ui.main
+package com.shareconnect.qbitconnect.ui.main
 
-import dev.bartuzen.qbitcontroller.model.ServerConfig
+import com.shareconnect.qbitconnect.model.ServerConfig
 import kotlinx.serialization.Serializable
 
 sealed class Destination {
