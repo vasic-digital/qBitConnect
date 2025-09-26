@@ -29,7 +29,7 @@ abstract class GenerateLanguageListTask : DefaultTask() {
 
     @get:OutputFile
     val languagesKtFile: File =
-        project.layout.buildDirectory.file("generated/kotlin/dev/bartuzen/qbitcontroller/generated/Languages.kt")
+        project.layout.buildDirectory.file("generated/kotlin/com/shareconnect/qbitconnect/generated/Languages.kt")
             .get().asFile
 
     @TaskAction
