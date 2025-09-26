@@ -3,10 +3,11 @@ package com.shareconnect.qbitconnect
 import org.gradle.api.JavaVersion as GradleJavaVersion
 
 object Versions {
-    const val AppVersion = "2.1.0"
-    const val AppVersionCode = 27
+    const val AppVersion = "1.0.0"
+    const val AppVersionCode = 1
 
     object Android {
+
         const val CompileSdk = 36
         const val TargetSdk = 36
         const val MinSdk = 21
