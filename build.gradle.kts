@@ -1,6 +1,7 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
+
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.androidLibrary) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
@@ -19,10 +20,13 @@ plugins {
 }
 
 tasks.withType<DependencyUpdatesTask> {
+
     gradleReleaseChannel = "current"
 
     rejectVersionIf {
+
         fun String.isStableVersion(): Boolean {
+
             val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { contains(it, ignoreCase = true) }
             val regex = "^[0-9,.v-]+(-r)?$".toRegex()
             return stableKeyword || regex.matches(this)
@@ -33,5 +37,6 @@ tasks.withType<DependencyUpdatesTask> {
 }
 
 tasks.register<Delete>("clean") {
+
     delete(layout.buildDirectory)
 }

@@ -14,6 +14,7 @@ import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 plugins {
+
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
@@ -29,29 +30,39 @@ plugins {
 }
 
 kotlin {
+
     androidTarget {
+
         compilerOptions {
+
             jvmTarget.set(JvmTarget.fromTarget(Versions.Android.JvmTarget))
 
             freeCompilerArgs.addAll(
+
                 "-opt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi",
             )
         }
     }
 
     listOf(
+
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
+
     ).forEach { iosTarget ->
+
         iosTarget.binaries.framework {
+
             baseName = "ComposeApp"
             isStatic = true
         }
     }
 
     jvm("desktop") {
+
         compilerOptions {
+
             freeCompilerArgs.addAll(
                 "-opt-in=kotlinx.coroutines.FlowPreview",
             )
@@ -59,7 +70,9 @@ kotlin {
     }
 
     compilerOptions {
+
         freeCompilerArgs.addAll(
+
             "-Xexpect-actual-classes",
             "-Xcontext-parameters",
             "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
@@ -73,10 +86,13 @@ kotlin {
     }
 
     sourceSets {
+
         val commonMain by getting {
+
             kotlin.srcDir(layout.buildDirectory.file("generated/kotlin"))
 
             dependencies {
+
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
@@ -132,12 +148,16 @@ kotlin {
         }
 
         val nonAndroidMain by creating {
+
             dependsOn(commonMain)
         }
 
         val jvmMain by creating {
+
             dependsOn(commonMain)
+
             dependencies {
+
                 implementation(libs.ktor.okhttp)
 
                 implementation(project.dependencies.platform(libs.okhttp.bom))
@@ -146,17 +166,23 @@ kotlin {
         }
 
         val desktopMain by getting {
+
             dependsOn(jvmMain)
             dependsOn(nonAndroidMain)
+
             dependencies {
+
                 implementation(compose.desktop.currentOs)
                 implementation(libs.kotlinx.coroutines.swing)
             }
         }
 
         val androidMain by getting {
+
             dependsOn(jvmMain)
+
             dependencies {
+
                 implementation(compose.preview)
                 implementation(libs.androidx.appcompat)
                 implementation(libs.coroutines.android)
@@ -175,26 +201,35 @@ kotlin {
         }
 
         val iosMain by creating {
+
             dependsOn(commonMain)
             dependsOn(nonAndroidMain)
+
             dependencies {
+
                 implementation(libs.ktor.darwin)
             }
         }
 
         val iosX64Main by getting {
+
             dependsOn(iosMain)
         }
+
         val iosArm64Main by getting {
+
             dependsOn(iosMain)
         }
+
         val iosSimulatorArm64Main by getting {
+
             dependsOn(iosMain)
         }
     }
 }
 
 buildConfig {
+
     packageName("com.shareconnect.qbitconnect.generated")
 
     buildConfigField("Version", Versions.AppVersion)
@@ -206,10 +241,12 @@ buildConfig {
 }
 
 android {
+
     namespace = "com.shareconnect.qbitconnect"
     compileSdk = Versions.Android.CompileSdk
 
     defaultConfig {
+
         applicationId = "com.shareconnect.qbitconnect"
         minSdk = Versions.Android.MinSdk
         targetSdk = Versions.Android.TargetSdk
@@ -218,39 +255,52 @@ android {
     }
 
     flavorDimensions += "firebase"
+
     productFlavors {
+
         create("free") {
+
             dimension = "firebase"
             isDefault = true
         }
+
         create("firebase") {
+
             dimension = "firebase"
         }
     }
 
     signingConfigs {
+
         create("release") {
+
             val keystorePropertiesFile = rootProject.file("keystore.properties")
             val keystoreProperties = Properties()
 
             if (keystorePropertiesFile.exists()) {
+
                 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
             }
 
             fun getProperty(vararg name: String): String? {
+
                 val propertyName = name.toList().joinToCamelCaseAsVar()
                 val envName = "QBITCONTROLLER_" + name.joinToString("_").uppercase(Locale.US)
                 return keystoreProperties.getProperty(propertyName) ?: System.getenv(envName)
             }
 
             val base64StoreFile = getProperty("store", "file", "base64")
+
             if (base64StoreFile != null) {
+
                 val decodedBytes = Base64.decode(base64StoreFile)
                 val tempFile = File.createTempFile("keystore-qbitcontroller-", ".jks")
                 tempFile.outputStream().use { it.write(decodedBytes) }
                 storeFile = tempFile
                 tempFile.deleteOnExit()
+
             } else {
+
                 storeFile = getProperty("store", "file")?.let { file(it) }
             }
 
@@ -261,13 +311,17 @@ android {
     }
 
     buildTypes {
+
         debug {
+
             applicationIdSuffix = ".debug"
             isDefault = true
         }
 
         release {
+
             postprocessing {
+
                 isRemoveUnusedCode = true
                 isRemoveUnusedResources = true
                 isObfuscate = false
@@ -275,12 +329,14 @@ android {
             }
 
             if (System.getenv("QBITCONTROLLER_SIGN_RELEASE") == "true") {
+
                 signingConfig = signingConfigs.getByName("release")
             }
         }
     }
 
     compileOptions {
+
         isCoreLibraryDesugaringEnabled = true
 
         sourceCompatibility = Versions.Android.JavaVersion
@@ -288,20 +344,24 @@ android {
     }
 
     buildFeatures {
+
         compose = true
     }
 
     lint {
+
         disable += listOf("MissingTranslation", "ExtraTranslation")
     }
 
     dependenciesInfo {
+
         includeInApk = false
         includeInBundle = false
     }
 }
 
 dependencies {
+
     coreLibraryDesugaring(libs.desugar)
     debugImplementation(compose.uiTooling)
     baselineProfile(project(":baselineProfile"))
@@ -313,22 +373,31 @@ dependencies {
 }
 
 val isFirebaseEnabled = gradle.startParameter.taskRequests.any { task ->
+
     task.args.any { arg ->
+
         arg.contains("Firebase")
     }
 }
+
 if (isFirebaseEnabled) {
+
     apply(plugin = libs.plugins.firebase.googleServices.get().pluginId)
     apply(plugin = libs.plugins.firebase.crashlytics.get().pluginId)
 }
 
 compose.desktop {
+
     application {
+
         mainClass = "com.shareconnect.qbitconnect.MainKt"
 
         nativeDistributions {
+
             val isMacOS = OperatingSystem.current().isMacOsX
+
             val formats = listOfNotNull(
+
                 TargetFormat.Dmg,
                 TargetFormat.Msi,
                 // https://youtrack.jetbrains.com/issue/CMP-3814
@@ -340,17 +409,20 @@ compose.desktop {
             packageVersion = Versions.AppVersion
 
             linux {
+
                 iconFile.set(project.file("icon.png"))
                 modules("jdk.security.auth")
             }
 
             windows {
+
                 iconFile.set(project.file("icon.ico"))
                 upgradeUuid = "c4421e97-03f4-405b-9655-4db49ad3ab82"
                 shortcut = true
             }
 
             macOS {
+
                 iconFile.set(project.file("icon.icns"))
 
                 val emptyResourcesElement = "<resources>\\s*</resources>|<resources/>".toRegex()
@@ -381,8 +453,11 @@ compose.desktop {
         }
 
         buildTypes {
+
             release {
+
                 proguard {
+
                     configurationFiles.from("proguard-rules-desktop.pro")
                 }
             }
@@ -391,12 +466,15 @@ compose.desktop {
 }
 
 afterEvaluate {
+
     tasks.withType<ConfigurableKtLintTask> {
+
         source = source.minus(fileTree("build")).asFileTree
     }
 }
 
 listOf("" to "main", "Release" to "main-release").forEach { (buildType, buildFolder) ->
+
     val appId = "com.shareconnect.qbitconnect"
     val flatpakDir = "$buildDir/flatpak"
 
@@ -430,10 +508,15 @@ listOf("" to "main", "Release" to "main-release").forEach { (buildType, buildFol
     }
 
     tasks.register("bundle${buildType}Flatpak") {
+
         dependsOn("prepare${buildType}Flatpak")
+
         doLast {
+
             exec {
+
                 workingDir(flatpakDir)
+
                 val buildCommand = listOf(
                     "flatpak-builder",
                     "--disable-rofiles-fuse",
@@ -443,10 +526,14 @@ listOf("" to "main", "Release" to "main-release").forEach { (buildType, buildFol
                     "build/flatpak-target",
                     "$appId.yml",
                 )
+
                 commandLine(buildCommand)
             }
+
             exec {
+
                 workingDir(flatpakDir)
+
                 val bundleCommand = listOf(
                     "flatpak",
                     "build-bundle",
@@ -454,17 +541,24 @@ listOf("" to "main", "Release" to "main-release").forEach { (buildType, buildFol
                     "qBitConnect.flatpak",
                     appId,
                 )
+
                 commandLine(bundleCommand)
             }
         }
     }
 
     tasks.register("install${buildType}Flatpak") {
+
         dependsOn("prepare${buildType}Flatpak")
+
         doLast {
+
             exec {
+
                 workingDir(flatpakDir)
+
                 val installCommand = listOf(
+
                     "flatpak-builder",
                     "--install",
                     "--user",
@@ -474,20 +568,26 @@ listOf("" to "main", "Release" to "main-release").forEach { (buildType, buildFol
                     "build/flatpak-target",
                     "$appId.yml",
                 )
+
                 commandLine(installCommand)
             }
         }
     }
 
     tasks.register("run${buildType}Flatpak") {
+
         dependsOn("install${buildType}Flatpak")
+
         doLast {
+
             exec {
+
                 val runCommand = listOf(
                     "flatpak",
                     "run",
                     appId,
                 )
+
                 commandLine(runCommand)
             }
         }
@@ -495,5 +595,6 @@ listOf("" to "main", "Release" to "main-release").forEach { (buildType, buildFol
 }
 
 tasks.matching { it.name.contains("Flatpak") }.configureEach {
+
     notCompatibleWithConfigurationCache("")
 }
