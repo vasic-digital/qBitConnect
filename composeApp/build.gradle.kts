@@ -2,7 +2,7 @@
 @file:OptIn(ExperimentalEncodingApi::class)
 
 import android.databinding.tool.ext.joinToCamelCaseAsVar
-import dev.bartuzen.qbitcontroller.Versions
+import com.shareconnect.qbitconnect.Versions
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -24,8 +24,8 @@ plugins {
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.buildConfig)
 
-    id("dev.bartuzen.qbitcontroller.language")
-    id("dev.bartuzen.qbitcontroller.ios")
+    id("com.shareconnect.language")
+    id("com.shareconnect.ios")
 }
 
 kotlin {
@@ -195,7 +195,7 @@ kotlin {
 }
 
 buildConfig {
-    packageName("dev.bartuzen.qbitcontroller.generated")
+    packageName("com.shareconnect.qbitconnect.generated")
 
     buildConfigField("Version", Versions.AppVersion)
     buildConfigField("SourceCodeUrl", "https://github.com/Bartuzen/qBitController")
@@ -206,11 +206,11 @@ buildConfig {
 }
 
 android {
-    namespace = "dev.bartuzen.qbitcontroller"
+    namespace = "com.shareconnect.qbitconnect"
     compileSdk = Versions.Android.CompileSdk
 
     defaultConfig {
-        applicationId = "dev.bartuzen.qbitcontroller"
+        applicationId = "com.shareconnect.qbitconnect"
         minSdk = Versions.Android.MinSdk
         targetSdk = Versions.Android.TargetSdk
         versionCode = Versions.AppVersionCode
@@ -324,7 +324,7 @@ if (isFirebaseEnabled) {
 
 compose.desktop {
     application {
-        mainClass = "dev.bartuzen.qbitcontroller.MainKt"
+        mainClass = "com.shareconnect.qbitconnect.MainKt"
 
         nativeDistributions {
             val isMacOS = OperatingSystem.current().isMacOsX
@@ -397,7 +397,7 @@ afterEvaluate {
 }
 
 listOf("" to "main", "Release" to "main-release").forEach { (buildType, buildFolder) ->
-    val appId = "dev.bartuzen.qbitcontroller"
+    val appId = "com.shareconnect.qbitconnect"
     val flatpakDir = "$buildDir/flatpak"
 
     tasks.register("prepare${buildType}Flatpak") {
