@@ -15,10 +15,10 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 
 plugins {
 
-    id("com.android.application") version "8.5.0"
-    id("org.jetbrains.kotlin.android") version "2.0.21"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
+    id("com.android.application") version "8.13.0"
+    id("org.jetbrains.kotlin.android") version "2.2.20"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.20"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.20"
 }
 
 // buildConfig {
@@ -112,8 +112,30 @@ android {
 
 dependencies {
 
+    val androidxLifecycleVersion = "2.9.1"
+    val composeNavigationVersion = "2.9.0-beta03"
+    val coroutinesVersion = "1.10.2"
+    val kotlinxSerializationVersion = "1.9.0"
+    val kotlinxDatetimeVersion = "0.7.1"
+    val koinVersion = "4.1.0"
+    val ktorVersion = "3.2.3"
+    val okhttpVersion = "5.1.0"
+    val coilVersion = "3.3.0"
+    val htmlConverterVersion = "1.1.0"
+    val multiplatformSettingsVersion = "1.3.0"
+    val materialKolorVersion = "2.1.1"
+    val fileKitVersion = "0.10.0"
+    val reorderableVersion = "2.5.1"
+    val autolinktextVersion = "2.0.2"
+    val composePipetteVersion = "1.0.1"
+    val androidxAppcompatVersion = "1.7.1"
+    val materialVersion = "1.12.0"
+    val profileinstallerVersion = "1.4.1"
+    val accompanistVersion = "0.37.3"
+    val workRuntimeVersion = "2.10.2"
+
     implementation(platform("androidx.compose:compose-bom:2025.09.00"))
-    coreLibraryDesugaring(libs.desugar)
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     implementation("androidx.compose.runtime:runtime")
@@ -122,68 +144,68 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation(libs.androidx.lifecycle.viewModel)
-    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel:$androidxLifecycleVersion")
+    implementation("org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:$androidxLifecycleVersion")
     implementation("androidx.compose.material:material-icons-extended")
 
     implementation("androidx.activity:activity-compose:1.11.0")
     implementation("androidx.compose.material3:material3-window-size-class")
 
-    implementation(libs.compose.navigation)
+    implementation("org.jetbrains.androidx.navigation:navigation-compose:$composeNavigationVersion")
 
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
 
-    implementation(libs.kotlinxSerialization)
-    implementation(libs.kotlinx.datetime)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDatetimeVersion")
 
-    implementation(libs.koin.core)
-    implementation(libs.koin.android)
-    implementation(libs.koin.compose)
-    implementation(libs.koin.compose.viewModel)
-    implementation(libs.koin.compose.viewModel.navigation)
-    implementation(libs.koin.androidx.workManager)
+    implementation("io.insert-koin:koin-core:$koinVersion")
+    implementation("io.insert-koin:koin-android:$koinVersion")
+    implementation("io.insert-koin:koin-compose:$koinVersion")
+    implementation("io.insert-koin:koin-compose-viewmodel:$koinVersion")
+    implementation("io.insert-koin:koin-compose-viewmodel-navigation:$koinVersion")
+    implementation("io.insert-koin:koin-androidx-workmanager:$koinVersion")
 
-    implementation(libs.ktor.core)
-    implementation(libs.ktor.okhttp)
-    implementation(libs.ktor.contentNegotiation)
-    implementation(libs.ktor.serialization.json)
-    implementation(libs.ktor.auth)
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+    implementation("io.ktor:ktor-client-auth:$ktorVersion")
 
-    implementation(project.dependencies.platform(libs.okhttp.bom))
-    implementation(libs.okhttp.doh)
+    implementation(project.dependencies.platform("com.squareup.okhttp3:okhttp-bom:$okhttpVersion"))
+    implementation("com.squareup.okhttp3:okhttp-dnsoverhttps")
 
-    implementation(libs.coil)
-    implementation(libs.coil.ktor)
-    implementation(libs.coil.svg)
+    implementation("io.coil-kt.coil3:coil-compose:$coilVersion")
+    implementation("io.coil-kt.coil3:coil-network-ktor3:$coilVersion")
+    implementation("io.coil-kt.coil3:coil-svg:$coilVersion")
 
-    implementation(libs.htmlConverter)
+    implementation("be.digitalia.compose.htmlconverter:htmlconverter:$htmlConverterVersion")
 
     implementation(project(":Connectors:qBitConnect:preferences"))
 
-    implementation(libs.multiplatformSettings)
+    implementation("com.russhwolf:multiplatform-settings:$multiplatformSettingsVersion")
 
-    implementation(libs.materialKolor)
+    implementation("com.materialkolor:material-kolor:$materialKolorVersion")
 
-    implementation(libs.fileKit.core)
-    implementation(libs.fileKit.dialogs)
+    implementation("io.github.vinceglb:filekit-core:$fileKitVersion")
+    implementation("io.github.vinceglb:filekit-dialogs:$fileKitVersion")
 
-    implementation(libs.reorderable)
+    implementation("sh.calvin.reorderable:reorderable:$reorderableVersion")
 
-    implementation(libs.autolinktext)
+    implementation("sh.calvin.autolinktext:autolinktext:$autolinktextVersion")
 
-    implementation(libs.composePipette)
+    implementation("dev.zt64.compose.pipette:compose-pipette:$composePipetteVersion")
 
     // implementation("androidx.compose.ui:ui-tooling-preview") // Already added
-    implementation(libs.androidx.appcompat)
+    implementation("androidx.appcompat:appcompat:$androidxAppcompatVersion")
 
-    implementation(libs.material)
+    implementation("com.google.android.material:material:$materialVersion")
 
-    implementation(libs.androidx.profileinstaller)
+    implementation("androidx.profileinstaller:profileinstaller:$profileinstallerVersion")
 
-    implementation(libs.accompanist.permissions)
+    implementation("com.google.accompanist:accompanist-permissions:$accompanistVersion")
 
-    implementation(libs.work.runtime)
+    implementation("androidx.work:work-runtime-ktx:$workRuntimeVersion")
 }
 
 
