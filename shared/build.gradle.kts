@@ -4,7 +4,6 @@
 import android.databinding.tool.ext.joinToCamelCaseAsVar
 import org.gradle.api.JavaVersion
 import org.gradle.internal.os.OperatingSystem
-// import org.jetbrains.compose.desktop.application.dsl.TargetFormat // Not needed for Android
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jmailen.gradle.kotlinter.tasks.ConfigurableKtLintTask
 import java.io.FileInputStream
@@ -14,74 +13,45 @@ import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 plugins {
-
-    id("com.android.application") version "8.13.0"
+    id("com.android.library") version "8.13.0"
     id("org.jetbrains.kotlin.android") version "2.2.20"
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.20"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.20"
 }
 
-// buildConfig {
-//
-//     packageName("com.shareconnect.qbitconnect.generated")
-//
-//     buildConfigField("Version", "1.0.0")
-//     buildConfigField("SourceCodeUrl", "https://github.com/vasic-digital/qBitConnect")
-//
-//     // Desktop only
-//     buildConfigField("EnableUpdateChecker", true)
-//     buildConfigField("LatestReleaseUrl", "https://api.github.com/repos/vasic-digital/qBitConnect/releases/latest")
-// }
-
-
-
 android {
-
-    namespace = "com.shareconnect.qbitconnect"
+    namespace = "com.shareconnect.qbitconnect.shared"
     compileSdk = 36
 
     defaultConfig {
 
-        applicationId = "com.shareconnect.qbitconnect"
         minSdk = 21
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-
         release {
-
             isMinifyEnabled = true
             isShrinkResources = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
 
         debug {
-
             isMinifyEnabled = false
             isShrinkResources = false
-            applicationIdSuffix = ".debug"
         }
     }
 
     compileOptions {
-
         isCoreLibraryDesugaringEnabled = true
-
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
 
     kotlinOptions {
-
         jvmTarget = "21"
 
         freeCompilerArgs += listOf(
-
             "-opt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi",
             "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
             "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
@@ -94,7 +64,6 @@ android {
     }
 
     buildFeatures {
-
         compose = true
     }
 
@@ -102,22 +71,9 @@ android {
 
         disable += listOf("MissingTranslation", "ExtraTranslation")
     }
-
-    dependenciesInfo {
-
-        includeInApk = false
-        includeInBundle = false
-    }
-
-    sourceSets {
-        getByName("main") {
-            java.srcDir("src/androidMain/kotlin")
-        }
-    }
 }
 
 dependencies {
-
     val androidxLifecycleVersion = "2.9.1"
     val composeNavigationVersion = "2.9.0-beta03"
     val coroutinesVersion = "1.10.2"
@@ -187,9 +143,6 @@ dependencies {
 
     implementation("be.digitalia.compose.htmlconverter:htmlconverter:$htmlConverterVersion")
 
-    implementation(project(":Connectors:qBitConnect:preferences"))
-    implementation(project(":Connectors:qBitConnect:shared"))
-
     implementation("com.russhwolf:multiplatform-settings:$multiplatformSettingsVersion")
 
     implementation("com.materialkolor:material-kolor:$materialKolorVersion")
@@ -203,7 +156,6 @@ dependencies {
 
     implementation("dev.zt64.compose.pipette:compose-pipette:$composePipetteVersion")
 
-    // implementation("androidx.compose.ui:ui-tooling-preview") // Already added
     implementation("androidx.appcompat:appcompat:$androidxAppcompatVersion")
 
     implementation("com.google.android.material:material:$materialVersion")
@@ -213,16 +165,19 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:$accompanistVersion")
 
     implementation("androidx.work:work-runtime-ktx:$workRuntimeVersion")
+
+    // Test dependencies
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:5.12.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+    testImplementation("io.ktor:ktor-client-mock:$ktorVersion")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+
+    // Android test dependencies
+    androidTestImplementation("androidx.test:runner:1.6.2")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation("org.mockito:mockito-android:5.12.0")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 }
-
-
-
-// afterEvaluate {
-//
-//     tasks.withType<ConfigurableKtLintTask> {
-//
-//         source = source.minus(fileTree("build")).asFileTree
-//     }
-// }
-
-

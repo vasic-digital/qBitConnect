@@ -1,0 +1,63 @@
+package com.shareconnect.qbitconnect.model
+
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Test
+
+class RequestResultTest {
+
+    @Test
+    fun `Success should contain data`() {
+        val data = "test data"
+        val result = RequestResult.Success(data)
+
+        assertTrue(result is RequestResult.Success)
+        assertEquals(data, (result as RequestResult.Success).data)
+    }
+
+    @Test
+    fun `Error RequestError Banned should be error type`() {
+        val result = RequestResult.Error.RequestError.Banned
+
+        assertTrue(result is RequestResult.Error)
+        assertTrue(result is RequestResult.Error.RequestError.Banned)
+    }
+
+    @Test
+    fun `Error RequestError InvalidCredentials should be error type`() {
+        val result = RequestResult.Error.RequestError.InvalidCredentials
+
+        assertTrue(result is RequestResult.Error)
+        assertTrue(result is RequestResult.Error.RequestError.InvalidCredentials)
+    }
+
+    @Test
+    fun `Error RequestError UnknownLoginResponse should contain response`() {
+        val response = "unknown response"
+        val result = RequestResult.Error.RequestError.UnknownLoginResponse(response)
+
+        assertTrue(result is RequestResult.Error)
+        assertTrue(result is RequestResult.Error.RequestError.UnknownLoginResponse)
+        assertEquals(response, (result as RequestResult.Error.RequestError.UnknownLoginResponse).response)
+    }
+
+    @Test
+    fun `Error ApiError should contain code`() {
+        val code = 404
+        val result = RequestResult.Error.ApiError(code)
+
+        assertTrue(result is RequestResult.Error)
+        assertTrue(result is RequestResult.Error.ApiError)
+        assertEquals(code, (result as RequestResult.Error.ApiError).code)
+    }
+
+    @Test
+    fun `Error NetworkError should contain throwable`() {
+        val exception = RuntimeException("network error")
+        val result = RequestResult.Error.NetworkError(exception)
+
+        assertTrue(result is RequestResult.Error)
+        assertTrue(result is RequestResult.Error.NetworkError)
+        assertEquals(exception, (result as RequestResult.Error.NetworkError).throwable)
+    }
+}
