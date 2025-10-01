@@ -2,21 +2,12 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
 
-    alias(libs.plugins.androidApplication) apply false
-    alias(libs.plugins.androidLibrary) apply false
-    alias(libs.plugins.kotlinMultiplatform) apply false
-    alias(libs.plugins.kotlinAndroid) apply false
-    alias(libs.plugins.kotlinter) apply false
-    alias(libs.plugins.kotlinxSerialization) apply false
-    alias(libs.plugins.compose.compiler) apply false
-    alias(libs.plugins.buildConfig) apply false
-    alias(libs.plugins.gradleVersions)
+    id("org.jmailen.kotlinter") version "5.2.0" apply false
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21" apply false
+    id("com.github.gmazzo.buildconfig") version "5.6.7" apply false
+    id("com.github.ben-manes.versions") version "0.52.0"
 
-    alias(libs.plugins.firebase.googleServices) apply false
-    alias(libs.plugins.firebase.crashlytics) apply false
-
-    alias(libs.plugins.android.test) apply false
-    alias(libs.plugins.baselineprofile) apply false
+    id("androidx.baselineprofile") version "1.3.4" apply false
 }
 
 tasks.withType<DependencyUpdatesTask> {

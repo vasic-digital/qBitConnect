@@ -1,7 +1,7 @@
 [versions]
 compose-multiplatform = "1.8.2"
-agp = "8.11.1"
-kotlin = "2.2.0"
+agp = "8.10.0"
+kotlin = "2.0.21"
 kotlinter = "5.2.0"
 gradleVersions = "0.52.0"
 firebase-googleServices = "4.4.3"
@@ -111,7 +111,7 @@ kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-co
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }

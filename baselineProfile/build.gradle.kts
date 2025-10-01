@@ -1,44 +1,34 @@
 @file:Suppress("UnstableApiUsage")
 
-import com.shareconnect.qbitconnect.Versions
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.api.JavaVersion
 
 plugins {
 
-    alias(libs.plugins.android.test)
-    alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.baselineprofile)
+    id("com.android.test") version "8.13.0"
+    id("androidx.baselineprofile") version "1.3.4"
 }
 
 android {
 
     namespace = "com.shareconnect.qbitconnect.baselineprofile"
-    compileSdk = Versions.Android.CompileSdk
+    compileSdk = 36
 
     compileOptions {
 
-        sourceCompatibility = Versions.Android.JavaVersion
-        targetCompatibility = Versions.Android.JavaVersion
-    }
-
-    kotlin {
-
-        compilerOptions {
-
-            jvmTarget.set(JvmTarget.fromTarget(Versions.Android.JvmTarget))
-        }
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     defaultConfig {
 
         minSdk = 28
-        targetSdk = Versions.Android.TargetSdk
+        targetSdk = 36
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"
     }
 
-    targetProjectPath = ":composeApp"
+    targetProjectPath = ":Connectors:qBitConnect:composeApp"
 
     flavorDimensions += listOf("firebase")
 
@@ -56,10 +46,10 @@ android {
     }
 }
 
-baselineProfile {
-
-    useConnectedDevices = true
-}
+// baselineProfile {
+//
+//     useConnectedDevices = true
+// }
 
 dependencies {
 
@@ -69,16 +59,16 @@ dependencies {
     implementation(libs.androidx.benchmark.macro.junit4)
 }
 
-androidComponents {
-
-    onVariants { variant ->
-
-        val artifactsLoader = variant.artifacts.getBuiltArtifactsLoader()
-
-        variant.instrumentationRunnerArguments.put(
-
-            "targetAppId",
-            variant.testedApks.map { artifactsLoader.load(it)?.applicationId!! }
-        )
-    }
-}
+// androidComponents {
+//
+//     onVariants { variant ->
+//
+//         val artifactsLoader = variant.artifacts.getBuiltArtifactsLoader()
+//
+//         variant.instrumentationRunnerArguments.put(
+//
+//             "targetAppId",
+//             variant.testedApks.map { artifactsLoader.load(it)?.applicationId!! }
+//         )
+//     }
+// }
