@@ -4,8 +4,8 @@ import org.gradle.api.JavaVersion
 
 plugins {
 
-    id("com.android.test") version "8.13.0"
-    id("androidx.baselineprofile") version "1.3.4"
+    id("com.android.test") version "8.5.0"
+    // id("androidx.baselineprofile")
 }
 
 android {

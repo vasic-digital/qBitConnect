@@ -7,7 +7,7 @@ plugins {
     id("com.github.gmazzo.buildconfig") version "5.6.7" apply false
     id("com.github.ben-manes.versions") version "0.52.0"
 
-    id("androidx.baselineprofile") version "1.3.4" apply false
+    // id("androidx.baselineprofile") version "1.2.3" apply false
 }
 
 tasks.withType<DependencyUpdatesTask> {
