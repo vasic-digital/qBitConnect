@@ -109,11 +109,7 @@ android {
         includeInBundle = false
     }
 
-    sourceSets {
-        getByName("main") {
-            java.srcDir("src/androidMain/kotlin")
-        }
-    }
+
 }
 
 dependencies {
@@ -170,6 +166,7 @@ dependencies {
     implementation("io.insert-koin:koin-compose:$koinVersion")
     implementation("io.insert-koin:koin-compose-viewmodel:$koinVersion")
     implementation("io.insert-koin:koin-compose-viewmodel-navigation:$koinVersion")
+    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
     implementation("io.insert-koin:koin-androidx-workmanager:$koinVersion")
 
     implementation("io.ktor:ktor-client-core:$ktorVersion")
@@ -213,6 +210,20 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:$accompanistVersion")
 
     implementation("androidx.work:work-runtime-ktx:$workRuntimeVersion")
+
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+    // Test dependencies
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+    testImplementation("androidx.datastore:datastore-preferences-core:1.1.1")
+    testImplementation("io.mockk:mockk:1.13.8")
+
+    // Android test dependencies
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
 
 
