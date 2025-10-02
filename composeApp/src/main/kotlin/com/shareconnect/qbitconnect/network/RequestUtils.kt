@@ -1,6 +1,6 @@
-package com.shareconnect.qbitconnect.data.network
+package com.shareconnect.qbitconnect.network
 
-import com.shareconnect.qbitconnect.model.RequestResult
+import com.shareconnect.qbitconnect.network.RequestResult
 import kotlinx.coroutines.CancellationException
 
 suspend fun <T> catchRequestError(

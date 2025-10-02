@@ -66,7 +66,7 @@ class TorrentListViewModel(
 
                 val activeServer = serverRepository.activeServer.first()
                 if (activeServer != null) {
-                    val result = torrentRepository.refreshTorrents(activeServer)
+                    val result = torrentRepository.refreshTorrents(activeServer.id.toInt())
                     if (result.isFailure) {
                         _error.value = "Failed to refresh torrents: ${result.exceptionOrNull()?.message}"
                     }
@@ -83,7 +83,7 @@ class TorrentListViewModel(
 
     fun pauseTorrents(hashes: List<String>) {
         performTorrentAction(hashes) { server, hashes ->
-            torrentRepository.pauseTorrents(server, hashes)
+            torrentRepository.pauseTorrents(server.id.toInt(), hashes)
         }
     }
 

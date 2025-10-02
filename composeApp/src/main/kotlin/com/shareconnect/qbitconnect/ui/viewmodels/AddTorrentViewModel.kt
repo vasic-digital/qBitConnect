@@ -23,8 +23,8 @@ class AddTorrentViewModel(
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error.asStateFlow()
 
-    private val _success = MutableStateFlow(false)
-    val success: StateFlow<Boolean> = _success.asStateFlow()
+    private val _torrentAdded = MutableStateFlow(false)
+    val torrentAdded: StateFlow<Boolean> = _torrentAdded.asStateFlow()
 
     // Form state
     private val _urls = MutableStateFlow("")
@@ -122,7 +122,7 @@ class AddTorrentViewModel(
 
                 val result = torrentRepository.addTorrent(activeServer, request)
                 if (result.isSuccess) {
-                    _success.value = true
+                    _torrentAdded.value = true
                     clearForm()
                 } else {
                     _error.value = "Failed to add torrent: ${result.exceptionOrNull()?.message}"
@@ -148,7 +148,7 @@ class AddTorrentViewModel(
     }
 
     fun resetState() {
-        _success.value = false
+        _torrentAdded.value = false
         _error.value = null
     }
 

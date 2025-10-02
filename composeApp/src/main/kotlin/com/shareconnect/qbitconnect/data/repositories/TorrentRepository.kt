@@ -4,8 +4,9 @@ import com.shareconnect.qbitconnect.data.models.AddTorrentRequest
 import com.shareconnect.qbitconnect.data.models.Server
 import com.shareconnect.qbitconnect.data.models.ServerConfig
 import com.shareconnect.qbitconnect.data.models.Torrent
+import com.shareconnect.qbitconnect.data.models.TorrentState
 import com.shareconnect.qbitconnect.network.RequestManager
-import com.shareconnect.qbitconnect.model.RequestResult
+import com.shareconnect.qbitconnect.network.RequestResult
 import com.shareconnect.qbitconnect.network.Response
 import com.shareconnect.qbitconnect.network.TorrentService
 import com.shareconnect.qbitconnect.network.catchRequestError
@@ -37,108 +38,65 @@ class TorrentRepository(
     private val json = Json { ignoreUnknownKeys = true }
 
     suspend fun refreshTorrents(serverId: Int): Result<Unit> {
-        return catchRequestError {
-            val result = requestManager.request(serverId) { service ->
-                service.getTorrents()
-            }
+        val result = requestManager.request(serverId) { service ->
+            service.getTorrents()
+        }
 
-            when (result) {
-                is RequestResult.Success -> {
-                    val torrentsJson = result.data
-                    val torrents = parseTorrents(torrentsJson)
-                    _torrents.value = torrents
-                    Result.success(Unit)
-                }
-                is RequestResult.Error -> {
-                    Result.failure(Exception("Failed to fetch torrents"))
-                }
+        return when (result) {
+            is RequestResult.Success -> {
+                val torrentsJson = result.data
+                val torrents = parseTorrents(torrentsJson)
+                _torrents.value = torrents
+                Result.success(Unit)
             }
-        }.fold(
-            onSuccess = { it },
-            onFailure = { Result.failure(it) }
-        )
+            is RequestResult.Error -> {
+                Result.failure(Exception("Failed to fetch torrents"))
+            }
+        }
     }
 
-    suspend fun addTorrent(serverId: String, request: AddTorrentRequest): Result<Unit> {
-        return catchRequestError {
-            val result = requestManager.request(serverId) { service ->
-                service.addTorrent(request.urls, request.savepath)
-            }
+    suspend fun addTorrent(serverId: Int, request: AddTorrentRequest): Result<Unit> {
+        val result = requestManager.request(serverId) { service ->
+            service.addTorrent(request.urls ?: emptyList(), request.savepath)
+        }
 
-            when (result) {
-                is RequestResult.Success -> Result.success(Unit)
-                is RequestResult.Error -> Result.failure(Exception("Failed to add torrent"))
-            }
-        }.fold(
-            onSuccess = { it },
-            onFailure = { Result.failure(it) }
-        )
+        return when (result) {
+            is RequestResult.Success -> Result.success(Unit)
+            is RequestResult.Error -> Result.failure(Exception("Failed to add torrent"))
+        }
     }
 
-    suspend fun pauseTorrents(serverId: String, hashes: List<String>): Result<Unit> {
-        return catchRequestError {
-            val result = requestManager.request(serverId) { service ->
-                service.pauseTorrents(hashes)
-            }
+    suspend fun pauseTorrents(serverId: Int, hashes: List<String>): Result<Unit> {
+        val result = requestManager.request(serverId) { service ->
+            service.pauseTorrents(hashes)
+        }
 
-            when (result) {
-                is RequestResult.Success -> Result.success(Unit)
-                is RequestResult.Error -> Result.failure(Exception("Failed to pause torrents"))
-            }
-        }.fold(
-            onSuccess = { it },
-            onFailure = { Result.failure(it) }
-        )
+        return when (result) {
+            is RequestResult.Success -> Result.success(Unit)
+            is RequestResult.Error -> Result.failure(Exception("Failed to pause torrents"))
+        }
     }
 
     suspend fun resumeTorrents(server: Server, hashes: List<String>): Result<Unit> {
-        return catchRequestError {
-            val serverConfig = ServerConfig(
-                id = server.id,
-                name = server.name,
-                url = server.host + ":" + server.port,
-                username = server.username,
-                password = server.password,
-                useHttps = server.useHttps
-            )
+        val result = requestManager.request(server.id.toInt()) { service ->
+            service.resumeTorrents(hashes)
+        }
 
-            val result = requestManager.request(serverConfig.id) { service ->
-                service.resumeTorrents(hashes)
-            }
-
-            when (result) {
-                is RequestResult.Success -> Result.success(Unit)
-                is RequestResult.Error -> Result.failure(Exception("Failed to resume torrents"))
-            }
-        }.fold(
-            onSuccess = { it },
-            onFailure = { Result.failure(it) }
-        )
+        return when (result) {
+            is RequestResult.Success -> Result.success(Unit)
+            is RequestResult.Error -> Result.failure(Exception("Failed to resume torrents"))
+        }
     }
 
     suspend fun deleteTorrents(server: Server, hashes: List<String>, deleteFiles: Boolean = false): Result<Unit> {
-        return catchRequestError {
-            val serverConfig = ServerConfig(
-                id = server.id,
-                name = server.name,
-                url = server.host + ":" + server.port,
-                username = server.username,
-                password = server.password,
-                useHttps = server.useHttps
-            )
+        val result = requestManager.request(server.id.toInt()) { service ->
+            service.deleteTorrents(hashes, deleteFiles)
+        }
 
-            val result = requestManager.request(serverConfig.id) { service ->
-                service.deleteTorrents(hashes, deleteFiles)
-            }
-
-            when (result) {
-                is RequestResult.Success -> Result.success(Unit)
-                is RequestResult.Error -> Result.failure(Exception("Failed to delete torrents"))
-            }
-        }.fold(
-            onSuccess = { it },
-            onFailure = { Result.failure(it) }
-        )
+        return when (result) {
+            is RequestResult.Success -> Result.success(Unit)
+            is RequestResult.Error -> Result.failure(Exception("Failed to delete torrents"))
+        }
     }
 
     suspend fun setCategory(server: Server, hashes: List<String>, category: String): Result<Unit> {
@@ -207,18 +165,26 @@ class TorrentRepository(
                     progress = obj["progress"]?.jsonPrimitive?.content?.toFloatOrNull() ?: 0f,
                     downloadSpeed = obj["dlspeed"]?.jsonPrimitive?.content?.toLongOrNull() ?: 0L,
                     uploadSpeed = obj["upspeed"]?.jsonPrimitive?.content?.toLongOrNull() ?: 0L,
-                    state = Torrent.State.valueOf(obj["state"]?.jsonPrimitive?.content?.uppercase() ?: "UNKNOWN"),
-                    category = obj["category"]?.jsonPrimitive?.content ?: "",
+                    downloaded = obj["downloaded"]?.jsonPrimitive?.content?.toLongOrNull() ?: 0L,
+                    uploaded = obj["uploaded"]?.jsonPrimitive?.content?.toLongOrNull() ?: 0L,
+                    eta = obj["eta"]?.jsonPrimitive?.content?.toLongOrNull() ?: 0L,
+                    state = TorrentState.valueOf(obj["state"]?.jsonPrimitive?.content?.uppercase() ?: "UNKNOWN"),
+                    category = obj["category"]?.jsonPrimitive?.content,
                     tags = obj["tags"]?.jsonPrimitive?.content?.split(",")?.map { it.trim() } ?: emptyList(),
                     ratio = obj["ratio"]?.jsonPrimitive?.content?.toFloatOrNull() ?: 0f,
-                    connectedSeeds = obj["num_seeds"]?.jsonPrimitive?.content?.toIntOrNull() ?: 0,
-                    totalSeeds = obj["num_complete"]?.jsonPrimitive?.content?.toIntOrNull() ?: 0,
-                    connectedLeeches = obj["num_leechs"]?.jsonPrimitive?.content?.toIntOrNull() ?: 0,
-                    totalLeeches = obj["num_incomplete"]?.jsonPrimitive?.content?.toIntOrNull() ?: 0,
-                    eta = obj["eta"]?.jsonPrimitive?.content?.toLongOrNull() ?: 0L,
-                    additionDate = obj["added_on"]?.jsonPrimitive?.content?.toLongOrNull() ?: 0L,
-                    completionDate = obj["completion_on"]?.jsonPrimitive?.content?.toLongOrNull() ?: 0L,
-                    lastActivity = obj["last_activity"]?.jsonPrimitive?.content?.toLongOrNull() ?: 0L,
+                    addedOn = kotlinx.datetime.Instant.fromEpochSeconds(obj["added_on"]?.jsonPrimitive?.content?.toLongOrNull() ?: 0L),
+                    completionOn = obj["completion_on"]?.jsonPrimitive?.content?.toLongOrNull()?.let { kotlinx.datetime.Instant.fromEpochSeconds(it) },
+                    savePath = obj["save_path"]?.jsonPrimitive?.content ?: "",
+                    contentPath = obj["content_path"]?.jsonPrimitive?.content ?: "",
+                    priority = obj["priority"]?.jsonPrimitive?.content?.toIntOrNull() ?: 0,
+                    seeds = obj["num_seeds"]?.jsonPrimitive?.content?.toIntOrNull() ?: 0,
+                    seedsTotal = obj["num_complete"]?.jsonPrimitive?.content?.toIntOrNull() ?: 0,
+                    peers = obj["num_leechs"]?.jsonPrimitive?.content?.toIntOrNull() ?: 0,
+                    peersTotal = obj["num_incomplete"]?.jsonPrimitive?.content?.toIntOrNull() ?: 0,
+                    downloadLimit = obj["dl_limit"]?.jsonPrimitive?.content?.toLongOrNull() ?: -1L,
+                    uploadLimit = obj["up_limit"]?.jsonPrimitive?.content?.toLongOrNull() ?: -1L,
+                    timeActive = obj["time_active"]?.jsonPrimitive?.content?.toLongOrNull() ?: 0L,
+                    availability = obj["availability"]?.jsonPrimitive?.content?.toFloatOrNull() ?: 0f
                 )
             } else {
                 null

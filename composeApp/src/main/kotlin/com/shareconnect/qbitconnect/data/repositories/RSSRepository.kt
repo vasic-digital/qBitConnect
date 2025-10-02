@@ -6,7 +6,7 @@ import com.shareconnect.qbitconnect.data.models.RSSRule
 import com.shareconnect.qbitconnect.data.models.Server
 import com.shareconnect.qbitconnect.data.models.ServerConfig
 import com.shareconnect.qbitconnect.network.RequestManager
-import com.shareconnect.qbitconnect.model.RequestResult
+import com.shareconnect.qbitconnect.network.RequestResult
 import com.shareconnect.qbitconnect.network.catchRequestError
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import kotlinx.coroutines.flow.Flow
@@ -32,35 +32,21 @@ class RSSRepository(
     private val json = Json { ignoreUnknownKeys = true }
 
     suspend fun refreshFeeds(server: Server): Result<Unit> {
-        return catchRequestError {
-            val serverConfig = ServerConfig(
-                id = server.id,
-                name = server.name,
-                url = server.host + ":" + server.port,
-                username = server.username,
-                password = server.password,
-                useHttps = server.useHttps
-            )
+        val result = requestManager.request(server.id.toInt()) { service ->
+            service.getRSSFeeds()
+        }
 
-            val result = requestManager.request(serverConfig.id) { service ->
-                service.getRSSFeeds()
+        return when (result) {
+            is RequestResult.Success -> {
+                val feedsJson = result.data
+                val feeds = parseRSSFeeds(feedsJson)
+                _feeds.value = feeds
+                Result.success(Unit)
             }
-
-            when (result) {
-                is RequestResult.Success -> {
-                    val feedsJson = result.data
-                    val feeds = parseRSSFeeds(feedsJson)
-                    _feeds.value = feeds
-                    Result.success(Unit)
-                }
-                is RequestResult.Error -> {
-                    Result.failure(Exception("Failed to fetch RSS feeds"))
-                }
+            is RequestResult.Error -> {
+                Result.failure(Exception("Failed to fetch RSS feeds"))
             }
-        }.fold(
-            onSuccess = { it },
-            onFailure = { Result.failure(it) }
-        )
+        }
     }
 
     suspend fun addFeed(server: Server, url: String, path: String = ""): Result<Unit> {
@@ -160,11 +146,14 @@ class RSSRepository(
                 RSSArticle(
                     id = obj["id"]?.jsonPrimitive?.content ?: "",
                     title = obj["title"]?.jsonPrimitive?.content ?: "",
-                    description = obj["description"]?.jsonPrimitive?.content ?: "",
+                    description = obj["description"]?.jsonPrimitive?.content,
                     link = obj["link"]?.jsonPrimitive?.content ?: "",
-                    torrentURL = obj["torrentURL"]?.jsonPrimitive?.content,
-                    date = obj["date"]?.jsonPrimitive?.content ?: "",
-                    isRead = obj["isRead"]?.jsonPrimitive?.content?.toBoolean() ?: false
+                    author = obj["author"]?.jsonPrimitive?.content,
+                    category = obj["category"]?.jsonPrimitive?.content,
+                    pubDate = obj["date"]?.jsonPrimitive?.content?.let { kotlinx.datetime.Instant.parse(it) },
+                    isRead = obj["isRead"]?.jsonPrimitive?.content?.toBoolean() ?: false,
+                    torrentUrl = obj["torrentURL"]?.jsonPrimitive?.content,
+                    size = obj["size"]?.jsonPrimitive?.content?.toLongOrNull()
                 )
             } else {
                 null
