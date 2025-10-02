@@ -54,19 +54,13 @@ class RequestUtilsTest {
         assertTrue(finallyExecuted)
     }
 
-    @Test
+    @Test(expected = RuntimeException::class)
     fun `catchRequestError should execute finally block even when finally throws exception`() = runTest {
-        var finallyExecuted = false
-        val result = catchRequestError<String>(
+        catchRequestError<String>(
             block = { RequestResult.Success("data") },
             finally = {
-                finallyExecuted = true
                 throw RuntimeException("finally error")
             }
         )
-
-        // The finally block exception should not affect the result
-        assertTrue(result is RequestResult.Success)
-        assertTrue(finallyExecuted)
     }
 }

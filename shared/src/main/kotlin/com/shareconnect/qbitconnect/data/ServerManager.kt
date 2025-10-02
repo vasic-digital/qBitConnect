@@ -29,7 +29,7 @@ class ServerManager(
 
     suspend fun addServer(serverConfig: ServerConfig) = withContext(Dispatchers.Default) {
         val serverConfigs = serversFlow.value
-        val serverId = serverSettings[Keys.LastServerId, -1] + 1
+        val serverId = serverSettings[Keys.LastServerId, 0] + 1
 
         val newServerConfig = serverConfig.copy(id = serverId)
         val updatedServerConfigs = serverConfigs + newServerConfig

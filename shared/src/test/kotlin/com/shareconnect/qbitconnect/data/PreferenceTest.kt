@@ -3,6 +3,7 @@ package com.shareconnect.qbitconnect.data
 import com.russhwolf.settings.MapSettings
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.Serializable
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -160,6 +161,7 @@ class PreferenceTest {
 
     @Test
     fun `jsonPreference should serialize and deserialize objects`() {
+        @Serializable
         data class TestData(val name: String, val value: Int)
 
         val key = "test_json"

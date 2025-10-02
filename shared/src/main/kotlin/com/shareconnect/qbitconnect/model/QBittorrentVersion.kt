@@ -7,11 +7,11 @@ sealed class QBittorrentVersion {
     companion object {
         fun fromString(versionString: String): QBittorrentVersion {
             val parts = versionString.split(".")
-            if (parts.size < 2) return Invalid
+            if (parts.size < 2 || parts.size > 3) return Invalid
 
             val major = parts[0].toIntOrNull() ?: return Invalid
             val minor = parts[1].toIntOrNull() ?: return Invalid
-            val patch = parts.getOrNull(2)?.toIntOrNull() ?: 0
+            val patch = if (parts.size == 3) parts[2].toIntOrNull() ?: return Invalid else 0
 
             return Valid(major, minor, patch)
         }

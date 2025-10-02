@@ -5,7 +5,7 @@ import com.shareconnect.qbitconnect.data.SettingsManager
 import com.shareconnect.qbitconnect.model.QBittorrentVersion
 import com.shareconnect.qbitconnect.model.RequestResult
 import com.shareconnect.qbitconnect.model.ServerConfig
-import io.ktor.client.HttpClient
+import okhttp3.OkHttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -62,7 +62,7 @@ class RequestManagerTest {
         val client = requestManager.buildHttpClient(serverConfig)
 
         // Client should be created successfully
-        assertTrue(client is HttpClient)
+        assertTrue(client is OkHttpClient)
     }
 
     @Test

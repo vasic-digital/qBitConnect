@@ -31,11 +31,11 @@ class ServerManagerTest {
             password = null
         )
 
-        serverManager.addServer(serverConfig.copy(id = 0)) // Will get id 1
+        serverManager.addServer(serverConfig)
 
         val retrieved = serverManager.getServer(1)
         assertNotNull(retrieved)
-        assertEquals("Test Server", retrieved.name)
+        assertEquals(serverConfig.copy(id = 1), retrieved)
     }
 
     @Test(expected = IllegalStateException::class)
