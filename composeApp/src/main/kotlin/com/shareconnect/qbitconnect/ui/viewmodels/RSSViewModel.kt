@@ -7,6 +7,7 @@ import com.shareconnect.qbitconnect.data.models.RSSFeed
 import com.shareconnect.qbitconnect.data.models.Server
 import com.shareconnect.qbitconnect.data.repositories.RSSRepository
 import com.shareconnect.qbitconnect.data.repositories.ServerRepository
+import com.shareconnect.qbitconnect.model.RequestResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -61,9 +62,12 @@ class RSSViewModel(
 
                 val activeServer = serverRepository.activeServer.first()
                 if (activeServer != null) {
-                    val result = rssRepository.refreshFeeds(activeServer)
-                    if (result.isFailure) {
-                        _error.value = "Failed to refresh RSS feeds: ${result.exceptionOrNull()?.message}"
+                    val result = rssRepository.refreshFeeds(activeServer.id)
+                    when (result) {
+                        is RequestResult.Error -> {
+                            _error.value = "Failed to refresh RSS feeds"
+                        }
+                        else -> {}
                     }
                 } else {
                     _error.value = "No active server selected"
@@ -83,11 +87,14 @@ class RSSViewModel(
 
                 val activeServer = serverRepository.activeServer.first()
                 if (activeServer != null) {
-                    val result = rssRepository.addFeed(activeServer, url, path)
-                    if (result.isSuccess) {
-                        refreshFeeds() // Refresh to get the new feed
-                    } else {
-                        _error.value = "Failed to add RSS feed: ${result.exceptionOrNull()?.message}"
+                    val result = rssRepository.addFeed(activeServer.id, url, path)
+                    when (result) {
+                        is RequestResult.Success -> {
+                            refreshFeeds() // Refresh to get the new feed
+                        }
+                        else -> {
+                            _error.value = "Failed to add RSS feed"
+                        }
                     }
                 } else {
                     _error.value = "No active server selected"
@@ -105,14 +112,17 @@ class RSSViewModel(
 
                 val activeServer = serverRepository.activeServer.first()
                 if (activeServer != null) {
-                    val result = rssRepository.removeFeed(activeServer, feedUid)
-                    if (result.isSuccess) {
-                        if (_selectedFeed.value?.uid == feedUid) {
-                            _selectedFeed.value = null
+                    val result = rssRepository.removeFeed(activeServer.id, feedUid)
+                    when (result) {
+                        is RequestResult.Success -> {
+                            if (_selectedFeed.value?.uid == feedUid) {
+                                _selectedFeed.value = null
+                            }
+                            refreshFeeds()
                         }
-                        refreshFeeds()
-                    } else {
-                        _error.value = "Failed to remove RSS feed: ${result.exceptionOrNull()?.message}"
+                        else -> {
+                            _error.value = "Failed to remove RSS feed"
+                        }
                     }
                 } else {
                     _error.value = "No active server selected"
@@ -130,11 +140,14 @@ class RSSViewModel(
 
                 val activeServer = serverRepository.activeServer.first()
                 if (activeServer != null) {
-                    val result = rssRepository.refreshFeed(activeServer, feedUid)
-                    if (result.isFailure) {
-                        _error.value = "Failed to refresh RSS feed: ${result.exceptionOrNull()?.message}"
-                    } else {
-                        refreshFeeds()
+                    val result = rssRepository.refreshFeed(activeServer.id, feedUid)
+                    when (result) {
+                        is RequestResult.Success -> {
+                            refreshFeeds()
+                        }
+                        else -> {
+                            _error.value = "Failed to refresh RSS feed"
+                        }
                     }
                 } else {
                     _error.value = "No active server selected"
@@ -150,7 +163,7 @@ class RSSViewModel(
             try {
                 val activeServer = serverRepository.activeServer.first()
                 if (activeServer != null) {
-                    rssRepository.markArticleAsRead(activeServer, articleId)
+                    rssRepository.markArticleAsRead(activeServer.id, articleId)
                 }
             } catch (e: Exception) {
                 _error.value = "Failed to mark article as read: ${e.message}"
@@ -165,9 +178,12 @@ class RSSViewModel(
 
                 val activeServer = serverRepository.activeServer.first()
                 if (activeServer != null) {
-                    val result = rssRepository.downloadTorrentFromArticle(activeServer, articleId, savePath)
-                    if (result.isFailure) {
-                        _error.value = "Failed to download torrent: ${result.exceptionOrNull()?.message}"
+                    val result = rssRepository.downloadTorrentFromArticle(activeServer.id, articleId, savePath)
+                    when (result) {
+                        is RequestResult.Success -> {}
+                        else -> {
+                            _error.value = "Failed to download torrent"
+                        }
                     }
                 } else {
                     _error.value = "No active server selected"

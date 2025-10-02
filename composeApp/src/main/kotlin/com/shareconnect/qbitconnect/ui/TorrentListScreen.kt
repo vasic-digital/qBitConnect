@@ -21,7 +21,7 @@ import com.shareconnect.qbitconnect.ui.viewmodels.TorrentListViewModelFactory
 @Composable
 fun TorrentListScreen(navController: NavController, serverId: String) {
     val viewModel: TorrentListViewModel = viewModel(
-        factory = TorrentListViewModelFactory(DependencyContainer.torrentRepository, DependencyContainer.serverRepository)
+        factory = TorrentListViewModelFactory()
     )
     val torrents by viewModel.filteredTorrents.collectAsState(initial = emptyList())
     val categories by viewModel.categories.collectAsState(initial = emptyList())

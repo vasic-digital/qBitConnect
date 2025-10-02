@@ -43,7 +43,7 @@ class ServerListViewModel(
         }
     }
 
-    fun removeServer(serverId: String) {
+    fun removeServer(serverId: Int) {
         viewModelScope.launch {
             try {
                 serverRepository.removeServer(serverId)

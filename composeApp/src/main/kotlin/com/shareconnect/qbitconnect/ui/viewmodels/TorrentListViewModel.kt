@@ -6,6 +6,7 @@ import com.shareconnect.qbitconnect.data.models.Server
 import com.shareconnect.qbitconnect.data.models.Torrent
 import com.shareconnect.qbitconnect.data.repositories.ServerRepository
 import com.shareconnect.qbitconnect.data.repositories.TorrentRepository
+import com.shareconnect.qbitconnect.model.RequestResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -66,9 +67,12 @@ class TorrentListViewModel(
 
                 val activeServer = serverRepository.activeServer.first()
                 if (activeServer != null) {
-                    val result = torrentRepository.refreshTorrents(activeServer.id.toInt())
-                    if (result.isFailure) {
-                        _error.value = "Failed to refresh torrents: ${result.exceptionOrNull()?.message}"
+                    val result = torrentRepository.refreshTorrents(activeServer.id)
+                    when (result) {
+                        is RequestResult.Error -> {
+                            _error.value = "Failed to refresh torrents"
+                        }
+                        else -> {}
                     }
                 } else {
                     _error.value = "No active server selected"
@@ -83,37 +87,37 @@ class TorrentListViewModel(
 
     fun pauseTorrents(hashes: List<String>) {
         performTorrentAction(hashes) { server, hashes ->
-            torrentRepository.pauseTorrents(server.id.toInt(), hashes)
+            torrentRepository.pauseTorrents(server.id, hashes)
         }
     }
 
     fun resumeTorrents(hashes: List<String>) {
         performTorrentAction(hashes) { server, hashes ->
-            torrentRepository.resumeTorrents(server, hashes)
+            torrentRepository.resumeTorrents(server.id, hashes)
         }
     }
 
     fun deleteTorrents(hashes: List<String>, deleteFiles: Boolean = false) {
         performTorrentAction(hashes) { server, hashes ->
-            torrentRepository.deleteTorrents(server, hashes, deleteFiles)
+            torrentRepository.deleteTorrents(server.id, hashes, deleteFiles)
         }
     }
 
     fun setCategory(hashes: List<String>, category: String) {
         performTorrentAction(hashes) { server, hashes ->
-            torrentRepository.setCategory(server, hashes, category)
+            torrentRepository.setCategory(server.id, hashes, category)
         }
     }
 
     fun setTags(hashes: List<String>, tags: List<String>) {
         performTorrentAction(hashes) { server, hashes ->
-            torrentRepository.setTags(server, hashes, tags)
+            torrentRepository.setTags(server.id, hashes, tags)
         }
     }
 
     fun setLimits(hashes: List<String>, downloadLimit: Long? = null, uploadLimit: Long? = null) {
         performTorrentAction(hashes) { server, hashes ->
-            torrentRepository.setLimits(server, hashes, downloadLimit, uploadLimit)
+            torrentRepository.setLimits(server.id, hashes, downloadLimit, uploadLimit)
         }
     }
 
@@ -137,7 +141,7 @@ class TorrentListViewModel(
 
     private fun performTorrentAction(
         hashes: List<String>,
-        action: suspend (Server, List<String>) -> Result<Unit>
+        action: suspend (Server, List<String>) -> RequestResult<Unit>
     ) {
         viewModelScope.launch {
             try {
@@ -146,11 +150,14 @@ class TorrentListViewModel(
                 val activeServer = serverRepository.activeServer.first()
                 if (activeServer != null) {
                     val result = action(activeServer, hashes)
-                    if (result.isFailure) {
-                        _error.value = "Action failed: ${result.exceptionOrNull()?.message}"
-                    } else {
-                        // Refresh torrents after successful action
-                        refreshTorrents()
+                    when (result) {
+                        is RequestResult.Success -> {
+                            // Refresh torrents after successful action
+                            refreshTorrents()
+                        }
+                        is RequestResult.Error -> {
+                            _error.value = "Action failed"
+                        }
                     }
                 } else {
                     _error.value = "No active server selected"

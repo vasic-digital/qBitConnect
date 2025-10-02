@@ -21,7 +21,7 @@ import com.shareconnect.qbitconnect.ui.viewmodels.ServerListViewModelFactory
 @Composable
 fun ServerListScreen(navController: NavController) {
     val viewModel: ServerListViewModel = viewModel(
-        factory = ServerListViewModelFactory(DependencyContainer.serverRepository)
+        factory = ServerListViewModelFactory()
     )
     val servers by viewModel.servers.collectAsState(initial = emptyList())
     val activeServer by viewModel.activeServer.collectAsState(initial = null)

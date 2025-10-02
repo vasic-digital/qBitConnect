@@ -23,7 +23,7 @@ import com.shareconnect.qbitconnect.ui.viewmodels.AddServerViewModelFactory
 @Composable
 fun AddServerScreen(navController: NavController) {
     val viewModel: AddServerViewModel = viewModel(
-        factory = AddServerViewModelFactory(DependencyContainer.serverRepository)
+        factory = AddServerViewModelFactory()
     )
 
     val name by viewModel.name.collectAsState()
@@ -105,7 +105,7 @@ fun AddServerScreen(navController: NavController) {
                 }
 
                 OutlinedTextField(
-                    value = username,
+                    value = username ?: "",
                     onValueChange = viewModel::updateUsername,
                     label = { Text("Username (optional)") },
                     modifier = Modifier.fillMaxWidth(),
@@ -113,7 +113,7 @@ fun AddServerScreen(navController: NavController) {
                 )
 
                 OutlinedTextField(
-                    value = password,
+                    value = password ?: "",
                     onValueChange = viewModel::updatePassword,
                     label = { Text("Password (optional)") },
                     modifier = Modifier.fillMaxWidth(),

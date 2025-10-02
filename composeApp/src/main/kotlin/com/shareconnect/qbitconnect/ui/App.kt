@@ -20,7 +20,7 @@ import com.shareconnect.qbitconnect.ui.viewmodels.AppViewModelFactory
 @Composable
 fun App() {
     val viewModel = viewModel<AppViewModel>(
-        factory = AppViewModelFactory(DependencyContainer.settingsManager)
+        factory = AppViewModelFactory()
     )
     val theme by viewModel.theme.collectAsState(initial = Theme.SYSTEM_DEFAULT)
     val enableDynamicColors by viewModel.enableDynamicColors.collectAsState(initial = true)

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.shareconnect.qbitconnect.data.models.SearchResult
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.viewmodels.SearchViewModel
 import com.shareconnect.qbitconnect.ui.viewmodels.SearchViewModelFactory
@@ -20,13 +21,13 @@ import com.shareconnect.qbitconnect.ui.viewmodels.SearchViewModelFactory
 @Composable
 fun SearchScreen(navController: NavController, serverId: String) {
     val viewModel: SearchViewModel = viewModel(
-        factory = SearchViewModelFactory(DependencyContainer.requestManager)
+        factory = SearchViewModelFactory()
     )
 
-    val searchQuery by viewModel.searchQuery.collectAsState()
-    val searchResults by viewModel.searchResults.collectAsState()
-    val isSearching by viewModel.isSearching.collectAsState()
-    val error by viewModel.error.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState(initial = "")
+    val searchResults by viewModel.searchResults.collectAsState(initial = emptyList())
+    val isSearching by viewModel.isSearching.collectAsState(initial = false)
+    val error by viewModel.error.collectAsState(initial = null)
 
     Scaffold(
         topBar = {
@@ -81,7 +82,7 @@ fun SearchScreen(navController: NavController, serverId: String) {
                 items(searchResults) { result ->
                     SearchResultItem(
                         result = result,
-                        onDownload = { viewModel.downloadTorrent(serverId.toIntOrNull() ?: 0, result) }
+                        onDownload = { viewModel.downloadTorrent(result) }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }

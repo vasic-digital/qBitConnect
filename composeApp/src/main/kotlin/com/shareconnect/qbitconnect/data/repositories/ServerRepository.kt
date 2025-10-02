@@ -18,7 +18,7 @@ class ServerRepository {
         _servers.value = currentServers + server
     }
 
-    fun removeServer(serverId: String) {
+    fun removeServer(serverId: Int) {
         val currentServers = _servers.value
         _servers.value = currentServers.filter { it.id != serverId }
 
@@ -48,7 +48,7 @@ class ServerRepository {
         }
     }
 
-    fun getServerById(serverId: String): Server? {
+    fun getServerById(serverId: Int): Server? {
         return _servers.value.find { it.id == serverId }
     }
 

@@ -6,19 +6,6 @@ import com.shareconnect.qbitconnect.data.SettingsManager
 import com.shareconnect.qbitconnect.model.QBittorrentVersion
 import com.shareconnect.qbitconnect.model.RequestResult
 import com.shareconnect.qbitconnect.model.ServerConfig
-import io.ktor.client.HttpClient
-import io.ktor.client.HttpClientConfig
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.UserAgent
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.BasicAuthCredentials
-import io.ktor.client.plugins.auth.providers.basic
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.cookies.AcceptAllCookiesStorage
-import io.ktor.client.plugins.cookies.HttpCookies
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.request.header
-import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
@@ -27,19 +14,43 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
+import okhttp3.Authenticator
+import okhttp3.Cookie
+import okhttp3.CookieJar
+import okhttp3.Credentials
+import okhttp3.HttpUrl
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response as OkHttpResponse
+import okhttp3.Route
+import okhttp3.logging.HttpLoggingInterceptor
+import java.util.concurrent.TimeUnit
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 import com.shareconnect.qbitconnect.network.catchRequestError
 
+class SessionCookieJar : CookieJar {
+    private val cookies = mutableMapOf<String, MutableList<Cookie>>()
+
+    override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+        val host = url.host
+        this.cookies[host] = cookies.toMutableList()
+    }
+
+    override fun loadForRequest(url: HttpUrl): List<Cookie> {
+        return cookies[url.host] ?: emptyList()
+    }
+}
+
 class RequestManager(
     private val serverManager: ServerManager,
     private val settingsManager: SettingsManager,
 ) {
     private val torrentServiceMap = mutableMapOf<Int, TorrentService>()
-    private val httpClientMap = mutableMapOf<Int, HttpClient>()
+    private val httpClientMap = mutableMapOf<Int, OkHttpClient>()
 
     private val loggedInServerIds = mutableListOf<Int>()
     private val initialLoginLocks = mutableMapOf<Int, Mutex>()
@@ -47,15 +58,10 @@ class RequestManager(
     private val versions = mutableMapOf<Int, Pair<Instant, QBittorrentVersion>>()
     private val versionLocks = mutableMapOf<Int, Mutex>()
 
-    private val json = Json {
-        ignoreUnknownKeys = true
-        coerceInputValues = true
-        explicitNulls = false
-    }
-
     init {
         serverManager.addServerListener(
-            remove = { serverConfig ->
+            add = {},
+            remove = { serverConfig: ServerConfig ->
                 torrentServiceMap.remove(serverConfig.id)
                 httpClientMap.remove(serverConfig.id)
                 loggedInServerIds.remove(serverConfig.id)
@@ -63,7 +69,7 @@ class RequestManager(
                 versions.remove(serverConfig.id)
                 versionLocks.remove(serverConfig.id)
             },
-            change = { serverConfig ->
+            change = { serverConfig: ServerConfig ->
                 torrentServiceMap.remove(serverConfig.id)
                 httpClientMap.remove(serverConfig.id)
                 loggedInServerIds.remove(serverConfig.id)
@@ -74,45 +80,54 @@ class RequestManager(
         )
     }
 
-    fun buildHttpClient(serverConfig: ServerConfig) = HttpClient {
-        install(ContentNegotiation) {
-            json(json)
-        }
+    fun buildHttpClient(serverConfig: ServerConfig): OkHttpClient {
+        val builder = OkHttpClient.Builder()
 
-        install(HttpCookies) {
-            storage = AcceptAllCookiesStorage()
+        // Add logging interceptor
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
         }
+        builder.addInterceptor(logging)
 
-        install(HttpTimeout) {
-            CoroutineScope(Dispatchers.Default).launch {
-                settingsManager.connectionTimeout.flow.collectLatest {
-                    requestTimeoutMillis = it.seconds.inWholeMilliseconds
-                    connectTimeoutMillis = it.seconds.inWholeMilliseconds
-                    socketTimeoutMillis = it.seconds.inWholeMilliseconds
-                }
+        // Add user agent interceptor
+        builder.addInterceptor(Interceptor { chain ->
+            val request = chain.request().newBuilder()
+                .addHeader("User-Agent", "qBitConnect/1.0.0")
+                .build()
+            chain.proceed(request)
+        })
+
+        // Add custom headers
+        builder.addInterceptor(Interceptor { chain ->
+            val request = chain.request().newBuilder()
+            serverConfig.advanced.customHeaders.forEach { (key, value) ->
+                request.addHeader(key, value)
             }
-        }
+            chain.proceed(request.build())
+        })
 
-        install(UserAgent) {
-            agent = "qBitConnect/1.0.0"
-        }
-
+        // Basic auth
         val basicAuth = serverConfig.advanced.basicAuth
         if (basicAuth.isEnabled && basicAuth.username != null && basicAuth.password != null) {
-            install(Auth) {
-                basic {
-                    credentials {
-                        BasicAuthCredentials(basicAuth.username, basicAuth.password)
-                    }
+            builder.authenticator(object : Authenticator {
+                override fun authenticate(route: Route?, response: OkHttpResponse): Request? {
+                    val credential = Credentials.basic(basicAuth.username, basicAuth.password)
+                    return response.request.newBuilder()
+                        .header("Authorization", credential)
+                        .build()
                 }
-            }
+            })
         }
 
-        defaultRequest {
-            serverConfig.advanced.customHeaders.forEach { (key, value) ->
-                header(key, value)
-            }
-        }
+        // Cookie jar for session management
+        builder.cookieJar(SessionCookieJar())
+
+        // Timeouts
+        builder.connectTimeout(30, TimeUnit.SECONDS)
+        builder.readTimeout(30, TimeUnit.SECONDS)
+        builder.writeTimeout(30, TimeUnit.SECONDS)
+
+        return builder.build()
     }
 
     fun getHttpClient(serverId: Int) = httpClientMap.getOrPut(serverId) {
@@ -120,7 +135,7 @@ class RequestManager(
         buildHttpClient(serverConfig)
     }
 
-    fun buildTorrentService(serverConfig: ServerConfig, client: HttpClient) = TorrentService(
+    fun buildTorrentService(serverConfig: ServerConfig, client: OkHttpClient) = TorrentService(
         client = client,
         baseUrl = serverConfig.requestUrl,
     )

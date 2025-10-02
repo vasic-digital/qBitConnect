@@ -7,6 +7,7 @@ import com.shareconnect.qbitconnect.data.models.SearchResult
 import com.shareconnect.qbitconnect.data.models.Server
 import com.shareconnect.qbitconnect.data.repositories.SearchRepository
 import com.shareconnect.qbitconnect.data.repositories.ServerRepository
+import com.shareconnect.qbitconnect.model.RequestResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,23 +41,17 @@ class SearchViewModel(
 
     private var searchJob: Job? = null
 
-    init {
-        refreshPlugins()
-    }
-
-    fun refreshPlugins() {
+    fun refreshPlugins(serverId: Int) {
         viewModelScope.launch {
             try {
                 _error.value = null
 
-                val activeServer = serverRepository.activeServer.first()
-                if (activeServer != null) {
-                    val result = searchRepository.refreshPlugins(activeServer)
-                    if (result.isFailure) {
-                        _error.value = "Failed to refresh search plugins: ${result.exceptionOrNull()?.message}"
+                val result = searchRepository.refreshPlugins(serverId)
+                when (result) {
+                    is RequestResult.Error -> {
+                        _error.value = "Failed to refresh search plugins"
                     }
-                } else {
-                    _error.value = "No active server selected"
+                    else -> {}
                 }
             } catch (e: Exception) {
                 _error.value = "Failed to refresh search plugins: ${e.message}"
@@ -76,7 +71,7 @@ class SearchViewModel(
         _selectedPlugins.value = plugins
     }
 
-    fun startSearch() {
+    fun performSearch(serverId: Int) {
         if (_searchQuery.value.isBlank()) {
             _error.value = "Please enter a search query"
             return
@@ -89,31 +84,31 @@ class SearchViewModel(
                 _error.value = null
                 searchRepository.clearSearchResults()
 
-                val activeServer = serverRepository.activeServer.first()
-                if (activeServer == null) {
-                    _error.value = "No active server selected"
-                    return@launch
-                }
-
                 val query = SearchQuery(
                     pattern = _searchQuery.value,
                     category = _selectedCategory.value,
                     plugins = _selectedPlugins.value.takeIf { it.isNotEmpty() } ?: emptyList()
                 )
 
-                val result = searchRepository.startSearch(activeServer, query)
-                if (result.isSuccess) {
-                    _currentSearchId.value = result.getOrNull()
+                val result = searchRepository.startSearch(serverId, query)
+                when (result) {
+                    is RequestResult.Success -> {
+                        _currentSearchId.value = result.data
 
-                    // Get search results
-                    result.getOrNull()?.let { searchId ->
-                        val resultsResult = searchRepository.getSearchResults(activeServer, searchId)
-                        if (resultsResult.isFailure) {
-                            _error.value = "Failed to get search results: ${resultsResult.exceptionOrNull()?.message}"
+                        // Get search results
+                        val resultsResult = searchRepository.getSearchResults(serverId, result.data)
+                        when (resultsResult) {
+                            is RequestResult.Success -> {
+                                // Results are updated in repository
+                            }
+                            is RequestResult.Error -> {
+                                _error.value = "Failed to get search results"
+                            }
                         }
                     }
-                } else {
-                    _error.value = "Failed to start search: ${result.exceptionOrNull()?.message}"
+                    is RequestResult.Error -> {
+                        _error.value = "Failed to start search"
+                    }
                 }
             } catch (e: Exception) {
                 _error.value = "Search failed: ${e.message}"
@@ -128,7 +123,13 @@ class SearchViewModel(
                 try {
                     val activeServer = serverRepository.activeServer.first()
                     if (activeServer != null) {
-                        searchRepository.stopSearch(activeServer, searchId)
+                        val result = searchRepository.stopSearch(activeServer.id, searchId)
+                        when (result) {
+                            is RequestResult.Error -> {
+                                _error.value = "Failed to stop search"
+                            }
+                            else -> {}
+                        }
                     }
                 } catch (e: Exception) {
                     _error.value = "Failed to stop search: ${e.message}"
@@ -162,11 +163,14 @@ class SearchViewModel(
             try {
                 val activeServer = serverRepository.activeServer.first()
                 if (activeServer != null) {
-                    val result = searchRepository.enablePlugin(activeServer, pluginName, enable)
-                    if (result.isSuccess) {
-                        refreshPlugins()
-                    } else {
-                        _error.value = "Failed to ${if (enable) "enable" else "disable"} plugin: ${result.exceptionOrNull()?.message}"
+                    val result = searchRepository.enablePlugin(activeServer.id, pluginName, enable)
+                    when (result) {
+                        is RequestResult.Success -> {
+                            refreshPlugins(activeServer.id)
+                        }
+                        is RequestResult.Error -> {
+                            _error.value = "Failed to ${if (enable) "enable" else "disable"} plugin"
+                        }
                     }
                 } else {
                     _error.value = "No active server selected"

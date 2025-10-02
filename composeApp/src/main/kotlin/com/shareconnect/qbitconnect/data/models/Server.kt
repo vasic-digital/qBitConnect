@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Server(
-    val id: String,
+    val id: Int,
     val name: String,
     val host: String,
     val port: Int,

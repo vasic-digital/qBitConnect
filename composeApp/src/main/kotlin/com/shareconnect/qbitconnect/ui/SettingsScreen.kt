@@ -19,7 +19,7 @@ import com.shareconnect.qbitconnect.ui.viewmodels.SettingsViewModelFactory
 @Composable
 fun SettingsScreen(navController: NavController) {
     val viewModel = viewModel<SettingsViewModel>(
-        factory = SettingsViewModelFactory(DependencyContainer.settingsManager)
+        factory = SettingsViewModelFactory()
     )
     val theme by viewModel.theme.collectAsState(initial = Theme.SYSTEM_DEFAULT)
     val enableDynamicColors by viewModel.enableDynamicColors.collectAsState(initial = true)

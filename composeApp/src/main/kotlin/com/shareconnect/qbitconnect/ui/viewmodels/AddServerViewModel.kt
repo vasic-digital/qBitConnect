@@ -1,13 +1,17 @@
 package com.shareconnect.qbitconnect.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.shareconnect.qbitconnect.data.repositories.ServerRepository
+import androidx.lifecycle.viewModelScope
+import com.shareconnect.qbitconnect.data.ServerManager
+import com.shareconnect.qbitconnect.model.ServerConfig
+import com.shareconnect.qbitconnect.model.RequestResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class AddServerViewModel(
-    private val serverRepository: ServerRepository
+    private val serverManager: ServerManager
 ) : ViewModel() {
 
     private val _name = MutableStateFlow("")
@@ -16,8 +20,8 @@ class AddServerViewModel(
     private val _host = MutableStateFlow("")
     val host: StateFlow<String> = _host.asStateFlow()
 
-    private val _port = MutableStateFlow(8080)
-    val port: StateFlow<Int> = _port.asStateFlow()
+    private val _port = MutableStateFlow("8080")
+    val port: StateFlow<String> = _port.asStateFlow()
 
     private val _username = MutableStateFlow<String?>(null)
     val username: StateFlow<String?> = _username.asStateFlow()
@@ -45,7 +49,7 @@ class AddServerViewModel(
         _host.value = host
     }
 
-    fun updatePort(port: Int) {
+    fun updatePort(port: String) {
         _port.value = port
     }
 
@@ -62,8 +66,26 @@ class AddServerViewModel(
     }
 
     fun addServer() {
-        // TODO: Implement add server logic
-        _serverAdded.value = true
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val portInt = port.value.toIntOrNull() ?: 8080
+                val url = if (useHttps.value) "https://$host:$portInt" else "http://$host:$portInt"
+                val serverConfig = ServerConfig(
+                    id = 0, // will be set by manager
+                    name = name.value,
+                    url = url,
+                    username = username.value,
+                    password = password.value,
+                )
+                serverManager.addServer(serverConfig)
+                _serverAdded.value = true
+            } catch (e: Exception) {
+                _error.value = e.message ?: "Failed to add server"
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
     fun clearError() {

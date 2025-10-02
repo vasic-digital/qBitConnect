@@ -4,6 +4,7 @@ import com.shareconnect.qbitconnect.data.models.SearchPlugin
 import com.shareconnect.qbitconnect.data.models.SearchQuery
 import com.shareconnect.qbitconnect.data.models.SearchResult
 import com.shareconnect.qbitconnect.data.models.Server
+import com.shareconnect.qbitconnect.model.RequestResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,48 +20,48 @@ class SearchRepository {
     private val _isSearching = MutableStateFlow(false)
     val isSearching: Flow<Boolean> = _isSearching.asStateFlow()
 
-    suspend fun refreshPlugins(server: Server): Result<Unit> {
+    suspend fun refreshPlugins(serverId: Int): RequestResult<Unit> {
         // TODO: Implement actual API call to refresh search plugins
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun enablePlugin(server: Server, pluginName: String, enable: Boolean): Result<Unit> {
+    suspend fun enablePlugin(serverId: Int, pluginName: String, enable: Boolean): RequestResult<Unit> {
         // TODO: Implement actual API call to enable/disable search plugin
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun installPlugin(server: Server, pluginUrl: String): Result<Unit> {
+    suspend fun installPlugin(serverId: Int, pluginUrl: String): RequestResult<Unit> {
         // TODO: Implement actual API call to install search plugin
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun uninstallPlugin(server: Server, pluginName: String): Result<Unit> {
+    suspend fun uninstallPlugin(serverId: Int, pluginName: String): RequestResult<Unit> {
         // TODO: Implement actual API call to uninstall search plugin
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun startSearch(server: Server, query: SearchQuery): Result<String> {
+    suspend fun startSearch(serverId: Int, query: SearchQuery): RequestResult<String> {
         // TODO: Implement actual API call to start search
         _isSearching.value = true
         // Return a search ID
-        return Result.success("search_123")
+        return RequestResult.Success("search_123")
     }
 
-    suspend fun stopSearch(server: Server, searchId: String): Result<Unit> {
+    suspend fun stopSearch(serverId: Int, searchId: String): RequestResult<Unit> {
         // TODO: Implement actual API call to stop search
         _isSearching.value = false
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun getSearchResults(server: Server, searchId: String): Result<List<SearchResult>> {
+    suspend fun getSearchResults(serverId: Int, searchId: String): RequestResult<List<SearchResult>> {
         // TODO: Implement actual API call to get search results
         _isSearching.value = false
-        return Result.success(emptyList())
+        return RequestResult.Success(emptyList())
     }
 
-    suspend fun deleteSearch(server: Server, searchId: String): Result<Unit> {
+    suspend fun deleteSearch(serverId: Int, searchId: String): RequestResult<Unit> {
         // TODO: Implement actual API call to delete search
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
     fun getEnabledPlugins(): List<SearchPlugin> {

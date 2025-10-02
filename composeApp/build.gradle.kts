@@ -127,6 +127,9 @@ android {
 
 dependencies {
 
+    implementation(project(":shared"))
+    implementation(project(":preferences"))
+
     val androidxLifecycleVersion = "2.9.1"
     val composeNavigationVersion = "2.9.0-beta03"
     val coroutinesVersion = "1.10.2"

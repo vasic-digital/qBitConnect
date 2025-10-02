@@ -3,14 +3,9 @@ package com.shareconnect.qbitconnect.network
 import android.util.Log
 import com.shareconnect.qbitconnect.data.ServerManager
 import com.shareconnect.qbitconnect.data.SettingsManager
-import com.shareconnect.qbitconnect.network.QBittorrentVersion
+import com.shareconnect.qbitconnect.model.QBittorrentVersion
 import com.shareconnect.qbitconnect.model.RequestResult
-import com.shareconnect.qbitconnect.data.models.ServerConfig
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import com.shareconnect.qbitconnect.model.ServerConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
@@ -65,8 +60,8 @@ class RequestManager(
 
     init {
         serverManager.addServerListener(
-            onAdd = {},
-            onRemove = { serverConfig ->
+            add = {},
+            remove = { serverConfig: ServerConfig ->
                 torrentServiceMap.remove(serverConfig.id)
                 httpClientMap.remove(serverConfig.id)
                 loggedInServerIds.remove(serverConfig.id)
@@ -74,7 +69,7 @@ class RequestManager(
                 versions.remove(serverConfig.id)
                 versionLocks.remove(serverConfig.id)
             },
-            onChange = { serverConfig ->
+            change = { serverConfig: ServerConfig ->
                 torrentServiceMap.remove(serverConfig.id)
                 httpClientMap.remove(serverConfig.id)
                 loggedInServerIds.remove(serverConfig.id)
@@ -105,8 +100,8 @@ class RequestManager(
         // Add custom headers
         builder.addInterceptor(Interceptor { chain ->
             val request = chain.request().newBuilder()
-            serverConfig.advanced.customHeaders.forEach { (key, value) ->
-                request.addHeader(key, value)
+            serverConfig.advanced.customHeaders.forEach { header ->
+                request.addHeader(header.key, header.value)
             }
             chain.proceed(request.build())
         })
@@ -116,7 +111,7 @@ class RequestManager(
         if (basicAuth.isEnabled && basicAuth.username != null && basicAuth.password != null) {
             builder.authenticator(object : Authenticator {
                 override fun authenticate(route: Route?, response: OkHttpResponse): Request? {
-                    val credential = Credentials.basic(basicAuth.username, basicAuth.password)
+                    val credential = Credentials.basic(basicAuth.username!!, basicAuth.password!!)
                     return response.request.newBuilder()
                         .header("Authorization", credential)
                         .build()
@@ -127,18 +122,10 @@ class RequestManager(
         // Cookie jar for session management
         builder.cookieJar(SessionCookieJar())
 
-        // Timeouts - set default, will be updated dynamically
+        // Timeouts
         builder.connectTimeout(30, TimeUnit.SECONDS)
         builder.readTimeout(30, TimeUnit.SECONDS)
         builder.writeTimeout(30, TimeUnit.SECONDS)
-
-        // Update timeouts dynamically
-        CoroutineScope(Dispatchers.Default).launch {
-            settingsManager.connectionTimeout.flow.collectLatest { timeout ->
-                // Note: OkHttp timeouts are set at build time, so we rebuild client if needed
-                // For simplicity, we'll use a fixed timeout for now
-            }
-        }
 
         return builder.build()
     }
@@ -186,7 +173,7 @@ class RequestManager(
         val serverConfig = serverManager.getServer(serverId)
 
         return if (serverConfig.username != null && serverConfig.password != null) {
-            val loginResponse = service.login(serverConfig.username, serverConfig.password)
+            val loginResponse = service.login(serverConfig.username!!, serverConfig.password!!)
             val code = loginResponse.code
             val body = loginResponse.body
 

@@ -20,7 +20,7 @@ import com.shareconnect.qbitconnect.ui.viewmodels.AddTorrentViewModelFactory
 @Composable
 fun AddTorrentScreen(navController: NavController, serverId: String) {
     val viewModel: AddTorrentViewModel = viewModel(
-        factory = AddTorrentViewModelFactory(DependencyContainer.torrentRepository, DependencyContainer.serverRepository)
+        factory = AddTorrentViewModelFactory()
     )
 
     val urls by viewModel.urls.collectAsState()

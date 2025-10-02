@@ -2,11 +2,11 @@ package com.shareconnect.qbitconnect.data.repositories
 
 import com.shareconnect.qbitconnect.data.models.AddTorrentRequest
 import com.shareconnect.qbitconnect.data.models.Server
-import com.shareconnect.qbitconnect.data.models.ServerConfig
+import com.shareconnect.qbitconnect.model.ServerConfig
 import com.shareconnect.qbitconnect.data.models.Torrent
 import com.shareconnect.qbitconnect.data.models.TorrentState
 import com.shareconnect.qbitconnect.network.RequestManager
-import com.shareconnect.qbitconnect.network.RequestResult
+import com.shareconnect.qbitconnect.model.RequestResult
 import com.shareconnect.qbitconnect.network.Response
 import com.shareconnect.qbitconnect.network.TorrentService
 import com.shareconnect.qbitconnect.network.catchRequestError
@@ -37,96 +37,99 @@ class TorrentRepository(
 
     private val json = Json { ignoreUnknownKeys = true }
 
-    suspend fun refreshTorrents(serverId: Int): Result<Unit> {
+    suspend fun refreshTorrents(serverId: Int): RequestResult<Unit> {
         val result = requestManager.request(serverId) { service ->
             service.getTorrents()
         }
 
         return when (result) {
             is RequestResult.Success -> {
-                val torrentsJson = result.data
+                val torrentsJson = result.data ?: ""
                 val torrents = parseTorrents(torrentsJson)
                 _torrents.value = torrents
-                Result.success(Unit)
+                RequestResult.Success(Unit)
             }
-            is RequestResult.Error -> {
-                Result.failure(Exception("Failed to fetch torrents"))
-            }
+            is RequestResult.Error -> result
+            else -> throw IllegalStateException("Unexpected result")
         }
     }
 
-    suspend fun addTorrent(serverId: Int, request: AddTorrentRequest): Result<Unit> {
+    suspend fun addTorrent(serverId: Int, request: AddTorrentRequest): RequestResult<Unit> {
         val result = requestManager.request(serverId) { service ->
             service.addTorrent(request.urls ?: emptyList(), request.savepath)
         }
 
         return when (result) {
-            is RequestResult.Success -> Result.success(Unit)
-            is RequestResult.Error -> Result.failure(Exception("Failed to add torrent"))
+            is RequestResult.Success -> RequestResult.Success(Unit)
+            is RequestResult.Error -> result
+            else -> throw IllegalStateException("Unexpected result")
         }
     }
 
-    suspend fun pauseTorrents(serverId: Int, hashes: List<String>): Result<Unit> {
+    suspend fun pauseTorrents(serverId: Int, hashes: List<String>): RequestResult<Unit> {
         val result = requestManager.request(serverId) { service ->
             service.pauseTorrents(hashes)
         }
 
         return when (result) {
-            is RequestResult.Success -> Result.success(Unit)
-            is RequestResult.Error -> Result.failure(Exception("Failed to pause torrents"))
+            is RequestResult.Success -> RequestResult.Success(Unit)
+            is RequestResult.Error -> result
+            else -> throw IllegalStateException("Unexpected result")
         }
     }
 
-    suspend fun resumeTorrents(server: Server, hashes: List<String>): Result<Unit> {
-        val result = requestManager.request(server.id.toInt()) { service ->
+    suspend fun resumeTorrents(serverId: Int, hashes: List<String>): RequestResult<Unit> {
+        val result = requestManager.request(serverId) { service ->
             service.resumeTorrents(hashes)
         }
 
         return when (result) {
-            is RequestResult.Success -> Result.success(Unit)
-            is RequestResult.Error -> Result.failure(Exception("Failed to resume torrents"))
+            is RequestResult.Success -> RequestResult.Success(Unit)
+            is RequestResult.Error -> result
+            else -> throw IllegalStateException("Unexpected result")
         }
     }
 
-    suspend fun deleteTorrents(server: Server, hashes: List<String>, deleteFiles: Boolean = false): Result<Unit> {
-        val result = requestManager.request(server.id.toInt()) { service ->
+    suspend fun deleteTorrents(serverId: Int, hashes: List<String>, deleteFiles: Boolean = false): RequestResult<Unit> {
+        val result = requestManager.request(serverId) { service ->
             service.deleteTorrents(hashes, deleteFiles)
         }
 
         return when (result) {
-            is RequestResult.Success -> Result.success(Unit)
-            is RequestResult.Error -> Result.failure(Exception("Failed to delete torrents"))
+            is RequestResult.Success -> RequestResult.Success(Unit)
+            is RequestResult.Error -> result
+            else -> throw IllegalStateException("Unexpected result")
         }
     }
 
-    suspend fun setCategory(server: Server, hashes: List<String>, category: String): Result<Unit> {
+    suspend fun setCategory(serverId: Int, hashes: List<String>, category: String): RequestResult<Unit> {
         // TODO: Implement category setting
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun setTags(server: Server, hashes: List<String>, tags: List<String>): Result<Unit> {
+    suspend fun setTags(serverId: Int, hashes: List<String>, tags: List<String>): RequestResult<Unit> {
         // TODO: Implement tag setting
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun setLimits(server: Server, hashes: List<String>, downloadLimit: Long? = null, uploadLimit: Long? = null): Result<Unit> {
+    suspend fun setLimits(serverId: Int, hashes: List<String>, downloadLimit: Long? = null, uploadLimit: Long? = null): RequestResult<Unit> {
         // TODO: Implement limit setting
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun getCategories(server: Server): Result<List<String>> {
+    suspend fun getCategories(serverId: Int): RequestResult<List<String>> {
         // TODO: Implement category fetching
-        return Result.success(emptyList())
+        return RequestResult.Success(emptyList())
     }
 
-    suspend fun createCategory(server: Server, category: String, savePath: String = ""): Result<Unit> {
+    suspend fun createCategory(serverId: Int, category: String, savePath: String = ""): RequestResult<Unit> {
         // TODO: Implement category creation
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun deleteCategory(server: Server, category: String): Result<Unit> {
+    suspend fun deleteCategory(serverId: Int, category: String): RequestResult<Unit> {
         // TODO: Implement category deletion
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
     fun getTorrentByHash(hash: String): Torrent? {

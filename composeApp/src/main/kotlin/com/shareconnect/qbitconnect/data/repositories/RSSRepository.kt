@@ -4,9 +4,9 @@ import com.shareconnect.qbitconnect.data.models.RSSArticle
 import com.shareconnect.qbitconnect.data.models.RSSFeed
 import com.shareconnect.qbitconnect.data.models.RSSRule
 import com.shareconnect.qbitconnect.data.models.Server
-import com.shareconnect.qbitconnect.data.models.ServerConfig
+import com.shareconnect.qbitconnect.model.ServerConfig
 import com.shareconnect.qbitconnect.network.RequestManager
-import com.shareconnect.qbitconnect.network.RequestResult
+import com.shareconnect.qbitconnect.model.RequestResult
 import com.shareconnect.qbitconnect.network.catchRequestError
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import kotlinx.coroutines.flow.Flow
@@ -31,67 +31,66 @@ class RSSRepository(
 
     private val json = Json { ignoreUnknownKeys = true }
 
-    suspend fun refreshFeeds(server: Server): Result<Unit> {
-        val result = requestManager.request(server.id.toInt()) { service ->
+    suspend fun refreshFeeds(serverId: Int): RequestResult<Unit> {
+        val result = requestManager.request(serverId) { service ->
             service.getRSSFeeds()
         }
 
         return when (result) {
             is RequestResult.Success -> {
-                val feedsJson = result.data
+                val feedsJson = result.data ?: ""
                 val feeds = parseRSSFeeds(feedsJson)
                 _feeds.value = feeds
-                Result.success(Unit)
+                RequestResult.Success(Unit)
             }
-            is RequestResult.Error -> {
-                Result.failure(Exception("Failed to fetch RSS feeds"))
-            }
+            is RequestResult.Error -> result
+            else -> throw IllegalStateException("Unexpected result")
         }
     }
 
-    suspend fun addFeed(server: Server, url: String, path: String = ""): Result<Unit> {
+    suspend fun addFeed(serverId: Int, url: String, path: String = ""): RequestResult<Unit> {
         // TODO: Implement RSS feed addition
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun removeFeed(server: Server, uid: String): Result<Unit> {
+    suspend fun removeFeed(serverId: Int, uid: String): RequestResult<Unit> {
         // TODO: Implement RSS feed removal
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun moveFeed(server: Server, uid: String, dest: String): Result<Unit> {
+    suspend fun moveFeed(serverId: Int, uid: String, dest: String): RequestResult<Unit> {
         // TODO: Implement RSS feed moving
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun refreshFeed(server: Server, uid: String): Result<Unit> {
+    suspend fun refreshFeed(serverId: Int, uid: String): RequestResult<Unit> {
         // TODO: Implement RSS feed refresh
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun markArticleAsRead(server: Server, articleId: String): Result<Unit> {
+    suspend fun markArticleAsRead(serverId: Int, articleId: String): RequestResult<Unit> {
         // TODO: Implement article marking as read
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun downloadTorrentFromArticle(server: Server, articleId: String, savePath: String = ""): Result<Unit> {
+    suspend fun downloadTorrentFromArticle(serverId: Int, articleId: String, savePath: String = ""): RequestResult<Unit> {
         // TODO: Implement torrent download from RSS article
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun getRules(server: Server): Result<List<RSSRule>> {
+    suspend fun getRules(serverId: Int): RequestResult<List<RSSRule>> {
         // TODO: Implement RSS rules fetching
-        return Result.success(emptyList())
+        return RequestResult.Success(emptyList())
     }
 
-    suspend fun setRule(server: Server, ruleName: String, ruleDef: RSSRule): Result<Unit> {
+    suspend fun setRule(serverId: Int, ruleName: String, ruleDef: RSSRule): RequestResult<Unit> {
         // TODO: Implement RSS rule setting
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
-    suspend fun removeRule(server: Server, ruleName: String): Result<Unit> {
+    suspend fun removeRule(serverId: Int, ruleName: String): RequestResult<Unit> {
         // TODO: Implement RSS rule removal
-        return Result.success(Unit)
+        return RequestResult.Success(Unit)
     }
 
     fun getFeedByUid(uid: String): RSSFeed? {

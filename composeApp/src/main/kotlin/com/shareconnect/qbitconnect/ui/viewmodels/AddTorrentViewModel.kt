@@ -6,6 +6,7 @@ import com.shareconnect.qbitconnect.data.models.AddTorrentRequest
 import com.shareconnect.qbitconnect.data.models.Server
 import com.shareconnect.qbitconnect.data.repositories.ServerRepository
 import com.shareconnect.qbitconnect.data.repositories.TorrentRepository
+import com.shareconnect.qbitconnect.model.RequestResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -90,18 +91,11 @@ class AddTorrentViewModel(
         _uploadLimit.value = limit
     }
 
-    fun addTorrent() {
+    fun addTorrent(serverId: Int) {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
                 _error.value = null
-                _success.value = false
-
-                val activeServer = serverRepository.activeServer.first()
-                if (activeServer == null) {
-                    _error.value = "No active server selected"
-                    return@launch
-                }
 
                 if (_urls.value.isBlank() && _torrentFiles.value.isEmpty()) {
                     _error.value = "Please provide torrent URLs or select torrent files"
@@ -120,12 +114,15 @@ class AddTorrentViewModel(
                     uploadLimit = _uploadLimit.value.takeIf { it >= 0 }
                 )
 
-                val result = torrentRepository.addTorrent(activeServer, request)
-                if (result.isSuccess) {
-                    _torrentAdded.value = true
-                    clearForm()
-                } else {
-                    _error.value = "Failed to add torrent: ${result.exceptionOrNull()?.message}"
+                val result = torrentRepository.addTorrent(serverId, request)
+                when (result) {
+                    is RequestResult.Success -> {
+                        _torrentAdded.value = true
+                        clearForm()
+                    }
+                    else -> {
+                        _error.value = "Failed to add torrent"
+                    }
                 }
             } catch (e: Exception) {
                 _error.value = "Failed to add torrent: ${e.message}"
