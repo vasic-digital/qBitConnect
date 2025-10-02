@@ -29,6 +29,7 @@ fun App() {
         Theme.DARK -> true
         Theme.LIGHT -> false
         Theme.SYSTEM_DEFAULT -> isSystemInDarkTheme()
+        else -> isSystemInDarkTheme()
     }
 
     val colorScheme = if (isDarkTheme) {

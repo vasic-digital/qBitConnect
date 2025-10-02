@@ -183,6 +183,7 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     testImplementation 'androidx.datastore:datastore-preferences-core:1.1.1'
     testImplementation 'io.mockk:mockk:1.13.8'
+    testImplementation "com.russhwolf:multiplatform-settings-test:$multiplatformSettingsVersion"
 
     // Android test dependencies
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

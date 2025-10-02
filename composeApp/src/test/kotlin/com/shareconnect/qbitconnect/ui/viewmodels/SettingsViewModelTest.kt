@@ -2,33 +2,43 @@ package com.shareconnect.qbitconnect.ui.viewmodels
 
 import com.shareconnect.qbitconnect.data.SettingsManager
 import com.shareconnect.qbitconnect.data.Theme
-import io.mockk.coVerify
-import io.mockk.mockk
+import com.russhwolf.settings.MapSettings
+import com.russhwolf.settings.Settings
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsViewModelTest {
 
-    private val mockSettingsManager = mockk<SettingsManager>(relaxed = true)
-    private val viewModel = SettingsViewModel(mockSettingsManager)
+    private lateinit var testSettings: Settings
+    private lateinit var settingsManager: SettingsManager
+    private lateinit var viewModel: SettingsViewModel
 
     @Test
-    fun `setTheme calls SettingsManager setTheme`() = runTest {
+    fun `setTheme updates theme correctly`() = runTest {
+        testSettings = MapSettings()
+        settingsManager = SettingsManager(testSettings)
+        viewModel = SettingsViewModel(settingsManager)
+
         val theme = Theme.DARK
 
         viewModel.setTheme(theme)
 
-        coVerify { mockSettingsManager.setTheme(theme) }
+        assertEquals(theme, settingsManager.theme.value)
     }
 
     @Test
-    fun `setEnableDynamicColors calls SettingsManager setEnableDynamicColors`() = runTest {
+    fun `setEnableDynamicColors updates setting correctly`() = runTest {
+        testSettings = MapSettings()
+        settingsManager = SettingsManager(testSettings)
+        viewModel = SettingsViewModel(settingsManager)
+
         val enabled = false
 
         viewModel.setEnableDynamicColors(enabled)
 
-        coVerify { mockSettingsManager.setEnableDynamicColors(enabled) }
+        assertEquals(enabled, settingsManager.enableDynamicColors.value)
     }
 }

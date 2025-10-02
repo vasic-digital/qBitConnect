@@ -9,6 +9,6 @@ class AppViewModel(
     private val settingsManager: SettingsManager
 ) : ViewModel() {
 
-    val theme = settingsManager.theme
-    val enableDynamicColors = settingsManager.enableDynamicColors
+    val theme = settingsManager.theme.flow
+    val enableDynamicColors = settingsManager.enableDynamicColors.flow
 }

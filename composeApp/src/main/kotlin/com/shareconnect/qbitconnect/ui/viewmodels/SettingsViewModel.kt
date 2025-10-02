@@ -10,18 +10,14 @@ class SettingsViewModel(
     private val settingsManager: SettingsManager
 ) : ViewModel() {
 
-    val theme = settingsManager.theme
-    val enableDynamicColors = settingsManager.enableDynamicColors
+    val theme = settingsManager.theme.flow
+    val enableDynamicColors = settingsManager.enableDynamicColors.flow
 
     fun setTheme(theme: Theme) {
-        viewModelScope.launch {
-            settingsManager.setTheme(theme)
-        }
+        settingsManager.theme.value = theme
     }
 
     fun setEnableDynamicColors(enabled: Boolean) {
-        viewModelScope.launch {
-            settingsManager.setEnableDynamicColors(enabled)
-        }
+        settingsManager.enableDynamicColors.value = enabled
     }
 }
