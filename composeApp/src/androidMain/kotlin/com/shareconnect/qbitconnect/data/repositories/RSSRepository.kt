@@ -3,10 +3,10 @@ package com.shareconnect.qbitconnect.data.repositories
 import com.shareconnect.qbitconnect.data.models.RSSArticle
 import com.shareconnect.qbitconnect.data.models.RSSFeed
 import com.shareconnect.qbitconnect.data.models.RSSRule
-import com.shareconnect.qbitconnect.data.models.RequestResult
 import com.shareconnect.qbitconnect.data.models.Server
 import com.shareconnect.qbitconnect.data.models.ServerConfig
 import com.shareconnect.qbitconnect.data.network.RequestManager
+import com.shareconnect.qbitconnect.data.network.RequestResult
 import com.shareconnect.qbitconnect.data.network.catchRequestError
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import kotlinx.coroutines.flow.Flow

@@ -1,6 +1,7 @@
 package com.shareconnect.qbitconnect.data.repositories
 
 import com.shareconnect.qbitconnect.data.models.AddTorrentRequest
+import com.shareconnect.qbitconnect.data.models.Server
 import com.shareconnect.qbitconnect.data.models.ServerConfig
 import com.shareconnect.qbitconnect.data.models.Torrent
 import com.shareconnect.qbitconnect.network.RequestManager

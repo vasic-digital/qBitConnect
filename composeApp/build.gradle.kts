@@ -113,8 +113,8 @@ android {
         // Configure test source sets to see main source sets
         getByName("test") {
             java.srcDirs("src/main/java")
-            kotlin.srcDirs("src/main/kotlin", "src/androidMain/kotlin")
-            resources.srcDirs("src/main/resources", "src/androidMain/resources")
+            kotlin.srcDirs("src/main/kotlin")
+            resources.srcDirs("src/main/resources")
         }
 
         getByName("androidTest") {
@@ -139,6 +139,13 @@ android {
         includeInBundle = false
     }
 
+    packaging {
+        resources {
+            excludes += "lib/arm64-v8a/libdatastore_shared_counter.so"
+            excludes += "lib/arm64-v8a/libandroidx.graphics.path.so"
+        }
+    }
+
 
 }
 
@@ -149,7 +156,7 @@ dependencies {
     val coroutinesVersion = "1.10.2"
     val kotlinxSerializationVersion = "1.9.0"
     val kotlinxDatetimeVersion = "0.7.1"
-    val koinVersion = "4.1.0"
+
     val ktorVersion = "3.2.3"
     val okhttpVersion = "5.1.0"
     val coilVersion = "3.3.0"
@@ -252,7 +259,6 @@ dependencies {
 
     // Additional test dependencies for androidTest
     androidTestImplementation("com.squareup.okhttp3:mockwebserver:$okhttpVersion")
-    androidTestImplementation("io.insert-koin:koin-test:$koinVersion")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 
 

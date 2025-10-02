@@ -1,26 +1,16 @@
 package com.shareconnect.qbitconnect.di
 
-import android.content.Context
-import com.russhwolf.settings.SharedPreferencesSettings
 import com.shareconnect.qbitconnect.data.ServerManager
 import com.shareconnect.qbitconnect.data.SettingsManager
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.singleOf
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
 
-val appModule = module {
-    includes(platformModule)
+// Manual dependency injection for shared module
+object SharedDependencyContainer {
+    // These will be initialized from platform-specific code
+    lateinit var settingsManager: SettingsManager
+    lateinit var serverManager: ServerManager
 
-    single { SettingsManager(get(named("settings"))) }
-    single { ServerManager(get(named("servers"))) }
-}
-
-val platformModule: Module = module {
-    single(named("settings")) {
-        SharedPreferencesSettings.Factory(get<Context>()).create("settings")
-    }
-    single(named("servers")) {
-        SharedPreferencesSettings.Factory(get<Context>()).create("servers")
+    fun init(settingsManager: SettingsManager, serverManager: ServerManager) {
+        this.settingsManager = settingsManager
+        this.serverManager = serverManager
     }
 }

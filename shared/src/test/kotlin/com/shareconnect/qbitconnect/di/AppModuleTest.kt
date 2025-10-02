@@ -1,19 +1,21 @@
 package com.shareconnect.qbitconnect.di
 
+import com.shareconnect.qbitconnect.data.ServerManager
+import com.shareconnect.qbitconnect.data.SettingsManager
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 
-class AppModuleTest {
+class DependencyContainerTest {
 
     @Test
-    fun `appModule should be defined`() {
-        // Test that the module can be instantiated
-        assertNotNull(appModule)
-    }
+    fun `SharedDependencyContainer should initialize correctly`() {
+        // Mock dependencies
+        val settingsManager = SettingsManager(null) // Mock or null for test
+        val serverManager = ServerManager(null)
 
-    @Test
-    fun `platformModule should be defined`() {
-        // Test that the platform module can be instantiated
-        assertNotNull(platformModule)
+        SharedDependencyContainer.init(settingsManager, serverManager)
+
+        assertNotNull(SharedDependencyContainer.settingsManager)
+        assertNotNull(SharedDependencyContainer.serverManager)
     }
 }

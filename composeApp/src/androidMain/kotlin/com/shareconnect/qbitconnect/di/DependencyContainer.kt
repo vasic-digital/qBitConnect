@@ -3,7 +3,7 @@ package com.shareconnect.qbitconnect.di
 import android.content.Context
 import com.shareconnect.qbitconnect.data.ServerManager
 import com.shareconnect.qbitconnect.data.SettingsManager
-import com.shareconnect.qbitconnect.data.network.RequestManager
+import com.shareconnect.qbitconnect.network.RequestManager
 import com.shareconnect.qbitconnect.data.repositories.RSSRepository
 import com.shareconnect.qbitconnect.data.repositories.SearchRepository
 import com.shareconnect.qbitconnect.data.repositories.ServerRepository
