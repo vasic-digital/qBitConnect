@@ -41,6 +41,11 @@ class ServerRepository {
     }
 
     fun setActiveServer(server: Server?) {
+        // Clear active status from previous active server
+        _activeServer.value?.let { previousActive ->
+            updateServer(previousActive.copy(isActive = false))
+        }
+
         _activeServer.value = server
         // Update the server's active status
         if (server != null) {
