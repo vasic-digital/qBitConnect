@@ -10,15 +10,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.shareconnect.qbitconnect.data.models.Server
+import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.viewmodels.ServerListViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ServerListScreen(navController: NavController) {
-    val viewModel: ServerListViewModel = koinViewModel()
+    val viewModel: ServerListViewModel = viewModel(
+        factory = ServerListViewModelFactory(DependencyContainer.serverRepository)
+    )
     val servers by viewModel.servers.collectAsState(initial = emptyList())
     val activeServer by viewModel.activeServer.collectAsState(initial = null)
     val isLoading by viewModel.isLoading.collectAsState(initial = false)

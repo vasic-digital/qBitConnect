@@ -2,37 +2,30 @@ package com.shareconnect.qbitconnect.ui
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.shareconnect.qbitconnect.data.SettingsManager
-import com.shareconnect.qbitconnect.data.Theme
-import com.shareconnect.qbitconnect.di.appModule
-import com.shareconnect.qbitconnect.di.platformModule
+import com.shareconnect.qbitconnect.di.DependencyContainer
+import com.shareconnect.qbitconnect.ui.viewmodels.SettingsViewModel
+import com.shareconnect.qbitconnect.ui.viewmodels.SettingsViewModelFactory
 import io.mockk.mockk
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
-import org.koin.test.KoinTest
 
 @RunWith(AndroidJUnit4::class)
-class SettingsScreenTest : KoinTest {
+class SettingsScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
     fun settingsScreen_displaysCorrectly() {
-        // Mock dependencies
-        val mockSettingsManager = mockk<SettingsManager>(relaxed = true)
-
-        // Start Koin with test modules
-        startKoin {
-            modules(appModule, platformModule)
-        }
+        // Initialize manual dependency injection for real SettingsManager
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        DependencyContainer.init(context)
 
         composeTestRule.setContent {
             val navController = rememberNavController()
@@ -49,20 +42,13 @@ class SettingsScreenTest : KoinTest {
         composeTestRule.onNodeWithText("Enable Dynamic Colors").assertExists()
         composeTestRule.onNodeWithText("About").assertExists()
         composeTestRule.onNodeWithText("Back").assertExists()
-
-        // Stop Koin
-        stopKoin()
     }
 
     @Test
     fun themeRadioButtons_exist() {
-        // Mock dependencies
-        val mockSettingsManager = mockk<SettingsManager>(relaxed = true)
-
-        // Start Koin with test modules
-        startKoin {
-            modules(appModule, platformModule)
-        }
+        // Initialize manual dependency injection for real SettingsManager
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        DependencyContainer.init(context)
 
         composeTestRule.setContent {
             val navController = rememberNavController()
@@ -73,8 +59,5 @@ class SettingsScreenTest : KoinTest {
         composeTestRule.onNodeWithText("System Default").assertExists()
         composeTestRule.onNodeWithText("Light").assertExists()
         composeTestRule.onNodeWithText("Dark").assertExists()
-
-        // Stop Koin
-        stopKoin()
     }
 }

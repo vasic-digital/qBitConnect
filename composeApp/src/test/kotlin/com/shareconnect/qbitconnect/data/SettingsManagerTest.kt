@@ -27,16 +27,12 @@ class SettingsManagerTest {
             scope = testScope.backgroundScope,
             produceFile = { File.createTempFile("test", ".preferences_pb") }
         )
-        settingsManager = SettingsManager(testDataStore)
+        settingsManager = SettingsManager(testDataStore = testDataStore)
     }
 
     @After
     fun cleanup() {
-        testScope.runTest {
-            testDataStore.data.firstOrNull()?.let {
-                // Clean up if needed
-            }
-        }
+        // No cleanup needed for in-memory DataStore
     }
 
     @Test

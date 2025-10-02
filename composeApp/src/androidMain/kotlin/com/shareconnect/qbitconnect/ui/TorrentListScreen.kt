@@ -10,15 +10,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.shareconnect.qbitconnect.data.models.Torrent
+import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.viewmodels.TorrentListViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TorrentListScreen(navController: NavController, serverId: String) {
-    val viewModel: TorrentListViewModel = koinViewModel()
+    val viewModel: TorrentListViewModel = viewModel(
+        factory = TorrentListViewModelFactory(DependencyContainer.torrentRepository, DependencyContainer.serverRepository)
+    )
     val torrents by viewModel.filteredTorrents.collectAsState(initial = emptyList())
     val categories by viewModel.categories.collectAsState(initial = emptyList())
     val tags by viewModel.tags.collectAsState(initial = emptyList())

@@ -3,7 +3,10 @@
 
 import android.databinding.tool.ext.joinToCamelCaseAsVar
 import org.gradle.api.JavaVersion
+import org.gradle.api.tasks.testing.Test
 import org.gradle.internal.os.OperatingSystem
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainService
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jmailen.gradle.kotlinter.tasks.ConfigurableKtLintTask
 import java.io.FileInputStream
@@ -44,12 +47,12 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "21"
+        jvmTarget = "17"
 
         freeCompilerArgs += listOf(
             "-opt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi",
@@ -65,6 +68,19 @@ android {
 
     buildFeatures {
         compose = true
+    }
+
+    testOptions {
+        unitTests.all {
+            it.jvmArgs("-XX:+AllowRedefinitionToAddDeleteMethods")
+        }
+    }
+
+    tasks.withType<Test> {
+        useJUnit()
+        javaLauncher.set(javaToolchains.launcherFor {
+            languageVersion.set(JavaLanguageVersion.of(17))
+        })
     }
 
     lint {
@@ -168,11 +184,13 @@ dependencies {
 
     // Test dependencies
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
     testImplementation("org.mockito:mockito-core:5.12.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
     testImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("com.russhwolf:multiplatform-settings-test:$multiplatformSettingsVersion")
 
     // Android test dependencies
     androidTestImplementation("androidx.test:runner:1.6.2")

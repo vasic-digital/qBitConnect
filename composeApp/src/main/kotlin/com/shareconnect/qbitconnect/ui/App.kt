@@ -1,6 +1,7 @@
 package com.shareconnect.qbitconnect.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -8,15 +9,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
-import com.shareconnect.qbitconnect.data.SettingsManager
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.shareconnect.qbitconnect.data.Theme
-import org.koin.compose.koinInject
+import com.shareconnect.qbitconnect.di.DependencyContainer
+import com.shareconnect.qbitconnect.ui.viewmodels.AppViewModel
+import com.shareconnect.qbitconnect.ui.viewmodels.AppViewModelFactory
 
 @Composable
 fun App() {
-    // For now, use system theme to avoid potential DataStore issues during startup
-    val theme = Theme.SYSTEM_DEFAULT
-    val enableDynamicColors = true
+    val viewModel = viewModel<AppViewModel>(
+        factory = AppViewModelFactory(DependencyContainer.settingsManager)
+    )
+    val theme by viewModel.theme.collectAsState(initial = Theme.SYSTEM_DEFAULT)
+    val enableDynamicColors by viewModel.enableDynamicColors.collectAsState(initial = true)
 
     val isDarkTheme = when (theme) {
         Theme.DARK -> true
@@ -83,6 +90,8 @@ fun App() {
         typography = androidx.compose.material3.Typography(),
         shapes = androidx.compose.material3.Shapes()
     ) {
-        AppNavigation()
+        Box(modifier = Modifier.testTag("main_screen")) {
+            AppNavigation()
+        }
     }
 }

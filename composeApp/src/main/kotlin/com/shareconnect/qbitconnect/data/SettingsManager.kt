@@ -1,6 +1,8 @@
 package com.shareconnect.qbitconnect.data
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -10,13 +12,18 @@ import kotlinx.coroutines.flow.map
 
 private val Context.dataStore by preferencesDataStore(name = "settings")
 
-class SettingsManager(private val context: Context) {
+class SettingsManager(
+    private val context: Context? = null,
+    private val testDataStore: DataStore<Preferences>? = null
+) {
 
     private val themeKey = stringPreferencesKey("theme")
     private val enableDynamicColorsKey = booleanPreferencesKey("enable_dynamic_colors")
 
+    private val dataStore: DataStore<Preferences> = testDataStore ?: context?.dataStore ?: throw IllegalArgumentException("Either context or testDataStore must be provided")
+
     val theme: Flow<Theme> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             val themeString = preferences[themeKey] ?: Theme.SYSTEM_DEFAULT.name
             try {
                 Theme.valueOf(themeString)
@@ -30,7 +37,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val enableDynamicColors: Flow<Boolean> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[enableDynamicColorsKey] ?: true
         }
     } catch (e: Exception) {
@@ -40,7 +47,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setTheme(theme: Theme) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[themeKey] = theme.name
             }
         } catch (e: Exception) {
@@ -50,7 +57,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setEnableDynamicColors(enabled: Boolean) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[enableDynamicColorsKey] = enabled
             }
         } catch (e: Exception) {

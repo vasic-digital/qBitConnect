@@ -12,6 +12,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Ensure dependency injection is initialized
+        com.shareconnect.qbitconnect.di.DependencyContainer.init(this)
+
         setContent {
             App()
         }

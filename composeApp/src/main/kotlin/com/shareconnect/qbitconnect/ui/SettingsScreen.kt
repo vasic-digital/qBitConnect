@@ -8,20 +8,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.shareconnect.qbitconnect.data.Theme
+import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.viewmodels.SettingsViewModel
-import org.koin.androidx.compose.koinViewModel
+import com.shareconnect.qbitconnect.ui.viewmodels.SettingsViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navController: NavController) {
-    // Use local state for now to avoid potential injection issues
-    val themeState = androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(Theme.SYSTEM_DEFAULT) }
-    val enableDynamicColorsState = androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(true) }
-
-    val theme = themeState.value
-    val enableDynamicColors = enableDynamicColorsState.value
+    val viewModel = viewModel<SettingsViewModel>(
+        factory = SettingsViewModelFactory(DependencyContainer.settingsManager)
+    )
+    val theme by viewModel.theme.collectAsState(initial = Theme.SYSTEM_DEFAULT)
+    val enableDynamicColors by viewModel.enableDynamicColors.collectAsState(initial = true)
 
     Scaffold(
         topBar = {
@@ -53,7 +54,7 @@ fun SettingsScreen(navController: NavController) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
                     selected = theme == Theme.SYSTEM_DEFAULT,
-                    onClick = { themeState.value = Theme.SYSTEM_DEFAULT }
+                    onClick = { viewModel.setTheme(Theme.SYSTEM_DEFAULT) }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("System Default")
@@ -61,7 +62,7 @@ fun SettingsScreen(navController: NavController) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
                     selected = theme == Theme.LIGHT,
-                    onClick = { themeState.value = Theme.LIGHT }
+                    onClick = { viewModel.setTheme(Theme.LIGHT) }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Light")
@@ -69,7 +70,7 @@ fun SettingsScreen(navController: NavController) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
                     selected = theme == Theme.DARK,
-                    onClick = { themeState.value = Theme.DARK }
+                    onClick = { viewModel.setTheme(Theme.DARK) }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Dark")
@@ -80,7 +81,7 @@ fun SettingsScreen(navController: NavController) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(
                     checked = enableDynamicColors,
-                    onCheckedChange = { enableDynamicColorsState.value = it }
+                    onCheckedChange = { viewModel.setEnableDynamicColors(it) }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Enable Dynamic Colors")

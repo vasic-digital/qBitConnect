@@ -3,7 +3,10 @@
 
 import android.databinding.tool.ext.joinToCamelCaseAsVar
 import org.gradle.api.JavaVersion
+import org.gradle.api.tasks.testing.Test
 import org.gradle.internal.os.OperatingSystem
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainService
 // import org.jetbrains.compose.desktop.application.dsl.TargetFormat // Not needed for Android
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jmailen.gradle.kotlinter.tasks.ConfigurableKtLintTask
@@ -72,13 +75,13 @@ android {
 
         isCoreLibraryDesugaringEnabled = true
 
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
 
-        jvmTarget = "21"
+        jvmTarget = "17"
 
         freeCompilerArgs += listOf(
 
@@ -101,6 +104,19 @@ android {
     lint {
 
         disable += listOf("MissingTranslation", "ExtraTranslation")
+    }
+
+    testOptions {
+        unitTests.all {
+            it.jvmArgs("-XX:+AllowRedefinitionToAddDeleteMethods")
+        }
+    }
+
+    tasks.withType<Test> {
+        useJUnit()
+        javaLauncher.set(javaToolchains.launcherFor {
+            languageVersion.set(JavaLanguageVersion.of(17))
+        })
     }
 
     dependenciesInfo {
@@ -161,13 +177,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDatetimeVersion")
 
-    implementation("io.insert-koin:koin-core:$koinVersion")
-    implementation("io.insert-koin:koin-android:$koinVersion")
-    implementation("io.insert-koin:koin-compose:$koinVersion")
-    implementation("io.insert-koin:koin-compose-viewmodel:$koinVersion")
-    implementation("io.insert-koin:koin-compose-viewmodel-navigation:$koinVersion")
-    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
-    implementation("io.insert-koin:koin-androidx-workmanager:$koinVersion")
+
 
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
@@ -222,8 +232,8 @@ dependencies {
     // Android test dependencies
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.7.0")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.7.0")
 }
 
 
