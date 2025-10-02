@@ -109,20 +109,12 @@ android {
         }
     }
 
-    sourceSets {
-        // Configure test source sets to see main source sets
-        getByName("test") {
-            java.srcDirs("src/main/java")
-            kotlin.srcDirs("src/main/kotlin")
-            resources.srcDirs("src/main/resources")
-        }
+    dependenciesInfo {
 
-        getByName("androidTest") {
-            java.srcDirs("src/main/java")
-            kotlin.srcDirs("src/main/kotlin", "src/androidMain/kotlin")
-            resources.srcDirs("src/main/resources", "src/androidMain/resources")
-        }
+        includeInApk = false
+        includeInBundle = false
     }
+}
 
 
 
@@ -132,22 +124,6 @@ android {
             languageVersion.set(JavaLanguageVersion.of(17))
         })
     }
-
-    dependenciesInfo {
-
-        includeInApk = false
-        includeInBundle = false
-    }
-
-    packaging {
-        resources {
-            excludes += "lib/arm64-v8a/libdatastore_shared_counter.so"
-            excludes += "lib/arm64-v8a/libandroidx.graphics.path.so"
-        }
-    }
-
-
-}
 
 dependencies {
 

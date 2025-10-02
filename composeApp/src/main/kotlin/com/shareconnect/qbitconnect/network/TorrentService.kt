@@ -1,5 +1,6 @@
 package com.shareconnect.qbitconnect.network
 
+import com.shareconnect.qbitconnect.network.Response
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request as OkHttpRequest
@@ -12,7 +13,7 @@ class TorrentService(
 ) {
     suspend fun getVersion(): Response<String> {
         return try {
-            val request = Request.Builder()
+            val request = OkHttpRequest.Builder()
                 .url("$baseUrl/api/v2/app/version")
                 .build()
 
@@ -31,7 +32,7 @@ class TorrentService(
                 .add("password", password)
                 .build()
 
-            val request = Request.Builder()
+            val request = OkHttpRequest.Builder()
                 .url("$baseUrl/api/v2/auth/login")
                 .post(formBody)
                 .build()
@@ -46,7 +47,7 @@ class TorrentService(
 
     suspend fun getTorrents(): Response<String> {
         return try {
-            val request = Request.Builder()
+            val request = OkHttpRequest.Builder()
                 .url("$baseUrl/api/v2/torrents/info")
                 .build()
 
@@ -67,7 +68,7 @@ class TorrentService(
                 }
                 .build()
 
-            val request = Request.Builder()
+            val request = OkHttpRequest.Builder()
                 .url("$baseUrl/api/v2/torrents/add")
                 .post(formBody)
                 .build()
@@ -86,7 +87,7 @@ class TorrentService(
                 .add("hashes", hashes.joinToString("|"))
                 .build()
 
-            val request = Request.Builder()
+            val request = OkHttpRequest.Builder()
                 .url("$baseUrl/api/v2/torrents/pause")
                 .post(formBody)
                 .build()
@@ -105,7 +106,7 @@ class TorrentService(
                 .add("hashes", hashes.joinToString("|"))
                 .build()
 
-            val request = Request.Builder()
+            val request = OkHttpRequest.Builder()
                 .url("$baseUrl/api/v2/torrents/resume")
                 .post(formBody)
                 .build()
@@ -125,7 +126,7 @@ class TorrentService(
                 .add("deleteFiles", deleteFiles.toString())
                 .build()
 
-            val request = Request.Builder()
+            val request = OkHttpRequest.Builder()
                 .url("$baseUrl/api/v2/torrents/delete")
                 .post(formBody)
                 .build()
@@ -146,7 +147,7 @@ class TorrentService(
                 .add("plugins", plugins)
                 .build()
 
-            val request = Request.Builder()
+            val request = OkHttpRequest.Builder()
                 .url("$baseUrl/api/v2/search/start")
                 .post(formBody)
                 .build()
@@ -161,7 +162,7 @@ class TorrentService(
 
     suspend fun getSearchResults(id: String): Response<String> {
         return try {
-            val request = Request.Builder()
+            val request = OkHttpRequest.Builder()
                 .url("$baseUrl/api/v2/search/results?id=$id")
                 .build()
 
@@ -175,7 +176,7 @@ class TorrentService(
 
     suspend fun getRSSFeeds(): Response<String> {
         return try {
-            val request = Request.Builder()
+            val request = OkHttpRequest.Builder()
                 .url("$baseUrl/api/v2/rss/items")
                 .build()
 

@@ -5,6 +5,7 @@ import com.shareconnect.qbitconnect.data.ServerManager
 import com.shareconnect.qbitconnect.data.SettingsManager
 import com.shareconnect.qbitconnect.data.models.QBittorrentVersion
 import com.shareconnect.qbitconnect.data.models.ServerConfig
+import com.shareconnect.qbitconnect.model.RequestResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
@@ -17,14 +18,11 @@ import kotlinx.coroutines.withContext
 import okhttp3.Authenticator
 import okhttp3.Credentials
 import okhttp3.Interceptor
-import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 import okhttp3.logging.HttpLoggingInterceptor
-import java.net.CookieManager
-import java.net.CookiePolicy
 import java.util.concurrent.TimeUnit
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.hours
@@ -71,10 +69,10 @@ class RequestManager(
         connectTimeout(timeout.toLong(), TimeUnit.SECONDS)
 
         // Add cookie jar
-        val cookieManager = CookieManager().apply {
-            setCookiePolicy(CookiePolicy.ACCEPT_ALL)
-        }
-        cookieJar(JavaNetCookieJar(cookieManager))
+        // val cookieManager = CookieManager().apply {
+        //     setCookiePolicy(CookiePolicy.ACCEPT_ALL)
+        // }
+        // cookieJar(JavaNetCookieJar(cookieManager))
 
         // Add user agent
         addInterceptor(Interceptor { chain ->
