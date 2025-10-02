@@ -5,7 +5,7 @@ import com.shareconnect.qbitconnect.data.models.Server
 import com.shareconnect.qbitconnect.data.models.ServerConfig
 import com.shareconnect.qbitconnect.data.models.Torrent
 import com.shareconnect.qbitconnect.network.RequestManager
-import com.shareconnect.qbitconnect.network.RequestResult
+import com.shareconnect.qbitconnect.model.RequestResult
 import com.shareconnect.qbitconnect.network.Response
 import com.shareconnect.qbitconnect.network.TorrentService
 import com.shareconnect.qbitconnect.network.catchRequestError

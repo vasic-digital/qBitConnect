@@ -17,3 +17,5 @@ dependencyResolutionManagement {
 rootProject.name = "qBitConnect"
 
 include(":composeApp")
+include(":shared")
+include(":preferences")
