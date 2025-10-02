@@ -4,6 +4,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.App
 import org.junit.Assert.assertNotNull
 import org.junit.Rule
@@ -25,6 +26,9 @@ class AppLaunchTest {
         // Get the application context
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         assertNotNull("Application context should not be null", context)
+
+        // Initialize dependencies
+        DependencyContainer.init(context)
 
         // Set up the composable content
         composeTestRule.setContent {

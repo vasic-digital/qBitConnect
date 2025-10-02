@@ -1,5 +1,4 @@
 @file:Suppress("UnstableApiUsage")
-@file:OptIn(ExperimentalEncodingApi::class)
 
 import android.databinding.tool.ext.joinToCamelCaseAsVar
 import org.gradle.api.JavaVersion
@@ -13,8 +12,6 @@ import org.jmailen.gradle.kotlinter.tasks.ConfigurableKtLintTask
 import java.io.FileInputStream
 import java.util.Locale
 import java.util.Properties
-import kotlin.io.encoding.Base64
-import kotlin.io.encoding.ExperimentalEncodingApi
 
 plugins {
 
@@ -112,6 +109,23 @@ android {
         }
     }
 
+    sourceSets {
+        // Configure test source sets to see main source sets
+        getByName("test") {
+            java.srcDirs("src/main/java")
+            kotlin.srcDirs("src/main/kotlin", "src/androidMain/kotlin")
+            resources.srcDirs("src/main/resources", "src/androidMain/resources")
+        }
+
+        getByName("androidTest") {
+            java.srcDirs("src/main/java")
+            kotlin.srcDirs("src/main/kotlin", "src/androidMain/kotlin")
+            resources.srcDirs("src/main/resources", "src/androidMain/resources")
+        }
+    }
+
+
+
     tasks.withType<Test> {
         useJUnit()
         javaLauncher.set(javaToolchains.launcherFor {
@@ -186,6 +200,8 @@ dependencies {
     implementation("io.ktor:ktor-client-auth:$ktorVersion")
 
     implementation(project.dependencies.platform("com.squareup.okhttp3:okhttp-bom:$okhttpVersion"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
     implementation("com.squareup.okhttp3:okhttp-dnsoverhttps")
 
     implementation("io.coil-kt.coil3:coil-compose:$coilVersion")
@@ -194,8 +210,7 @@ dependencies {
 
     implementation("be.digitalia.compose.htmlconverter:htmlconverter:$htmlConverterVersion")
 
-    implementation(project(":Connectors:qBitConnect:preferences"))
-    implementation(project(":Connectors:qBitConnect:shared"))
+
 
     implementation("com.russhwolf:multiplatform-settings:$multiplatformSettingsVersion")
 
@@ -234,6 +249,13 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.7.0")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.7.0")
+
+    // Additional test dependencies for androidTest
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:$okhttpVersion")
+    androidTestImplementation("io.insert-koin:koin-test:$koinVersion")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+
+
 }
 
 

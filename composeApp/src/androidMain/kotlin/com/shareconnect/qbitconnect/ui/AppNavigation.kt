@@ -13,6 +13,9 @@ fun AppNavigation() {
         composable("server_list") {
             ServerListScreen(navController)
         }
+        composable("add_server") {
+            AddServerScreen(navController)
+        }
         composable("torrent_list/{serverId}") { backStackEntry ->
             val serverId = backStackEntry.arguments?.getString("serverId") ?: ""
             TorrentListScreen(navController, serverId)

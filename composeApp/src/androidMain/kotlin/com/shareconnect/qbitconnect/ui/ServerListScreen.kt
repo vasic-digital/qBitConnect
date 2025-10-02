@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import com.shareconnect.qbitconnect.data.models.Server
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.viewmodels.ServerListViewModel
+import com.shareconnect.qbitconnect.ui.viewmodels.ServerListViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,7 +40,7 @@ fun ServerListScreen(navController: NavController) {
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /* TODO: Show add server dialog */ }) {
+            FloatingActionButton(onClick = { navController.navigate("add_server") }) {
                 Text("+")
             }
         }
@@ -67,7 +68,7 @@ fun ServerListScreen(navController: NavController) {
                         style = MaterialTheme.typography.bodyLarge
                     )
                     Spacer(modifier = Modifier.height(32.dp))
-                    Button(onClick = { /* TODO: Show add server dialog */ }) {
+                    Button(onClick = { navController.navigate("add_server") }) {
                         Text("Add Server")
                     }
                 }

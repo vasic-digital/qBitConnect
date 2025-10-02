@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import com.shareconnect.qbitconnect.data.Theme
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.viewmodels.SettingsViewModel
+import com.shareconnect.qbitconnect.ui.viewmodels.SettingsViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

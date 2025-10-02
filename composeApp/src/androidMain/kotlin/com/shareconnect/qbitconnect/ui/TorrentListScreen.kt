@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import com.shareconnect.qbitconnect.data.models.Torrent
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.viewmodels.TorrentListViewModel
+import com.shareconnect.qbitconnect.ui.viewmodels.TorrentListViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

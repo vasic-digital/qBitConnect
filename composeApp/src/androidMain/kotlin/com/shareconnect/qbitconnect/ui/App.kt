@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.shareconnect.qbitconnect.data.Theme
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.viewmodels.AppViewModel
+import com.shareconnect.qbitconnect.ui.viewmodels.AppViewModelFactory
 
 @Composable
 fun App() {

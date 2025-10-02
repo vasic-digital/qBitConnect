@@ -9,23 +9,18 @@ data class SearchPlugin(
     val supportedCategories: List<String> = emptyList()
 )
 
-data class SearchResult(
-    val title: String,
-    val category: String,
-    val downloadUrl: String,
-    val fileName: String,
-    val fileSize: Long,
-    val fileUrl: String,
-    val siteUrl: String,
-    val seeders: Int,
-    val leechers: Int,
-    val pubDate: String,
-    val descrLink: String? = null,
-    val pluginName: String
-)
-
 data class SearchQuery(
     val pattern: String,
     val category: String = "all",
     val plugins: List<String> = emptyList()
+)
+
+data class SearchResult(
+    val fileName: String,
+    val fileSize: Long,
+    val nbSeeders: Int,
+    val nbLeechers: Int,
+    val fileUrl: String,
+    val descrLink: String = "",
+    val engineName: String = ""
 )

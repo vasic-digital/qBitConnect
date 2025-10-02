@@ -10,7 +10,6 @@ import com.shareconnect.qbitconnect.data.SettingsManager
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.viewmodels.SettingsViewModel
 import com.shareconnect.qbitconnect.ui.viewmodels.SettingsViewModelFactory
-import io.mockk.mockk
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
