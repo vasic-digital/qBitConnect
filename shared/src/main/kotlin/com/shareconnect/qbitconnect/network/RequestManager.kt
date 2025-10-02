@@ -168,7 +168,7 @@ class RequestManager(
         }
     }
 
-    private suspend fun tryLogin(serverId: Int): RequestResult<Unit> {
+    internal suspend fun tryLogin(serverId: Int): RequestResult<Unit> {
         val service = getTorrentService(serverId)
         val serverConfig = serverManager.getServer(serverId)
 
