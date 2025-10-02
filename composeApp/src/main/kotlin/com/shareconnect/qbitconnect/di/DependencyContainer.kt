@@ -1,6 +1,7 @@
 package com.shareconnect.qbitconnect.di
 
 import android.content.Context
+import androidx.datastore.preferences.preferencesDataStore
 import com.russhwolf.settings.SharedPreferencesSettings
 import com.shareconnect.qbitconnect.data.ServerManager
 import com.shareconnect.qbitconnect.data.SettingsManager
@@ -10,13 +11,15 @@ import com.shareconnect.qbitconnect.data.repositories.ServerRepository
 import com.shareconnect.qbitconnect.data.repositories.TorrentRepository
 import com.shareconnect.qbitconnect.network.RequestManager
 
+private val Context.dataStore by preferencesDataStore(name = "settings")
+
 
 object DependencyContainer {
     private lateinit var applicationContext: Context
 
     // Data managers
     val serverManager by lazy { com.shareconnect.qbitconnect.data.ServerManager(SharedPreferencesSettings(applicationContext.getSharedPreferences("servers", Context.MODE_PRIVATE))) }
-    val settingsManager by lazy { com.shareconnect.qbitconnect.data.SettingsManager(applicationContext) }
+    val settingsManager by lazy { com.shareconnect.qbitconnect.data.SettingsManager(applicationContext.dataStore) }
 
     // Network
     val requestManager by lazy { RequestManager(serverManager, settingsManager) }

@@ -27,7 +27,7 @@ class SettingsManagerTest {
             scope = testScope.backgroundScope,
             produceFile = { File.createTempFile("test", ".preferences_pb") }
         )
-        settingsManager = SettingsManager(testDataStore = testDataStore)
+        settingsManager = SettingsManager(testDataStore)
     }
 
     @After

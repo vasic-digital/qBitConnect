@@ -20,7 +20,7 @@
         tools:ignore="UnusedAttribute">
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.shareconnect.qbitconnect.ui.MainActivity"
             android:exported="true"
             android:launchMode="singleInstancePerTask"
             android:windowSoftInputMode="adjustResize">

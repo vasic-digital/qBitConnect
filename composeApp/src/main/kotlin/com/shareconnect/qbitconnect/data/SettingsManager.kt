@@ -1,18 +1,16 @@
 package com.shareconnect.qbitconnect.data
 
-import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
-private val Context.dataStore by preferencesDataStore(name = "settings")
-
-class SettingsManager(private val context: Context) {
+class SettingsManager(private val dataStore: DataStore<Preferences>) {
 
     private val themeKey = stringPreferencesKey("theme")
     private val enableDynamicColorsKey = booleanPreferencesKey("enable_dynamic_colors")
@@ -34,7 +32,7 @@ class SettingsManager(private val context: Context) {
     private val checkUpdatesKey = booleanPreferencesKey("check_updates")
 
     val theme: Flow<Theme> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             val themeString = preferences[themeKey] ?: Theme.SYSTEM_DEFAULT.name
             try {
                 Theme.valueOf(themeString)
@@ -48,7 +46,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val enableDynamicColors: Flow<Boolean> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[enableDynamicColorsKey] ?: true
         }
     } catch (e: Exception) {
@@ -57,7 +55,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val pureBlackDarkMode: Flow<Boolean> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[pureBlackDarkModeKey] ?: false
         }
     } catch (e: Exception) {
@@ -65,7 +63,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val showRelativeTimestamps: Flow<Boolean> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[showRelativeTimestampsKey] ?: true
         }
     } catch (e: Exception) {
@@ -73,7 +71,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val sort: Flow<TorrentSort> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             val sortString = preferences[sortKey] ?: TorrentSort.NAME.name
             try {
                 TorrentSort.valueOf(sortString)
@@ -86,7 +84,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val isReverseSorting: Flow<Boolean> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[isReverseSortingKey] ?: false
         }
     } catch (e: Exception) {
@@ -94,7 +92,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val connectionTimeout: Flow<Int> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[connectionTimeoutKey] ?: 10
         }
     } catch (e: Exception) {
@@ -102,7 +100,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val autoRefreshInterval: Flow<Int> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[autoRefreshIntervalKey] ?: 3
         }
     } catch (e: Exception) {
@@ -110,7 +108,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val notificationCheckInterval: Flow<Int> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[notificationCheckIntervalKey] ?: 15
         }
     } catch (e: Exception) {
@@ -118,7 +116,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val areTorrentSwipeActionsEnabled: Flow<Boolean> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[areTorrentSwipeActionsEnabledKey] ?: true
         }
     } catch (e: Exception) {
@@ -126,7 +124,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val defaultTorrentStatus: Flow<TorrentFilter> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             val statusString = preferences[defaultTorrentStatusKey] ?: TorrentFilter.ALL.name
             try {
                 TorrentFilter.valueOf(statusString)
@@ -139,7 +137,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val areStatesCollapsed: Flow<Boolean> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[areStatesCollapsedKey] ?: false
         }
     } catch (e: Exception) {
@@ -147,7 +145,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val areCategoriesCollapsed: Flow<Boolean> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[areCategoriesCollapsedKey] ?: false
         }
     } catch (e: Exception) {
@@ -155,7 +153,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val areTagsCollapsed: Flow<Boolean> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[areTagsCollapsedKey] ?: false
         }
     } catch (e: Exception) {
@@ -163,7 +161,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val areTrackersCollapsed: Flow<Boolean> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[areTrackersCollapsedKey] ?: false
         }
     } catch (e: Exception) {
@@ -171,7 +169,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val searchSort: Flow<SearchSort> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             val sortString = preferences[searchSortKey] ?: SearchSort.NAME.name
             try {
                 SearchSort.valueOf(sortString)
@@ -184,7 +182,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val isReverseSearchSorting: Flow<Boolean> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[isReverseSearchSortingKey] ?: false
         }
     } catch (e: Exception) {
@@ -192,7 +190,7 @@ class SettingsManager(private val context: Context) {
     }
 
     val checkUpdates: Flow<Boolean> = try {
-        context.dataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[checkUpdatesKey] ?: true
         }
     } catch (e: Exception) {
@@ -201,7 +199,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setTheme(theme: Theme) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[themeKey] = theme.name
             }
         } catch (e: Exception) {
@@ -211,7 +209,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setEnableDynamicColors(enabled: Boolean) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[enableDynamicColorsKey] = enabled
             }
         } catch (e: Exception) {
@@ -221,7 +219,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setPureBlackDarkMode(enabled: Boolean) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[pureBlackDarkModeKey] = enabled
             }
         } catch (e: Exception) {
@@ -231,7 +229,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setShowRelativeTimestamps(enabled: Boolean) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[showRelativeTimestampsKey] = enabled
             }
         } catch (e: Exception) {
@@ -241,7 +239,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setSort(sort: TorrentSort) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[sortKey] = sort.name
             }
         } catch (e: Exception) {
@@ -251,7 +249,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setIsReverseSorting(reverse: Boolean) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[isReverseSortingKey] = reverse
             }
         } catch (e: Exception) {
@@ -261,7 +259,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setConnectionTimeout(timeout: Int) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[connectionTimeoutKey] = timeout
             }
         } catch (e: Exception) {
@@ -271,7 +269,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setAutoRefreshInterval(interval: Int) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[autoRefreshIntervalKey] = interval
             }
         } catch (e: Exception) {
@@ -281,7 +279,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setNotificationCheckInterval(interval: Int) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[notificationCheckIntervalKey] = interval
             }
         } catch (e: Exception) {
@@ -291,7 +289,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setAreTorrentSwipeActionsEnabled(enabled: Boolean) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[areTorrentSwipeActionsEnabledKey] = enabled
             }
         } catch (e: Exception) {
@@ -301,7 +299,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setDefaultTorrentStatus(status: TorrentFilter) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[defaultTorrentStatusKey] = status.name
             }
         } catch (e: Exception) {
@@ -311,7 +309,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setAreStatesCollapsed(collapsed: Boolean) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[areStatesCollapsedKey] = collapsed
             }
         } catch (e: Exception) {
@@ -321,7 +319,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setAreCategoriesCollapsed(collapsed: Boolean) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[areCategoriesCollapsedKey] = collapsed
             }
         } catch (e: Exception) {
@@ -331,7 +329,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setAreTagsCollapsed(collapsed: Boolean) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[areTagsCollapsedKey] = collapsed
             }
         } catch (e: Exception) {
@@ -341,7 +339,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setAreTrackersCollapsed(collapsed: Boolean) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[areTrackersCollapsedKey] = collapsed
             }
         } catch (e: Exception) {
@@ -351,7 +349,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setSearchSort(sort: SearchSort) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[searchSortKey] = sort.name
             }
         } catch (e: Exception) {
@@ -361,7 +359,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setIsReverseSearchSorting(reverse: Boolean) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[isReverseSearchSortingKey] = reverse
             }
         } catch (e: Exception) {
@@ -371,7 +369,7 @@ class SettingsManager(private val context: Context) {
 
     suspend fun setCheckUpdates(enabled: Boolean) {
         try {
-            context.dataStore.edit { preferences ->
+            dataStore.edit { preferences ->
                 preferences[checkUpdatesKey] = enabled
             }
         } catch (e: Exception) {
