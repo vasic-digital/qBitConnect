@@ -1,178 +1,211 @@
 package com.shareconnect.qbitconnect.data
 
-import com.russhwolf.settings.MapSettings
-import com.russhwolf.settings.Settings
+import com.russhwolf.settings.MockSettings
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 class PreferenceTest {
 
-    private val settings: Settings = MapSettings()
+    private lateinit var settings: MockSettings
 
-    enum class TestEnum { VALUE1, VALUE2, VALUE3 }
-
-    @Test
-    fun `Preference should store and retrieve Int values`() {
-        val key = "test_int"
-        val initialValue = 42
-        val preference = preference(settings, key, initialValue)
-
-        assertEquals(initialValue, preference.value)
-
-        val newValue = 100
-        preference.value = newValue
-
-        assertEquals(newValue, preference.value)
-        assertEquals(newValue, settings.getInt(key, initialValue))
+    @Before
+    fun setup() {
+        settings = MockSettings()
     }
 
     @Test
-    fun `Preference should store and retrieve Boolean values`() {
-        val key = "test_bool"
-        val initialValue = true
-        val preference = preference(settings, key, initialValue)
+    fun `string preference should store and retrieve values`() {
+        val pref = preference(settings, "test_string", "default")
 
-        assertEquals(initialValue, preference.value)
+        // Initial value should be default
+        assertEquals("default", pref.value)
 
-        val newValue = false
-        preference.value = newValue
+        // Setting new value
+        pref.value = "new_value"
+        assertEquals("new_value", pref.value)
 
-        assertEquals(newValue, preference.value)
-        assertEquals(newValue, settings.getBoolean(key, initialValue))
+        // Flow should emit new value
+        assertEquals("new_value", pref.flow.value)
     }
 
     @Test
-    fun `Preference should store and retrieve String values`() {
-        val key = "test_string"
-        val initialValue = "default"
-        val preference = preference(settings, key, initialValue)
+    fun `int preference should store and retrieve values`() {
+        val pref = preference(settings, "test_int", 42)
 
-        assertEquals(initialValue, preference.value)
+        assertEquals(42, pref.value)
 
-        val newValue = "updated"
-        preference.value = newValue
-
-        assertEquals(newValue, preference.value)
-        assertEquals(newValue, settings.getString(key, initialValue))
+        pref.value = 100
+        assertEquals(100, pref.value)
+        assertEquals(100, pref.flow.value)
     }
 
     @Test
-    fun `Preference should store and retrieve Float values`() {
-        val key = "test_float"
-        val initialValue = 3.14f
-        val preference = preference(settings, key, initialValue)
+    fun `boolean preference should store and retrieve values`() {
+        val pref = preference(settings, "test_bool", false)
 
-        assertEquals(initialValue, preference.value)
+        assertEquals(false, pref.value)
 
-        val newValue = 2.71f
-        preference.value = newValue
-
-        assertEquals(newValue, preference.value)
-        assertEquals(newValue, settings.getFloat(key, initialValue))
+        pref.value = true
+        assertEquals(true, pref.value)
+        assertEquals(true, pref.flow.value)
     }
 
     @Test
-    fun `Preference should store and retrieve Long values`() {
-        val key = "test_long"
-        val initialValue = 123456789L
-        val preference = preference(settings, key, initialValue)
+    fun `float preference should store and retrieve values`() {
+        val pref = preference(settings, "test_float", 3.14f)
 
-        assertEquals(initialValue, preference.value)
+        assertEquals(3.14f, pref.value)
 
-        val newValue = 987654321L
-        preference.value = newValue
-
-        assertEquals(newValue, preference.value)
-        assertEquals(newValue, settings.getLong(key, initialValue))
+        pref.value = 2.71f
+        assertEquals(2.71f, pref.value)
+        assertEquals(2.71f, pref.flow.value)
     }
 
     @Test
-    fun `Preference should store and retrieve enum values`() {
-        val key = "test_enum"
-        val initialValue = TestEnum.VALUE1
-        val preference = preference(settings, key, initialValue)
+    fun `long preference should store and retrieve values`() {
+        val pref = preference(settings, "test_long", 123456789L)
 
-        assertEquals(initialValue, preference.value)
+        assertEquals(123456789L, pref.value)
 
-        val newValue = TestEnum.VALUE3
-        preference.value = newValue
+        pref.value = 987654321L
+        assertEquals(987654321L, pref.value)
+        assertEquals(987654321L, pref.flow.value)
+    }
 
-        assertEquals(newValue, preference.value)
-        assertEquals(newValue.name, settings.getString(key, initialValue.name))
+    enum class TestEnum { OPTION_A, OPTION_B, OPTION_C }
+
+    @Test
+    fun `enum preference should store and retrieve values`() {
+        val pref = preference(settings, "test_enum", TestEnum.OPTION_A)
+
+        assertEquals(TestEnum.OPTION_A, pref.value)
+
+        pref.value = TestEnum.OPTION_B
+        assertEquals(TestEnum.OPTION_B, pref.value)
+        assertEquals(TestEnum.OPTION_B, pref.flow.value)
     }
 
     @Test
-    fun `Preference should use custom serializer and deserializer`() {
-        val key = "test_custom"
-        val initialValue = listOf("a", "b", "c")
-        val preference = preference(
-            settings = settings,
-            key = key,
-            initialValue = initialValue,
-            serializer = { it.joinToString(",") },
-            deserializer = { it.split(",").filter { s -> s.isNotEmpty() } }
-        )
+    fun `enum preference should handle missing values gracefully`() {
+        // Set an enum value first
+        val pref = preference(settings, "test_enum", TestEnum.OPTION_A)
+        pref.value = TestEnum.OPTION_B
 
-        assertEquals(initialValue, preference.value)
+        // Manually set an invalid enum name in settings
+        settings.putString("test_enum", "INVALID_OPTION")
 
-        val newValue = listOf("x", "y", "z")
-        preference.value = newValue
-
-        assertEquals(newValue, preference.value)
-        assertEquals("x,y,z", settings.getString(key, ""))
-    }
-
-    // TODO: Fix flow testing
-    // @Test
-    // fun `Preference flow should emit new values`() = runTest {
-    //     val key = "test_flow"
-    //     val initialValue = "initial"
-    //     val preference = preference(settings, key, initialValue)
-    //
-    //     val collectedValues = mutableListOf<String>()
-    //     val job = kotlinx.coroutines.launch {
-    //         preference.flow.collect { collectedValues.add(it) }
-    //     }
-    //
-    //     preference.value = "first"
-    //     preference.value = "second"
-    //
-    //     // Wait a bit for flow collection
-    //     kotlinx.coroutines.delay(100)
-    //
-    //     job.cancel()
-    //
-    //     assertTrue(collectedValues.contains("initial"))
-    //     assertTrue(collectedValues.contains("first"))
-    //     assertTrue(collectedValues.contains("second"))
-    // }
-
-    @Test(expected = UnsupportedOperationException::class)
-    fun `Preference should throw exception for unsupported types`() {
-        val key = "test_unsupported"
-        val initialValue = object {} // Unsupported type
-
-        // This should throw an exception during construction
-        preference(settings, key, initialValue)
+        // Should return default value when enum not found
+        assertEquals(TestEnum.OPTION_A, pref.value)
     }
 
     @Test
-    fun `jsonPreference should serialize and deserialize objects`() {
-        @Serializable
-        data class TestData(val name: String, val value: Int)
+    fun `custom serializer preference should work`() {
+        val serializer = { value: List<String> -> value.joinToString(",") }
+        val deserializer = { raw: String -> if (raw.isEmpty()) emptyList() else raw.split(",") }
 
-        val key = "test_json"
-        val initialValue = TestData("test", 42)
-        val preference = jsonPreference(settings, key, initialValue)
+        val pref = preference(settings, "test_list", listOf("a", "b"), serializer, deserializer)
 
-        assertEquals(initialValue, preference.value)
+        assertEquals(listOf("a", "b"), pref.value)
 
-        val newValue = TestData("updated", 100)
-        preference.value = newValue
+        pref.value = listOf("x", "y", "z")
+        assertEquals(listOf("x", "y", "z"), pref.value)
+        assertEquals(listOf("x", "y", "z"), pref.flow.value)
+    }
 
-        assertEquals(newValue, preference.value)
+    @Serializable
+    data class TestData(val name: String, val value: Int)
+
+    @Test
+    fun `json preference should serialize and deserialize objects`() {
+        val initialData = TestData("test", 42)
+        val pref = jsonPreference(settings, "test_json", initialData)
+
+        assertEquals(initialData, pref.value)
+
+        val newData = TestData("updated", 100)
+        pref.value = newData
+        assertEquals(newData, pref.value)
+        assertEquals(newData, pref.flow.value)
+    }
+
+    @Test
+    fun `json preference should handle empty string gracefully`() {
+        val initialData = TestData("default", 0)
+        val pref = jsonPreference(settings, "test_json", initialData)
+
+        // Manually set empty string in settings
+        settings.putString("test_json", "")
+
+        // Should return initial value when empty
+        assertEquals(initialData, pref.value)
+    }
+
+    @Test
+    fun `unsupported type should throw exception`() {
+        // Create a preference with an unsupported type manually
+        assertFailsWith<UnsupportedOperationException> {
+            val pref = Preference(
+                settings = settings,
+                key = "test",
+                initialValue = Any(),
+                type = Any::class,
+                enumValues = null,
+                serializer = null,
+                deserializer = null
+            )
+            pref.value // This should trigger the exception
+        }
+    }
+
+    @Test
+    fun `preference should update flow when value changes`() = runTest {
+        val pref = preference(settings, "test_flow", "initial")
+
+        // Initial flow value
+        assertEquals("initial", pref.flow.value)
+
+        // Update value
+        pref.value = "updated"
+
+        // Flow should be updated
+        assertEquals("updated", pref.flow.value)
+    }
+
+    @Test
+    fun `preference should persist values across instances`() {
+        val pref1 = preference(settings, "persistent", "value1")
+        pref1.value = "persisted"
+
+        // Create new instance with same key
+        val pref2 = preference(settings, "persistent", "default")
+
+        // Should retrieve persisted value
+        assertEquals("persisted", pref2.value)
+    }
+
+    @Test
+    fun `preferenceJson should ignore unknown keys`() {
+        val json = preferenceJson
+        assertTrue(json.configuration.ignoreUnknownKeys)
+    }
+
+    @Test
+    fun `different preference types should not interfere`() {
+        val stringPref = preference(settings, "string_key", "default")
+        val intPref = preference(settings, "int_key", 0)
+        val boolPref = preference(settings, "bool_key", false)
+
+        stringPref.value = "test"
+        intPref.value = 42
+        boolPref.value = true
+
+        assertEquals("test", stringPref.value)
+        assertEquals(42, intPref.value)
+        assertEquals(true, boolPref.value)
     }
 }

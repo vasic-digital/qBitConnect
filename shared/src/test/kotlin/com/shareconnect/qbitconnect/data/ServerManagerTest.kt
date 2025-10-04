@@ -1,283 +1,283 @@
 package com.shareconnect.qbitconnect.data
 
-import com.russhwolf.settings.MapSettings
-import com.russhwolf.settings.Settings
+import com.russhwolf.settings.MockSettings
 import com.shareconnect.qbitconnect.model.ServerConfig
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class ServerManagerTest {
 
-    private val settings: Settings = MapSettings()
+    private lateinit var settings: MockSettings
     private lateinit var serverManager: ServerManager
 
-    private fun setupServerManager() {
+    @Before
+    fun setup() {
+        settings = MockSettings()
         serverManager = ServerManager(settings)
     }
 
     @Test
-    fun `getServer should return server when exists`() = runTest {
-        setupServerManager()
-
-        val serverConfig = ServerConfig(
-            id = 1,
-            name = "Test Server",
-            url = "localhost:8080",
-            username = null,
-            password = null
-        )
-
-        serverManager.addServer(serverConfig)
-
-        val retrieved = serverManager.getServer(1)
-        assertNotNull(retrieved)
-        assertEquals(serverConfig.copy(id = 1), retrieved)
-    }
-
-    @Test(expected = IllegalStateException::class)
-    fun `getServer should throw exception when server not found`() = runTest {
-        setupServerManager()
-
-        serverManager.getServer(999)
+    fun `initial state should have empty server list`() {
+        assertTrue(serverManager.serversFlow.value.isEmpty())
     }
 
     @Test
-    fun `getServerOrNull should return null when server not found`() = runTest {
-        setupServerManager()
-
-        val result = serverManager.getServerOrNull(999)
-        assertNull(result)
-    }
-
-    @Test
-    fun `addServer should add server with auto-generated id`() = runTest {
-        setupServerManager()
-
+    fun `addServer should add server with incremented ID`() = runTest {
         val serverConfig = ServerConfig(
-            id = 0, // Will be replaced
+            id = 0, // ID should be ignored and auto-assigned
             name = "Test Server",
-            url = "localhost:8080",
-            username = null,
-            password = null
+            url = "http://localhost:8080",
+            username = "user",
+            password = "pass"
         )
 
         serverManager.addServer(serverConfig)
 
         val servers = serverManager.serversFlow.value
         assertEquals(1, servers.size)
+        assertEquals(1, servers[0].id) // Should be auto-assigned as 1
         assertEquals("Test Server", servers[0].name)
-        assertTrue(servers[0].id >= 0)
+        assertEquals("http://localhost:8080", servers[0].url)
+    }
+
+    @Test
+    fun `addServer should increment ID for multiple servers`() = runTest {
+        val server1 = ServerConfig(0, "Server 1", "http://server1.com", null, null)
+        val server2 = ServerConfig(0, "Server 2", "http://server2.com", null, null)
+
+        serverManager.addServer(server1)
+        serverManager.addServer(server2)
+
+        val servers = serverManager.serversFlow.value
+        assertEquals(2, servers.size)
+        assertEquals(1, servers[0].id)
+        assertEquals(2, servers[1].id)
+    }
+
+    @Test
+    fun `getServer should return correct server`() = runTest {
+        val serverConfig = ServerConfig(0, "Test Server", "http://localhost", null, null)
+        serverManager.addServer(serverConfig)
+
+        val retrieved = serverManager.getServer(1)
+        assertEquals("Test Server", retrieved.name)
+        assertEquals("http://localhost", retrieved.url)
+    }
+
+    @Test
+    fun `getServer should throw exception for non-existent server`() {
+        assertFailsWith<IllegalStateException> {
+            serverManager.getServer(999)
+        }
+    }
+
+    @Test
+    fun `getServerOrNull should return null for non-existent server`() {
+        val server = serverManager.getServerOrNull(999)
+        assertNull(server)
+    }
+
+    @Test
+    fun `getServerOrNull should return server when exists`() = runTest {
+        val serverConfig = ServerConfig(0, "Test Server", "http://localhost", null, null)
+        serverManager.addServer(serverConfig)
+
+        val retrieved = serverManager.getServerOrNull(1)
+        assertNotNull(retrieved)
+        assertEquals("Test Server", retrieved.name)
     }
 
     @Test
     fun `editServer should update existing server`() = runTest {
-        setupServerManager()
+        val originalServer = ServerConfig(0, "Original", "http://original.com", null, null)
+        serverManager.addServer(originalServer)
 
-        val originalConfig = ServerConfig(
-            id = 0,
-            name = "Original Server",
-            url = "localhost:8080",
-            username = null,
-            password = null
-        )
-
-        serverManager.addServer(originalConfig)
-
-        val addedServer = serverManager.serversFlow.value[0]
-        val updatedConfig = addedServer.copy(name = "Updated Server")
-
-        serverManager.editServer(updatedConfig)
+        val updatedServer = ServerConfig(1, "Updated", "http://updated.com", "user", "pass")
+        serverManager.editServer(updatedServer)
 
         val servers = serverManager.serversFlow.value
         assertEquals(1, servers.size)
-        assertEquals("Updated Server", servers[0].name)
+        assertEquals("Updated", servers[0].name)
+        assertEquals("http://updated.com", servers[0].url)
+        assertEquals("user", servers[0].username)
     }
 
     @Test
-    fun `removeServer should remove existing server`() = runTest {
-        setupServerManager()
+    fun `editServer should not affect other servers`() = runTest {
+        val server1 = ServerConfig(0, "Server 1", "http://server1.com", null, null)
+        val server2 = ServerConfig(0, "Server 2", "http://server2.com", null, null)
 
-        val serverConfig = ServerConfig(
-            id = 0,
-            name = "Test Server",
-            url = "localhost:8080",
-            username = null,
-            password = null
-        )
+        serverManager.addServer(server1)
+        serverManager.addServer(server2)
 
-        serverManager.addServer(serverConfig)
-
-        val addedServer = serverManager.serversFlow.value[0]
-        serverManager.removeServer(addedServer.id)
+        val updatedServer2 = ServerConfig(2, "Updated Server 2", "http://updated.com", null, null)
+        serverManager.editServer(updatedServer2)
 
         val servers = serverManager.serversFlow.value
-        assertEquals(0, servers.size)
+        assertEquals(2, servers.size)
+        assertEquals("Server 1", servers[0].name) // Should remain unchanged
+        assertEquals("Updated Server 2", servers[1].name) // Should be updated
     }
 
     @Test
-    fun `removeServer should do nothing when server not found`() = runTest {
-        setupServerManager()
+    fun `removeServer should remove correct server`() = runTest {
+        val server1 = ServerConfig(0, "Server 1", "http://server1.com", null, null)
+        val server2 = ServerConfig(0, "Server 2", "http://server2.com", null, null)
 
-        val serverConfig = ServerConfig(
-            id = 0,
-            name = "Test Server",
-            url = "localhost:8080",
-            username = null,
-            password = null
-        )
+        serverManager.addServer(server1)
+        serverManager.addServer(server2)
 
-        serverManager.addServer(serverConfig)
-
-        serverManager.removeServer(999) // Non-existent server
+        serverManager.removeServer(1)
 
         val servers = serverManager.serversFlow.value
-        assertEquals(1, servers.size) // Should still have the original server
+        assertEquals(1, servers.size)
+        assertEquals("Server 2", servers[0].name)
+        assertEquals(2, servers[0].id)
     }
 
     @Test
-    fun `reorderServer should reorder servers correctly`() = runTest {
-        setupServerManager()
+    fun `removeServer should do nothing for non-existent server`() = runTest {
+        val server = ServerConfig(0, "Server", "http://server.com", null, null)
+        serverManager.addServer(server)
 
-        val server1 = ServerConfig(
-            id = 0,
-            name = "Server 1",
-            url = "localhost:8080",
-            username = null,
-            password = null
-        )
+        serverManager.removeServer(999) // Non-existent ID
 
-        val server2 = ServerConfig(
-            id = 0,
-            name = "Server 2",
-            url = "localhost:8081",
-            username = null,
-            password = null
-        )
+        val servers = serverManager.serversFlow.value
+        assertEquals(1, servers.size) // Should remain unchanged
+    }
 
-        val server3 = ServerConfig(
-            id = 0,
-            name = "Server 3",
-            url = "localhost:8082",
-            username = null,
-            password = null
-        )
+    @Test
+    fun `reorderServer should move server correctly`() = runTest {
+        val server1 = ServerConfig(0, "Server 1", "http://server1.com", null, null)
+        val server2 = ServerConfig(0, "Server 2", "http://server2.com", null, null)
+        val server3 = ServerConfig(0, "Server 3", "http://server3.com", null, null)
 
         serverManager.addServer(server1)
         serverManager.addServer(server2)
         serverManager.addServer(server3)
 
-        // Reorder: move first server to position 2
+        // Move server from index 0 to index 2
         serverManager.reorderServer(0, 2)
 
         val servers = serverManager.serversFlow.value
         assertEquals(3, servers.size)
-        assertEquals("Server 2", servers[0].name)
-        assertEquals("Server 3", servers[1].name)
-        assertEquals("Server 1", servers[2].name)
+        assertEquals("Server 2", servers[0].name) // Server 2 moved to first
+        assertEquals("Server 3", servers[1].name) // Server 3 moved to second
+        assertEquals("Server 1", servers[2].name) // Server 1 moved to third
     }
 
     @Test
-    fun `addServerListener should notify on server addition`() = runTest {
-        setupServerManager()
-
+    fun `server listeners should be notified on add`() = runTest {
         var addedServer: ServerConfig? = null
-        serverManager.addServerListener(
+
+        val listener = serverManager.addServerListener(
             add = { addedServer = it }
         )
 
-        val serverConfig = ServerConfig(
-            id = 0,
-            name = "Test Server",
-            url = "localhost:8080",
-            username = null,
-            password = null
-        )
-
+        val serverConfig = ServerConfig(0, "Test Server", "http://localhost", null, null)
         serverManager.addServer(serverConfig)
 
         assertNotNull(addedServer)
-        assertEquals("Test Server", addedServer?.name)
+        assertEquals("Test Server", addedServer.name)
+        assertEquals(1, addedServer.id) // Should have auto-assigned ID
     }
 
     @Test
-    fun `addServerListener should notify on server removal`() = runTest {
-        setupServerManager()
-
-        val serverConfig = ServerConfig(
-            id = 0,
-            name = "Test Server",
-            url = "localhost:8080",
-            username = null,
-            password = null
-        )
-
-        serverManager.addServer(serverConfig)
-        val addedServer = serverManager.serversFlow.value[0]
-
+    fun `server listeners should be notified on remove`() = runTest {
         var removedServer: ServerConfig? = null
-        serverManager.addServerListener(
+
+        val listener = serverManager.addServerListener(
             remove = { removedServer = it }
         )
 
-        serverManager.removeServer(addedServer.id)
+        val serverConfig = ServerConfig(0, "Test Server", "http://localhost", null, null)
+        serverManager.addServer(serverConfig)
+        serverManager.removeServer(1)
 
         assertNotNull(removedServer)
-        assertEquals("Test Server", removedServer?.name)
+        assertEquals("Test Server", removedServer.name)
+        assertEquals(1, removedServer.id)
     }
 
     @Test
-    fun `addServerListener should notify on server change`() = runTest {
-        setupServerManager()
-
-        val serverConfig = ServerConfig(
-            id = 0,
-            name = "Test Server",
-            url = "localhost:8080",
-            username = null,
-            password = null
-        )
-
-        serverManager.addServer(serverConfig)
-        val addedServer = serverManager.serversFlow.value[0]
-
+    fun `server listeners should be notified on change`() = runTest {
         var changedServer: ServerConfig? = null
-        serverManager.addServerListener(
+
+        val listener = serverManager.addServerListener(
             change = { changedServer = it }
         )
 
-        val updatedConfig = addedServer.copy(name = "Updated Server")
+        val serverConfig = ServerConfig(0, "Original", "http://localhost", null, null)
+        serverManager.addServer(serverConfig)
+
+        val updatedConfig = ServerConfig(1, "Updated", "http://updated.com", null, null)
         serverManager.editServer(updatedConfig)
 
         assertNotNull(changedServer)
-        assertEquals("Updated Server", changedServer?.name)
+        assertEquals("Updated", changedServer.name)
+        assertEquals("http://updated.com", changedServer.url)
     }
 
     @Test
-    fun `removeServerListener should remove listener`() = runTest {
-        setupServerManager()
+    fun `multiple listeners should all be notified`() = runTest {
+        var listener1Called = false
+        var listener2Called = false
 
-        var callCount = 0
-        val listener = serverManager.addServerListener(
-            add = { callCount++ }
-        )
+        val listener1 = serverManager.addServerListener(add = { listener1Called = true })
+        val listener2 = serverManager.addServerListener(add = { listener2Called = true })
 
-        val serverConfig = ServerConfig(
-            id = 0,
-            name = "Test Server",
-            url = "localhost:8080",
-            username = null,
-            password = null
-        )
-
+        val serverConfig = ServerConfig(0, "Test", "http://localhost", null, null)
         serverManager.addServer(serverConfig)
-        assertEquals(1, callCount)
 
+        assertTrue(listener1Called)
+        assertTrue(listener2Called)
+    }
+
+    @Test
+    fun `removed listeners should not be notified`() = runTest {
+        var listenerCalled = false
+
+        val listener = serverManager.addServerListener(add = { listenerCalled = true })
         serverManager.removeServerListener(listener)
-        serverManager.addServer(serverConfig.copy(name = "Another Server"))
-        assertEquals(1, callCount) // Should not increment after removal
+
+        val serverConfig = ServerConfig(0, "Test", "http://localhost", null, null)
+        serverManager.addServer(serverConfig)
+
+        assertTrue(!listenerCalled)
+    }
+
+    @Test
+    fun `server data should persist across manager instances`() = runTest {
+        // Add server with first manager instance
+        val server = ServerConfig(0, "Persistent Server", "http://persistent.com", null, null)
+        serverManager.addServer(server)
+
+        // Create new manager instance with same settings
+        val newManager = ServerManager(settings)
+
+        val servers = newManager.serversFlow.value
+        assertEquals(1, servers.size)
+        assertEquals("Persistent Server", servers[0].name)
+        assertEquals("http://persistent.com", servers[0].url)
+        assertEquals(1, servers[0].id)
+    }
+
+    @Test
+    fun `serversFlow should emit updates when servers change`() = runTest {
+        val initialServers = serverManager.serversFlow.value
+        assertTrue(initialServers.isEmpty())
+
+        val server = ServerConfig(0, "Test", "http://localhost", null, null)
+        serverManager.addServer(server)
+
+        val updatedServers = serverManager.serversFlow.value
+        assertEquals(1, updatedServers.size)
+        assertEquals("Test", updatedServers[0].name)
     }
 }

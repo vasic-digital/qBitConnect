@@ -1,3 +1,5 @@
+@file:OptIn(kotlin.time.ExperimentalTime::class)
+
 package com.shareconnect.qbitconnect.network
 
 import android.util.Log
@@ -200,9 +202,9 @@ class RequestManager(
         val code = blockResponse.code
         val body = blockResponse.body
 
-        return when (code) {
-            200 if body != null -> RequestResult.Success(body)
-            403 -> RequestResult.Error.RequestError.InvalidCredentials
+        return when {
+            code == 200 && body != null -> RequestResult.Success(body)
+            code == 403 -> RequestResult.Error.RequestError.InvalidCredentials
             else -> RequestResult.Error.ApiError(code)
         }
     }

@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id 'com.android.library' version '8.13.0'
-    id 'org.jetbrains.kotlin.android' version '2.2.20'
-    id 'org.jetbrains.kotlin.plugin.compose' version '2.2.20'
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.compose'
 }
 
 dependencies {
@@ -28,17 +28,8 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
-            freeCompilerArgs.addAll([
-                '-opt-in=androidx.compose.ui.ExperimentalComposeUiApi',
-                '-opt-in=androidx.compose.foundation.ExperimentalFoundationApi',
-                '-opt-in=androidx.compose.foundation.layout.ExperimentalLayoutApi',
-                '-opt-in=androidx.compose.material3.ExperimentalMaterial3Api',
-                '-opt-in=androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi'
-            ])
-        }
+    kotlinOptions {
+        jvmTarget = '17'
     }
 
     buildFeatures {

@@ -1,3 +1,5 @@
+@file:OptIn(kotlin.time.ExperimentalTime::class)
+
 package com.shareconnect.qbitconnect.data.repositories
 
 import com.shareconnect.qbitconnect.data.models.AddTorrentRequest
