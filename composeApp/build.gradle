@@ -7,10 +7,12 @@ plugins {
 }
 
 android {
+
     namespace 'com.shareconnect.qbitconnect'
     compileSdk 36
 
     defaultConfig {
+
         applicationId 'com.shareconnect.qbitconnect'
         minSdk 21
         targetSdk 36
@@ -21,13 +23,16 @@ android {
     }
 
     buildTypes {
+
         release {
+
             minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
         debug {
+
             minifyEnabled false
             shrinkResources false
             applicationIdSuffix '.debug'
