@@ -16,6 +16,7 @@ import com.shareconnect.languagesync.utils.LocaleHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class App : Application() {
@@ -179,21 +180,23 @@ class App : Application() {
 
         if (!onboardingCompleted) {
             // Check if user has any existing data that would indicate they've used the app before
-            val hasExistingProfiles = runCatching {
-                profileSyncManager.getAllProfiles().isNotEmpty()
-            }.getOrDefault(false)
+            applicationScope.launch {
+                val hasExistingProfiles = runCatching {
+                    profileSyncManager.getAllProfiles().first().isNotEmpty()
+                }.getOrDefault(false)
 
-            val hasExistingThemes = runCatching {
-                themeSyncManager.getAllThemes().isNotEmpty()
-            }.getOrDefault(false)
+                val hasExistingThemes = runCatching {
+                    themeSyncManager.getAllThemes().first().isNotEmpty()
+                }.getOrDefault(false)
 
-            val hasExistingLanguage = runCatching {
-                languageSyncManager.getLanguagePreference() != null
-            }.getOrDefault(false)
+                val hasExistingLanguage = runCatching {
+                    languageSyncManager.getLanguagePreference() != null
+                }.getOrDefault(false)
 
-            // If no existing data, launch onboarding
-            if (!hasExistingProfiles && !hasExistingThemes && !hasExistingLanguage) {
-                launchOnboarding()
+                // If no existing data, launch onboarding
+                if (!hasExistingProfiles && !hasExistingThemes && !hasExistingLanguage) {
+                    launchOnboarding()
+                }
             }
         }
     }

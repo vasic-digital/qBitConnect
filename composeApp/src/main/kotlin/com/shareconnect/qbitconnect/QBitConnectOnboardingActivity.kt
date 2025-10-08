@@ -19,8 +19,8 @@ class QBitConnectOnboardingActivity : OnboardingActivity() {
     }
 
     override fun launchMainApp() {
-        val intent = Intent(this, ui.MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        val intent = Intent(this, com.shareconnect.qbitconnect.ui.MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
