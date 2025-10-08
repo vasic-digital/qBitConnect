@@ -58,6 +58,9 @@ class App : Application() {
         initializeBookmarkSync()
         initializePreferencesSync()
         observeLanguageChanges()
+
+        // Check if onboarding is needed
+        checkAndLaunchOnboardingIfNeeded()
     }
 
     private fun observeLanguageChanges() {
@@ -167,5 +170,38 @@ class App : Application() {
         applicationScope.launch {
             languageSyncManager.start()
         }
+    }
+
+    private fun checkAndLaunchOnboardingIfNeeded() {
+        // Check if onboarding has been completed
+        val prefs = getSharedPreferences("onboarding_prefs", MODE_PRIVATE)
+        val onboardingCompleted = prefs.getBoolean("onboarding_completed", false)
+
+        if (!onboardingCompleted) {
+            // Check if user has any existing data that would indicate they've used the app before
+            val hasExistingProfiles = runCatching {
+                profileSyncManager.getAllProfiles().isNotEmpty()
+            }.getOrDefault(false)
+
+            val hasExistingThemes = runCatching {
+                themeSyncManager.getAllThemes().isNotEmpty()
+            }.getOrDefault(false)
+
+            val hasExistingLanguage = runCatching {
+                languageSyncManager.getLanguagePreference() != null
+            }.getOrDefault(false)
+
+            // If no existing data, launch onboarding
+            if (!hasExistingProfiles && !hasExistingThemes && !hasExistingLanguage) {
+                launchOnboarding()
+            }
+        }
+    }
+
+    private fun launchOnboarding() {
+        // Launch onboarding activity
+        val intent = android.content.Intent(this, QBitConnectOnboardingActivity::class.java)
+        intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
     }
 }

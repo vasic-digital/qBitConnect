@@ -83,6 +83,7 @@ dependencies {
     implementation project(':preferences')
     implementation project(':shared')
     implementation project(':DesignSystem')
+    implementation project(':Onboarding')
     implementation project(':Asinka:asinka')
     implementation project(':ThemeSync')
     implementation project(':ProfileSync')

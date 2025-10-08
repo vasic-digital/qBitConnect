@@ -70,6 +70,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.shareconnect.qbitconnect.QBitConnectOnboardingActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
