@@ -1,6 +1,7 @@
 package com.shareconnect.qbitconnect
 
 import android.app.Application
+import android.content.Context
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.profilesync.ProfileSyncManager
 import com.shareconnect.profilesync.models.ProfileData
@@ -10,6 +11,8 @@ import com.shareconnect.rsssync.RSSSyncManager
 import com.shareconnect.rsssync.models.RSSFeedData
 import com.shareconnect.bookmarksync.BookmarkSyncManager
 import com.shareconnect.preferencessync.PreferencesSyncManager
+import com.shareconnect.languagesync.LanguageSyncManager
+import com.shareconnect.languagesync.utils.LocaleHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -34,18 +37,36 @@ class App : Application() {
     lateinit var preferencesSyncManager: PreferencesSyncManager
         private set
 
+    lateinit var languageSyncManager: LanguageSyncManager
+        private set
+
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocaleHelper.onAttach(base))
+    }
 
     override fun onCreate() {
         super.onCreate()
         // Initialize manual dependency injection
         DependencyContainer.init(this)
+        initializeLanguageSync()
         initializeThemeSync()
         initializeProfileSync()
         initializeHistorySync()
         initializeRSSSync()
         initializeBookmarkSync()
         initializePreferencesSync()
+        observeLanguageChanges()
+    }
+
+    private fun observeLanguageChanges() {
+        applicationScope.launch {
+            languageSyncManager.languageChangeFlow.collect { languageData ->
+                // Persist language change so it applies on next app start
+                LocaleHelper.persistLanguage(this@App, languageData.languageCode)
+            }
+        }
     }
 
     private fun initializeThemeSync() {
@@ -131,6 +152,20 @@ class App : Application() {
 
         applicationScope.launch {
             preferencesSyncManager.start()
+        }
+    }
+
+    private fun initializeLanguageSync() {
+        val packageInfo = packageManager.getPackageInfo(packageName, 0)
+        languageSyncManager = LanguageSyncManager.getInstance(
+            context = this,
+            appId = packageName,
+            appName = getString(com.shareconnect.qbitconnect.R.string.app_name),
+            appVersion = packageInfo.versionName ?: "1.0.0"
+        )
+
+        applicationScope.launch {
+            languageSyncManager.start()
         }
     }
 }

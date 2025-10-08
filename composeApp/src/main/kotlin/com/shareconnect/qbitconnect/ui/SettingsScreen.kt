@@ -1,5 +1,6 @@
 package com.shareconnect.qbitconnect.ui
 
+import android.app.Application
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -7,6 +8,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -18,11 +20,16 @@ import com.shareconnect.qbitconnect.ui.viewmodels.SettingsViewModelFactory
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navController: NavController) {
+    val context = LocalContext.current
+    val application = context.applicationContext as Application
+
     val viewModel = viewModel<SettingsViewModel>(
-        factory = SettingsViewModelFactory()
+        factory = SettingsViewModelFactory(application)
     )
     val theme by viewModel.theme.collectAsState(initial = Theme.SYSTEM_DEFAULT)
     val enableDynamicColors by viewModel.enableDynamicColors.collectAsState(initial = true)
+    val currentLanguage by viewModel.currentLanguage.collectAsState()
+    val availableLanguages by viewModel.availableLanguages.collectAsState()
 
     Scaffold(
         topBar = {
@@ -85,6 +92,31 @@ fun SettingsScreen(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Enable Dynamic Colors")
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Text(
+                text = "Language",
+                style = MaterialTheme.typography.titleLarge
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Current: ${currentLanguage?.displayName ?: "Loading..."}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            availableLanguages.forEach { (code, displayName) ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    RadioButton(
+                        selected = currentLanguage?.languageCode == code,
+                        onClick = { viewModel.setLanguage(code, displayName) }
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(displayName)
+                }
             }
 
             Spacer(modifier = Modifier.height(32.dp))
