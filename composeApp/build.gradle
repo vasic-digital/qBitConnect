@@ -82,6 +82,7 @@ tasks.withType(Test) {
 dependencies {
     implementation project(':preferences')
     implementation project(':shared')
+    implementation project(':DesignSystem')
     implementation project(':Asinka:asinka')
     implementation project(':ThemeSync')
     implementation project(':ProfileSync')

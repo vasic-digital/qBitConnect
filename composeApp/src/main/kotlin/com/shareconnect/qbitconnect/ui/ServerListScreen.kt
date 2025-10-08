@@ -12,6 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.shareconnect.designsystem.compose.components.buttons.AnimatedButton
+import com.shareconnect.designsystem.compose.components.buttons.ButtonSize
+import com.shareconnect.designsystem.compose.components.buttons.ButtonStyle
+import com.shareconnect.designsystem.compose.components.cards.AnimatedCard
+import com.shareconnect.designsystem.compose.components.fabs.AnimatedFAB
 import com.shareconnect.qbitconnect.data.models.Server
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.viewmodels.ServerListViewModel
@@ -40,7 +45,7 @@ fun ServerListScreen(navController: NavController) {
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate("add_server") }) {
+            AnimatedFAB(onClick = { navController.navigate("add_server") }) {
                 Text("+")
             }
         }
@@ -68,9 +73,12 @@ fun ServerListScreen(navController: NavController) {
                         style = MaterialTheme.typography.bodyLarge
                     )
                     Spacer(modifier = Modifier.height(32.dp))
-                    Button(onClick = { navController.navigate("add_server") }) {
-                        Text("Add Server")
-                    }
+                    AnimatedButton(
+                        text = "Add Server",
+                        onClick = { navController.navigate("add_server") },
+                        style = ButtonStyle.PRIMARY,
+                        size = ButtonSize.MEDIUM
+                    )
                 }
             } else {
                 LazyColumn(
@@ -124,7 +132,7 @@ private fun ServerItem(
     onClick: () -> Unit,
     onNavigateToTorrents: () -> Unit
 ) {
-    Card(
+    AnimatedCard(
         modifier = Modifier.fillMaxWidth(),
         onClick = onClick
     ) {
@@ -153,9 +161,12 @@ private fun ServerItem(
                         )
                     }
                 }
-                Button(onClick = onNavigateToTorrents) {
-                    Text("Torrents")
-                }
+                AnimatedButton(
+                    text = "Torrents",
+                    onClick = onNavigateToTorrents,
+                    style = ButtonStyle.SECONDARY,
+                    size = ButtonSize.SMALL
+                )
             }
         }
     }
