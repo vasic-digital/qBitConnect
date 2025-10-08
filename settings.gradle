@@ -23,11 +23,11 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = 'qBitConnect'
+rootProject.name = 'qBitConnector'
 
 include ':shared'
 include ':preferences'
-include ':composeApp'
+include ':qBitConnector'
 include ':Asinka:asinka'
 
 project(':Asinka:asinka').projectDir = new File('../../Asinka/asinka')
