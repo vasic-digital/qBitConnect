@@ -85,6 +85,10 @@ dependencies {
     implementation project(':Asinka:asinka')
     implementation project(':ThemeSync')
     implementation project(':ProfileSync')
+    implementation project(':HistorySync')
+    implementation project(':RSSSync')
+    implementation project(':BookmarkSync')
+    implementation project(':PreferencesSync')
 
     def androidxLifecycleVersion = '2.9.4'
     def composeNavigationVersion = '2.9.0-beta03'
