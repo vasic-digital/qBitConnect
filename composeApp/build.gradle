@@ -89,6 +89,7 @@ dependencies {
     implementation project(':RSSSync')
     implementation project(':BookmarkSync')
     implementation project(':PreferencesSync')
+    implementation project(':Localizations')
 
     def androidxLifecycleVersion = '2.9.4'
     def composeNavigationVersion = '2.9.0-beta03'
