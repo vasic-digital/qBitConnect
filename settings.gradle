@@ -10,6 +10,8 @@ pluginManagement {
         id 'org.jetbrains.kotlin.android' version '2.1.0'
         id 'org.jetbrains.kotlin.plugin.serialization' version '2.1.0'
         id 'org.jetbrains.kotlin.plugin.compose' version '2.1.0'
+        id 'com.google.protobuf' version '0.9.4'
+        id 'com.google.devtools.ksp' version '2.1.0-1.0.29'
     }
 }
 
@@ -26,3 +28,6 @@ rootProject.name = 'qBitConnect'
 include ':shared'
 include ':preferences'
 include ':composeApp'
+include ':Asinka:asinka'
+
+project(':Asinka:asinka').projectDir = new File('../../Asinka/asinka')
