@@ -16,6 +16,7 @@ import com.shareconnect.languagesync.utils.LocaleHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -83,6 +84,7 @@ class App : Application() {
         )
 
         applicationScope.launch {
+            delay(100) // Small delay to avoid port conflicts
             themeSyncManager.start()
         }
     }
@@ -98,6 +100,7 @@ class App : Application() {
         )
 
         applicationScope.launch {
+            delay(200) // Small delay to avoid port conflicts
             profileSyncManager.start()
         }
     }
@@ -112,6 +115,7 @@ class App : Application() {
         )
 
         applicationScope.launch {
+            delay(300) // Small delay to avoid port conflicts
             historySyncManager.start()
         }
     }
@@ -127,6 +131,7 @@ class App : Application() {
         )
 
         applicationScope.launch {
+            delay(400) // Small delay to avoid port conflicts
             rssSyncManager.start()
         }
     }
@@ -141,6 +146,7 @@ class App : Application() {
         )
 
         applicationScope.launch {
+            delay(500) // Small delay to avoid port conflicts
             bookmarkSyncManager.start()
         }
     }
@@ -155,6 +161,7 @@ class App : Application() {
         )
 
         applicationScope.launch {
+            delay(600) // Small delay to avoid port conflicts
             preferencesSyncManager.start()
         }
     }
