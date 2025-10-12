@@ -21,7 +21,7 @@ object DependencyContainer {
     val requestManager by lazy { RequestManager(serverManager, settingsManager) }
 
     // Repositories (singletons)
-    val serverRepository by lazy { ServerRepository() }
+    val serverRepository by lazy { ServerRepository(serverManager) }
     val torrentRepository by lazy { TorrentRepository(requestManager) }
     val rssRepository by lazy { RSSRepository(requestManager) }
     val searchRepository by lazy { SearchRepository() }

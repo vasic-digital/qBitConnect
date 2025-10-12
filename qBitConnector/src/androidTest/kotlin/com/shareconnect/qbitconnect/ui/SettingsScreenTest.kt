@@ -40,7 +40,6 @@ class SettingsScreenTest {
         composeTestRule.onNodeWithText("Dark").assertExists()
         composeTestRule.onNodeWithText("Enable Dynamic Colors").assertExists()
         composeTestRule.onNodeWithText("About").assertExists()
-        composeTestRule.onNodeWithText("Back").assertExists()
     }
 
     @Test
