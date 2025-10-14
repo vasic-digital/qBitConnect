@@ -56,12 +56,6 @@ android {
         compose true
     }
 
-    sourceSets {
-        main {
-            java.srcDirs = []
-        }
-    }
-
     lint {
         disable 'MissingTranslation', 'ExtraTranslation'
     }
