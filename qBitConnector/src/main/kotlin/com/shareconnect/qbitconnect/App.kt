@@ -50,6 +50,8 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        // Disable Netty native transports to prevent epoll issues on Android
+        System.setProperty("io.grpc.netty.shaded.io.netty.transport.noNative", "true")
         // Initialize manual dependency injection
         DependencyContainer.init(this)
         initializeLanguageSync()
