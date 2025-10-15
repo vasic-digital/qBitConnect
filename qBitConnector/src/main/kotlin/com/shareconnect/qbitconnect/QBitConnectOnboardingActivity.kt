@@ -9,6 +9,10 @@ class QBitConnectOnboardingActivity : OnboardingActivity() {
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Set app-specific information
+        appName = "QBitConnect"
+        appDescription = "Connect to your qBittorrent client and manage your downloads seamlessly. Set up your server connection, choose your theme, and select your language."
+
         // Initialize viewModel with sync managers from App
         val app = application as App
         viewModel.initializeSyncManagers(
