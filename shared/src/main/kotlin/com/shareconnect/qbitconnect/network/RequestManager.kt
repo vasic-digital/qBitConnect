@@ -28,10 +28,10 @@ import okhttp3.Response as OkHttpResponse
 import okhttp3.Route
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
-import kotlin.time.Clock
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.Instant
 import com.shareconnect.qbitconnect.network.catchRequestError
 
 class SessionCookieJar : CookieJar {

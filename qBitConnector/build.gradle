@@ -98,15 +98,15 @@ dependencies {
     def composeNavigationVersion = '2.9.0-beta03'
     def coroutinesVersion = '1.10.2'
     def kotlinxSerializationVersion = '1.7.3'
-    def kotlinxDatetimeVersion = '0.7.1'
+    def kotlinxDatetimeVersion = '0.6.1'
 
     def ktorVersion = '3.2.3'
-    def okhttpVersion = '5.1.0'
-    def coilVersion = '3.3.0'
+    def okhttpVersion = '4.12.0'
+    def coilVersion = '2.7.0'
     def htmlConverterVersion = '1.1.0'
     def multiplatformSettingsVersion = '1.3.0'
     def materialKolorVersion = '2.1.1'
-    def fileKitVersion = '0.10.0'
+    def fileKitVersion = '0.8.2'
     def reorderableVersion = '2.5.1'
     def autolinktextVersion = '2.0.2'
     def composePipetteVersion = '1.0.1'
@@ -152,9 +152,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor'
     implementation 'com.squareup.okhttp3:okhttp-dnsoverhttps'
 
-    implementation "io.coil-kt.coil3:coil-compose:$coilVersion"
-    implementation "io.coil-kt.coil3:coil-network-ktor3:$coilVersion"
-    implementation "io.coil-kt.coil3:coil-svg:$coilVersion"
+    implementation "io.coil-kt:coil-compose:$coilVersion"
+    implementation "io.coil-kt:coil-svg:$coilVersion"
 
     implementation "be.digitalia.compose.htmlconverter:htmlconverter:$htmlConverterVersion"
 
@@ -162,8 +161,9 @@ dependencies {
 
     implementation "com.materialkolor:material-kolor:$materialKolorVersion"
 
-    implementation "io.github.vinceglb:filekit-core:$fileKitVersion"
-    implementation "io.github.vinceglb:filekit-dialogs:$fileKitVersion"
+    // FileKit temporarily commented out due to version compatibility issues
+    // implementation "io.github.vinceglb:filekit-core:$fileKitVersion"
+    // implementation "io.github.vinceglb:filekit-dialogs:$fileKitVersion"
 
     implementation "sh.calvin.reorderable:reorderable:$reorderableVersion"
 
@@ -199,4 +199,15 @@ dependencies {
     // Additional test dependencies for androidTest
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+}
+
+// Force Kotlin version to avoid conflicts
+configurations.all {
+    resolutionStrategy {
+        force 'org.jetbrains.kotlin:kotlin-stdlib:2.0.0'
+        force 'org.jetbrains.kotlin:kotlin-reflect:2.0.0'
+        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.0.0'
+        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0'
+        force 'org.jetbrains.kotlin:kotlin-stdlib-common:2.0.0'
+    }
 }
