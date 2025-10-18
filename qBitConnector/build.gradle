@@ -98,6 +98,7 @@ dependencies {
     implementation project(':BookmarkSync')
     implementation project(':PreferencesSync')
     implementation project(':LanguageSync')
+    implementation project(':TorrentSharingSync')
     implementation project(':Localizations')
     implementation project(':Toolkit:SecurityAccess')
 

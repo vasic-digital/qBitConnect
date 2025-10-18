@@ -13,6 +13,7 @@ import com.shareconnect.bookmarksync.BookmarkSyncManager
 import com.shareconnect.preferencessync.PreferencesSyncManager
 import com.shareconnect.languagesync.LanguageSyncManager
 import com.shareconnect.languagesync.utils.LocaleHelper
+import com.shareconnect.torrentsharingsync.TorrentSharingSyncManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -42,6 +43,9 @@ class App : Application() {
     lateinit var languageSyncManager: LanguageSyncManager
         private set
 
+    lateinit var torrentSharingSyncManager: TorrentSharingSyncManager
+        private set
+
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     override fun attachBaseContext(base: Context) {
@@ -55,6 +59,7 @@ class App : Application() {
         // Initialize manual dependency injection
         DependencyContainer.init(this)
         initializeLanguageSync()
+        initializeTorrentSharingSync()
         initializeThemeSync()
         initializeProfileSync()
         initializeHistorySync()
@@ -179,6 +184,21 @@ class App : Application() {
 
         applicationScope.launch {
             languageSyncManager.start()
+        }
+    }
+
+    private fun initializeTorrentSharingSync() {
+        val packageInfo = packageManager.getPackageInfo(packageName, 0)
+        torrentSharingSyncManager = TorrentSharingSyncManager.getInstance(
+            context = this,
+            appId = packageName,
+            appName = getString(com.shareconnect.qbitconnect.R.string.app_name),
+            appVersion = packageInfo.versionName ?: "1.0.0"
+        )
+
+        applicationScope.launch {
+            delay(700) // Small delay to avoid port conflicts
+            torrentSharingSyncManager.start()
         }
     }
 
