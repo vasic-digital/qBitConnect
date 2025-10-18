@@ -7,9 +7,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
-import digital.vasic.security.access.SecurityAccessManager
+import digital.vasic.security.access.access.SecurityAccessManager
 import digital.vasic.security.access.data.AccessMethod
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
     private lateinit var securityAccessManager: SecurityAccessManager
@@ -53,7 +54,9 @@ class MainActivity : ComponentActivity() {
 
     private fun isSecurityAccessRequired(): Boolean {
         return try {
-            securityAccessManager.isAccessRequired()
+            runBlocking {
+                securityAccessManager.isAccessRequired()
+            }
         } catch (e: Exception) {
             Log.e("MainActivity", "Error checking security access requirement", e)
             false // Default to no security if there's an error
