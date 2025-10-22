@@ -7,7 +7,7 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -34,7 +34,7 @@ class AddServerViewModelTest {
         Dispatchers.setMain(testDispatcher)
 
         serverManager = mockk(relaxed = true)
-        coEvery { serverManager.serversFlow } returns flowOf(emptyList())
+        coEvery { serverManager.serversFlow } returns MutableStateFlow(emptyList())
 
         viewModel = AddServerViewModel(serverManager)
     }

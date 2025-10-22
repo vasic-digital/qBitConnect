@@ -37,6 +37,7 @@ enum class TorrentState {
     ERROR,
     MISSING_FILES,
     UPLOADING,
+    SEEDING,
     PAUSED_UP,
     QUEUED_UP,
     STALLED_UP,

@@ -1,6 +1,9 @@
 package com.shareconnect.qbitconnect.data.repositories
 
+import com.shareconnect.qbitconnect.data.ServerManager
 import com.shareconnect.qbitconnect.data.models.Server
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -11,10 +14,12 @@ class ServerRepositoryTest {
 
     private lateinit var serverRepository: ServerRepository
     private lateinit var mockServer: Server
+    private lateinit var mockServerManager: ServerManager
 
     @Before
     fun setUp() {
-        serverRepository = ServerRepository()
+        mockServerManager = mockk<ServerManager>(relaxed = true)
+        serverRepository = ServerRepository(mockServerManager)
         mockServer = Server(
             id = 1,
             name = "Test Server",
@@ -24,8 +29,8 @@ class ServerRepositoryTest {
             password = "admin"
         )
 
-        // Add mock server to repository
-        serverRepository.addServer(mockServer)
+        // Mock the addServer suspend function
+        coEvery { serverRepository.addServer(mockServer) } returns Unit
     }
 
     @Test
