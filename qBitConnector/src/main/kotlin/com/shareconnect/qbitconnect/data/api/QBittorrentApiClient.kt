@@ -583,6 +583,65 @@ class QBittorrentApiClient(
     }
 
     /**
+     * Create a new category
+     */
+    suspend fun createCategory(category: String, savePath: String = ""): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            ensureAuthenticated()
+
+            val formBody = FormBody.Builder()
+                .add("category", category)
+                .add("savePath", savePath)
+                .build()
+
+            val request = Request.Builder()
+                .url("$baseUrl/api/v2/torrents/createCategory")
+                .post(formBody)
+                .build()
+
+            val response = okHttpClient.newCall(request).execute()
+
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Create category failed: ${response.code}"))
+            }
+        } catch (e: Exception) {
+            Log.e(tag, "Error creating category", e)
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Remove categories
+     */
+    suspend fun removeCategories(categories: List<String>): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            ensureAuthenticated()
+
+            val formBody = FormBody.Builder()
+                .add("categories", categories.joinToString("\n"))
+                .build()
+
+            val request = Request.Builder()
+                .url("$baseUrl/api/v2/torrents/removeCategories")
+                .post(formBody)
+                .build()
+
+            val response = okHttpClient.newCall(request).execute()
+
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Remove categories failed: ${response.code}"))
+            }
+        } catch (e: Exception) {
+            Log.e(tag, "Error removing categories", e)
+            Result.failure(e)
+        }
+    }
+
+    /**
      * Ensure authenticated (auto-login if credentials provided)
      */
     private suspend fun ensureAuthenticated() {
