@@ -2,8 +2,12 @@ package com.shareconnect.qbitconnect.data.repositories
 
 import com.shareconnect.qbitconnect.data.ServerManager
 import com.shareconnect.qbitconnect.data.models.Server
+import com.shareconnect.qbitconnect.model.ServerConfig
+import com.russhwolf.settings.Settings
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -14,12 +18,34 @@ class ServerRepositoryTest {
 
     private lateinit var serverRepository: ServerRepository
     private lateinit var mockServer: Server
-    private lateinit var mockServerManager: ServerManager
+    private lateinit var mockSettings: Settings
+    private lateinit var serverManager: ServerManager
 
     @Before
     fun setUp() {
-        mockServerManager = mockk<ServerManager>(relaxed = true)
-        serverRepository = ServerRepository(mockServerManager)
+        mockSettings = mockk<Settings>(relaxed = true)
+        // Mock the settings to return valid JSON for server configs
+        coEvery { mockSettings.getString(any(), any()) } returns "[]"
+        coEvery { mockSettings.getInt(any(), any()) } returns 0
+
+        // Create a mock serverManager with proper flow handling
+        val serversFlow = MutableStateFlow<List<ServerConfig>>(emptyList())
+        serverManager = mockk()
+        coEvery { serverManager.serversFlow } returns serversFlow
+        coEvery { serverManager.addServer(any()) } coAnswers {
+            val serverConfig = firstArg<ServerConfig>()
+            serversFlow.value = serversFlow.value + serverConfig
+        }
+        coEvery { serverManager.removeServer(any()) } coAnswers {
+            val serverId = firstArg<Int>()
+            serversFlow.value = serversFlow.value.filter { it.id != serverId }
+        }
+        coEvery { serverManager.editServer(any()) } coAnswers {
+            val serverConfig = firstArg<ServerConfig>()
+            serversFlow.value = serversFlow.value.map { if (it.id == serverConfig.id) serverConfig else it }
+        }
+
+        serverRepository = ServerRepository(serverManager)
         mockServer = Server(
             id = 1,
             name = "Test Server",
@@ -29,8 +55,8 @@ class ServerRepositoryTest {
             password = "admin"
         )
 
-        // Mock the addServer suspend function
-        coEvery { serverRepository.addServer(mockServer) } returns Unit
+        // Add the server for testing
+        runBlocking { serverRepository.addServer(mockServer) }
     }
 
     @Test

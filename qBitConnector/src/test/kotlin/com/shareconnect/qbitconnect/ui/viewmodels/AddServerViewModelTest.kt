@@ -8,7 +8,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -30,11 +30,12 @@ class AddServerViewModelTest {
 
     @Before
     fun setup() {
-        testDispatcher = StandardTestDispatcher()
+        testDispatcher = UnconfinedTestDispatcher()
         Dispatchers.setMain(testDispatcher)
 
-        serverManager = mockk(relaxed = true)
+        serverManager = mockk()
         coEvery { serverManager.serversFlow } returns MutableStateFlow(emptyList())
+        coEvery { serverManager.addServer(any()) } returns Unit
 
         viewModel = AddServerViewModel(serverManager)
     }
@@ -113,7 +114,6 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
-        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify {
@@ -142,7 +142,6 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
-        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify {
@@ -168,7 +167,6 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
-        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify {
@@ -190,7 +188,6 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
-        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify {
@@ -213,7 +210,6 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
-        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         assertEquals(exceptionMessage, viewModel.error.value)
@@ -231,7 +227,6 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
-        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         assertEquals("Failed to add server", viewModel.error.value)
@@ -287,7 +282,6 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
-        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify {
@@ -312,7 +306,6 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
-        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify {

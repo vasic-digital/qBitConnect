@@ -130,6 +130,7 @@ class TorrentTest {
             TorrentState.ERROR,
             TorrentState.MISSING_FILES,
             TorrentState.UPLOADING,
+            TorrentState.SEEDING,
             TorrentState.PAUSED_UP,
             TorrentState.QUEUED_UP,
             TorrentState.STALLED_UP,
@@ -158,7 +159,7 @@ class TorrentTest {
         assertEquals("MISSING_FILES", TorrentState.MISSING_FILES.name)
         assertEquals("UPLOADING", TorrentState.UPLOADING.name)
         assertEquals("DOWNLOADING", TorrentState.DOWNLOADING.name)
-        assertEquals("SEEDING", TorrentState.UPLOADING.name)
+        assertEquals("SEEDING", TorrentState.SEEDING.name)
         assertEquals("UNKNOWN", TorrentState.UNKNOWN.name)
     }
 

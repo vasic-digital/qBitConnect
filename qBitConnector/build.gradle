@@ -14,7 +14,7 @@ android {
     defaultConfig {
 
         applicationId 'com.shareconnect.qbitconnect'
-        minSdk 24  // Updated for security library compatibility
+        minSdk 28  // Required for SecurityAccess library compatibility
         targetSdk 36
         versionCode 1
         versionName '1.0.0'

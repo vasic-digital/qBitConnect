@@ -39,12 +39,14 @@ class ServerRepository(
     suspend fun addServer(server: Server) {
         val serverConfig = server.toServerConfig()
         serverManager.addServer(serverConfig)
-        // ServerRepository will be updated via the flow listener
+        // Update local state immediately
+        _servers.value = _servers.value + server
     }
 
     suspend fun removeServer(serverId: Int) {
         serverManager.removeServer(serverId)
-        // ServerRepository will be updated via the flow listener
+        // Update local state immediately
+        _servers.value = _servers.value.filter { it.id != serverId }
         // If the removed server was active, clear active server
         if (_activeServer.value?.id == serverId) {
             _activeServer.value = null
@@ -54,7 +56,8 @@ class ServerRepository(
     suspend fun updateServer(updatedServer: Server) {
         val serverConfig = updatedServer.toServerConfig()
         serverManager.editServer(serverConfig)
-        // ServerRepository will be updated via the flow listener
+        // Update local state immediately
+        _servers.value = _servers.value.map { if (it.id == updatedServer.id) updatedServer else it }
         // Update active server if it was modified
         if (_activeServer.value?.id == updatedServer.id) {
             _activeServer.value = updatedServer
