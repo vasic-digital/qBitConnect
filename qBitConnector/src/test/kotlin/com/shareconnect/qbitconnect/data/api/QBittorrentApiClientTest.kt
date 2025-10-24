@@ -291,8 +291,11 @@ class QBittorrentApiClientTest {
 
     @Test
     fun `test authentication persistence`() = runBlocking {
-        // Mock successful login
-        mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody("Ok."))
+        // Mock successful login with cookie
+        mockWebServer.enqueue(MockResponse()
+            .setResponseCode(200)
+            .setBody("Ok.")
+            .addHeader("Set-Cookie", "SID=test-session-id; Path=/; HttpOnly"))
 
         val loginResult = apiClient.login()
         assertTrue(loginResult.isSuccess)
