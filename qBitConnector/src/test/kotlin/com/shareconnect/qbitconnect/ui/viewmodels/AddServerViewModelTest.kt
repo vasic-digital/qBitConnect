@@ -8,7 +8,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -30,7 +31,7 @@ class AddServerViewModelTest {
 
     @Before
     fun setup() {
-        testDispatcher = UnconfinedTestDispatcher()
+        testDispatcher = StandardTestDispatcher()
         Dispatchers.setMain(testDispatcher)
 
         serverManager = mockk()
@@ -114,6 +115,8 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
+        testDispatcher.scheduler.advanceUntilIdle()
+        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify {
@@ -142,6 +145,7 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
+        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify {
@@ -167,6 +171,7 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
+        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify {
@@ -188,6 +193,7 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
+        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify {
@@ -210,6 +216,7 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
+        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         assertEquals(exceptionMessage, viewModel.error.value)
@@ -227,6 +234,7 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
+        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         assertEquals("Failed to add server", viewModel.error.value)
@@ -235,14 +243,21 @@ class AddServerViewModelTest {
 
     @Test
     fun `addServer should set loading state correctly`() = runTest {
-        // Given
+        // Given - make addServer suspend so we can test the loading state
+        coEvery { serverManager.addServer(any()) } coAnswers {
+            delay(100) // Add a suspension point
+        }
+
         viewModel.updateName("Test Server")
         viewModel.updateHost("localhost")
 
         // When
         viewModel.addServer()
 
-        // Then - loading should be true initially
+        // Advance to execute the coroutine up to the first suspension point (delay)
+        testDispatcher.scheduler.runCurrent()
+
+        // Then - loading should be true after starting
         assertTrue(viewModel.isLoading.value)
 
         // Complete the operation
@@ -261,6 +276,7 @@ class AddServerViewModelTest {
 
         runTest {
             viewModel.addServer()
+        testDispatcher.scheduler.advanceUntilIdle()
             testDispatcher.scheduler.advanceUntilIdle()
             assertEquals("Test error", viewModel.error.value)
 
@@ -282,6 +298,7 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
+        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify {
@@ -306,6 +323,7 @@ class AddServerViewModelTest {
 
         // When
         viewModel.addServer()
+        testDispatcher.scheduler.advanceUntilIdle()
 
         // Then
         coVerify {

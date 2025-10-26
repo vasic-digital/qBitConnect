@@ -70,7 +70,7 @@ class AddServerViewModel(
             _isLoading.value = true
             try {
                 val portInt = port.value.toIntOrNull() ?: 8080
-                val url = if (useHttps.value) "https://$host:$portInt" else "http://$host:$portInt"
+                val url = if (useHttps.value) "https://${host.value}:$portInt" else "http://${host.value}:$portInt"
                 val serverConfig = ServerConfig(
                     id = 0, // will be set by manager
                     name = name.value,
