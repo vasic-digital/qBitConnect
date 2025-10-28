@@ -30,8 +30,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -39,10 +41,14 @@ import com.shareconnect.qbitconnect.data.models.Torrent
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.viewmodels.TorrentListViewModel
 import com.shareconnect.qbitconnect.ui.viewmodels.TorrentListViewModelFactory
+import com.shareconnect.qrscanner.QRScannerManager
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TorrentListScreen(navController: NavController, serverId: String) {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     val viewModel: TorrentListViewModel = viewModel(
         factory = TorrentListViewModelFactory()
     )
@@ -60,6 +66,16 @@ fun TorrentListScreen(navController: NavController, serverId: String) {
                 actions = {
                     IconButton(onClick = { viewModel.refreshTorrents() }) {
                         Text("🔄")
+                    }
+                    IconButton(onClick = {
+                        coroutineScope.launch {
+                            val qrResult = QRScannerManager(context).scanQRCode()
+                            if (qrResult != null) {
+                                processScannedUrl(qrResult, navController, serverId)
+                            }
+                        }
+                    }) {
+                        Text("📱")
                     }
                     IconButton(onClick = { navController.navigate("add_torrent/$serverId") }) {
                         Text("+")
@@ -223,4 +239,16 @@ private fun formatSpeed(bytesPerSecond: Long): String {
         bytesPerSecond >= 1024 -> "%.1f KB/s".format(bytesPerSecond / 1024.0)
         else -> "$bytesPerSecond B/s"
     }
+}
+
+private fun processScannedUrl(url: String, navController: NavController, serverId: String) {
+    if (isValidUrl(url)) {
+        // Navigate to add torrent screen with the scanned URL
+        navController.navigate("add_torrent/$serverId?url=${java.net.URLEncoder.encode(url, "UTF-8")}")
+    }
+}
+
+private fun isValidUrl(url: String?): Boolean {
+    if (url == null) return false
+    return url.startsWith("http://") || url.startsWith("https://") || url.startsWith("magnet:")
 }

@@ -45,7 +45,8 @@ fun AppNavigation() {
         }
         composable("add_torrent/{serverId}") { backStackEntry ->
             val serverId = backStackEntry.arguments?.getString("serverId") ?: ""
-            AddTorrentScreen(navController, serverId)
+            val scannedUrl = backStackEntry.arguments?.getString("url")
+            AddTorrentScreen(navController, serverId, scannedUrl)
         }
         composable("rss_feeds/{serverId}") { backStackEntry ->
             val serverId = backStackEntry.arguments?.getString("serverId") ?: ""

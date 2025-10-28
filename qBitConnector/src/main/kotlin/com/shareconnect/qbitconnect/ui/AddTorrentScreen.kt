@@ -30,6 +30,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -38,16 +39,29 @@ import androidx.navigation.NavController
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.ui.viewmodels.AddTorrentViewModel
 import com.shareconnect.qbitconnect.ui.viewmodels.AddTorrentViewModelFactory
+import java.net.URLDecoder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddTorrentScreen(navController: NavController, serverId: String) {
+fun AddTorrentScreen(navController: NavController, serverId: String, scannedUrl: String? = null) {
     val viewModel: AddTorrentViewModel = viewModel(
         factory = AddTorrentViewModelFactory()
     )
 
     val urls by viewModel.urls.collectAsState()
     val savePath by viewModel.savePath.collectAsState()
+
+    // Handle scanned URL
+    LaunchedEffect(scannedUrl) {
+        scannedUrl?.let {
+            try {
+                val decodedUrl = URLDecoder.decode(it, "UTF-8")
+                viewModel.setUrls(decodedUrl)
+            } catch (e: Exception) {
+                // Handle decoding error
+            }
+        }
+    }
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
     val torrentAdded by viewModel.torrentAdded.collectAsState()
