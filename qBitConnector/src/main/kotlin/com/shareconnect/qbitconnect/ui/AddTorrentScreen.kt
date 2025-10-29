@@ -56,7 +56,7 @@ fun AddTorrentScreen(navController: NavController, serverId: String, scannedUrl:
         scannedUrl?.let {
             try {
                 val decodedUrl = URLDecoder.decode(it, "UTF-8")
-                viewModel.setUrls(decodedUrl)
+                viewModel.updateUrls(decodedUrl)
             } catch (e: Exception) {
                 // Handle decoding error
             }

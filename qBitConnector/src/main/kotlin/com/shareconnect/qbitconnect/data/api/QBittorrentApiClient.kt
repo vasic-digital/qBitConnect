@@ -59,8 +59,6 @@ class QBittorrentApiClient(
     private val baseUrl = serverUrl.removeSuffix("/")
 
     private val okHttpClient = OkHttpClient.Builder()
-            .cache(Cache(context.cacheDir, 10 * 1024 * 1024))  // 10MB HTTP cache
-            .addInterceptor(HttpCacheInterceptor())
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)

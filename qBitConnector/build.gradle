@@ -4,8 +4,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.serialization'
     id 'org.jetbrains.kotlin.plugin.compose'
-    id 'com.google.gms.google-services' version '4.4.3'
-    id 'com.google.firebase.crashlytics' version '3.0.6'
+    // id 'com.google.gms.google-services' version '4.4.3'
+    // id 'com.google.firebase.crashlytics' version '3.0.6'
 }
 
 android {
@@ -60,7 +60,7 @@ android {
 
     packaging {
         resources {
-            excludes += ['META-INF/DEPENDENCIES', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/NOTICE', 'META-INF/NOTICE.txt', 'META-INF/INDEX.LIST']
+            excludes += ['META-INF/DEPENDENCIES', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/NOTICE', 'META-INF/NOTICE.txt', 'META-INF/INDEX.LIST', 'META-INF/license.txt', 'META-INF/notice.txt', 'META-INF/versions/**', 'META-INF/*.MF']
         }
     }
 
@@ -88,6 +88,10 @@ tasks.withType(Test) {
 }
 
 dependencies {
+    // Centralized dependencies
+    implementation(project(":Dependencies"))
+
+    // Project modules
     implementation project(':preferences')
     implementation project(':shared')
     implementation project(':DesignSystem')
@@ -105,95 +109,64 @@ dependencies {
     implementation project(':Toolkit:SecurityAccess')
     implementation project(':Toolkit:QRScanner')
 
-    def androidxLifecycleVersion = '2.9.4'
-    def composeNavigationVersion = '2.9.0-beta03'
-    def coroutinesVersion = '1.10.2'
-    def kotlinxSerializationVersion = '1.7.3'
-    def kotlinxDatetimeVersion = '0.6.1'
-
-    def ktorVersion = '3.2.3'
-    def okhttpVersion = '4.12.0'
-    def gsonVersion = '2.11.0'
-    def coilVersion = '2.7.0'
-    def htmlConverterVersion = '1.1.0'
-    def multiplatformSettingsVersion = '1.3.0'
-    def materialKolorVersion = '2.1.1'
-    def fileKitVersion = '0.8.2'
-    def reorderableVersion = '2.5.1'
-    def autolinktextVersion = '2.0.2'
-    def composePipetteVersion = '1.0.1'
-    def androidxAppcompatVersion = '1.7.1'
-    def materialVersion = '1.13.0'
-    def profileinstallerVersion = '1.4.1'
-    def accompanistVersion = '0.37.3'
-    def workRuntimeVersion = '2.10.4'
-
+    // Compose BOM
     implementation platform('androidx.compose:compose-bom:2025.09.00')
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
+    // Compose dependencies
     implementation 'androidx.compose.runtime:runtime'
     implementation 'androidx.compose.foundation:foundation'
     implementation 'androidx.compose.material3:material3'
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
-    implementation "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel:$androidxLifecycleVersion"
-    implementation "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:$androidxLifecycleVersion"
     implementation 'androidx.compose.material:material-icons-extended'
 
     implementation 'androidx.activity:activity-compose:1.11.0'
     implementation 'androidx.compose.material3:material3-window-size-class'
 
-    implementation "org.jetbrains.androidx.navigation:navigation-compose:$composeNavigationVersion"
+    implementation "org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta03"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+    // Ktor for HTTP client
+    implementation "io.ktor:ktor-client-core:3.2.3"
+    implementation "io.ktor:ktor-client-okhttp:3.2.3"
+    implementation "io.ktor:ktor-client-content-negotiation:3.2.3"
+    implementation "io.ktor:ktor-serialization-kotlinx-json:3.2.3"
+    implementation "io.ktor:ktor-client-auth:3.2.3"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDatetimeVersion"
+    // Coil for image loading
+    implementation "io.coil-kt:coil-compose:2.7.0"
+    implementation "io.coil-kt:coil-svg:2.7.0"
 
-    implementation "io.ktor:ktor-client-core:$ktorVersion"
-    implementation "io.ktor:ktor-client-okhttp:$ktorVersion"
-    implementation "io.ktor:ktor-client-content-negotiation:$ktorVersion"
-    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktorVersion"
-    implementation "io.ktor:ktor-client-auth:$ktorVersion"
+    // HTML conversion
+    implementation "be.digitalia.compose.htmlconverter:htmlconverter:1.1.0"
 
-    implementation project.dependencies.platform("com.squareup.okhttp3:okhttp-bom:$okhttpVersion")
-    implementation 'com.squareup.okhttp3:okhttp'
-    implementation 'com.squareup.okhttp3:logging-interceptor'
-    implementation 'com.squareup.okhttp3:okhttp-dnsoverhttps'
-    implementation "com.google.code.gson:gson:$gsonVersion"
+    // Multiplatform settings
+    implementation "com.russhwolf:multiplatform-settings:1.3.0"
 
-    implementation "io.coil-kt:coil-compose:$coilVersion"
-    implementation "io.coil-kt:coil-svg:$coilVersion"
+    // Material color utilities
+    implementation "com.materialkolor:material-kolor:2.1.1"
 
-    implementation "be.digitalia.compose.htmlconverter:htmlconverter:$htmlConverterVersion"
+    // Reorderable lists
+    implementation "sh.calvin.reorderable:reorderable:2.5.1"
 
-    implementation "com.russhwolf:multiplatform-settings:$multiplatformSettingsVersion"
+    // Auto-link text
+    implementation "sh.calvin.autolinktext:autolinktext:2.0.2"
 
-    implementation "com.materialkolor:material-kolor:$materialKolorVersion"
+    // Compose pipette
+    implementation "dev.zt64.compose.pipette:compose-pipette:1.0.1"
 
-    // FileKit temporarily commented out due to version compatibility issues
-    // implementation "io.github.vinceglb:filekit-core:$fileKitVersion"
-    // implementation "io.github.vinceglb:filekit-dialogs:$fileKitVersion"
+    // Profile installer
+    implementation "androidx.profileinstaller:profileinstaller:1.4.1"
 
-    implementation "sh.calvin.reorderable:reorderable:$reorderableVersion"
+    // Accompanist permissions
+    implementation "com.google.accompanist:accompanist-permissions:0.37.3"
 
-    implementation "sh.calvin.autolinktext:autolinktext:$autolinktextVersion"
+    // Work manager
+    implementation "androidx.work:work-runtime-ktx:2.10.4"
 
-    implementation "dev.zt64.compose.pipette:compose-pipette:$composePipetteVersion"
-
-    implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"
-
-    implementation "com.google.android.material:material:$materialVersion"
-
-    implementation "androidx.profileinstaller:profileinstaller:$profileinstallerVersion"
-
-    implementation "com.google.accompanist:accompanist-permissions:$accompanistVersion"
-
-    implementation "androidx.work:work-runtime-ktx:$workRuntimeVersion"
-
+    // DataStore preferences
     implementation 'androidx.datastore:datastore-preferences:1.1.1'
 
     // Firebase
@@ -203,25 +176,19 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     // Test dependencies
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     testImplementation 'androidx.datastore:datastore-preferences-core:1.1.1'
     testImplementation 'io.mockk:mockk:1.13.8'
-    testImplementation "com.russhwolf:multiplatform-settings-test:$multiplatformSettingsVersion"
+    testImplementation "com.russhwolf:multiplatform-settings-test:1.3.0"
     testImplementation "org.jetbrains.kotlin:kotlin-test:2.0.0"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:2.0.0"
-    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
     testImplementation 'org.robolectric:robolectric:4.13'
 
     // Android test dependencies
-    androidTestImplementation 'androidx.test.ext:junit:1.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.7.7'
     debugImplementation 'androidx.compose.ui:ui-test-manifest:1.7.7'
 
     // Additional test dependencies for androidTest
-    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:4.12.0"
 }
 
 // Force Kotlin version to avoid conflicts
