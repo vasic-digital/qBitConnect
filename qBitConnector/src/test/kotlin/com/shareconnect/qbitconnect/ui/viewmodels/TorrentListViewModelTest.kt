@@ -49,12 +49,17 @@ import kotlinx.datetime.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [33], application = com.shareconnect.qbitconnect.TestApplication::class)
 class TorrentListViewModelTest {
 
     private lateinit var torrentRepository: TorrentRepository
@@ -135,8 +140,8 @@ class TorrentListViewModelTest {
         testDispatcher = StandardTestDispatcher()
         Dispatchers.setMain(testDispatcher)
 
-        torrentRepository = mockk(relaxed = true)
-        serverRepository = mockk(relaxed = true)
+        torrentRepository = mockk()
+        serverRepository = mockk()
 
         every { torrentRepository.torrents } returns flowOf(sampleTorrents)
         every { torrentRepository.categories } returns flowOf(listOf("ISOs", "Movies"))

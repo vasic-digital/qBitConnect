@@ -29,6 +29,7 @@ import com.shareconnect.qbitconnect.data.models.Server
 import com.shareconnect.qbitconnect.data.repositories.TorrentRepository
 import com.shareconnect.qbitconnect.di.DependencyContainer
 import com.shareconnect.qbitconnect.network.RequestManager
+import kotlinx.coroutines.async
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -59,7 +60,7 @@ class TorrentIntegrationTest {
 
         // Create test server pointing to mock
         testServer = Server(
-            id = "test-server",
+            id = 1,
             name = "Test Server",
             host = mockServer.url.host,
             port = mockServer.url.port,
@@ -88,7 +89,7 @@ class TorrentIntegrationTest {
         assertTrue("Fedora torrent should exist", fedoraTorrent != null)
 
         // Test 2: Get torrent by hash
-        val torrentByHash = torrentRepository.getTorrentByHash(ubuntuTorrent.hash)
+        val torrentByHash = torrentRepository.getTorrentByHash(ubuntuTorrent?.hash ?: "")
         assertEquals("Should find Ubuntu torrent by hash", ubuntuTorrent, torrentByHash)
 
         // Test 3: Get torrents by category
@@ -108,25 +109,25 @@ class TorrentIntegrationTest {
         assertTrue("Add torrent should succeed", addResult.isSuccess)
 
         // Test 6: Pause torrents
-        val pauseResult = torrentRepository.pauseTorrents(testServer.id, listOf(ubuntuTorrent.hash))
+        val pauseResult = torrentRepository.pauseTorrents(testServer.id, listOf(ubuntuTorrent?.hash ?: ""))
         assertTrue("Pause torrents should succeed", pauseResult.isSuccess)
 
         // Test 7: Resume torrents
-        val resumeResult = torrentRepository.resumeTorrents(testServer, listOf(ubuntuTorrent.hash))
+        val resumeResult = torrentRepository.resumeTorrents(testServer.id, listOf(ubuntuTorrent?.hash ?: ""))
         assertTrue("Resume torrents should succeed", resumeResult.isSuccess)
 
         // Test 8: Set category
-        val setCategoryResult = torrentRepository.setCategory(testServer, listOf(ubuntuTorrent.hash), "Software")
+        val setCategoryResult = torrentRepository.setCategory(testServer.id, listOf(ubuntuTorrent?.hash ?: ""), "Software")
         assertTrue("Set category should succeed", setCategoryResult.isSuccess)
 
         // Test 9: Set tags
-        val setTagsResult = torrentRepository.setTags(testServer, listOf(ubuntuTorrent.hash), listOf("linux", "desktop"))
+        val setTagsResult = torrentRepository.setTags(testServer.id, listOf(ubuntuTorrent?.hash ?: ""), listOf("linux", "desktop"))
         assertTrue("Set tags should succeed", setTagsResult.isSuccess)
 
         // Test 10: Set limits
         val setLimitsResult = torrentRepository.setLimits(
-            testServer,
-            listOf(ubuntuTorrent.hash),
+            testServer.id,
+            listOf(ubuntuTorrent?.hash ?: ""),
             downloadLimit = 1024000L,
             uploadLimit = 512000L
         )
@@ -137,7 +138,7 @@ class TorrentIntegrationTest {
         assertTrue("Create category should succeed", createCategoryResult.isSuccess)
 
         // Test 12: Delete torrents
-        val deleteResult = torrentRepository.deleteTorrents(testServer, listOf(fedoraTorrent.hash), deleteFiles = false)
+        val deleteResult = torrentRepository.deleteTorrents(testServer.id, listOf(fedoraTorrent?.hash ?: ""), deleteFiles = false)
         assertTrue("Delete torrents should succeed", deleteResult.isSuccess)
 
         // Test 13: Delete category
@@ -149,7 +150,7 @@ class TorrentIntegrationTest {
     fun `edge case - network failure handling`() = runTest {
         // Create server with invalid host to simulate network failure
         val invalidServer = Server(
-            id = "invalid-server",
+            id = 2,
             name = "Invalid Server",
             host = "invalid.host.that.does.not.exist",
             port = 8080

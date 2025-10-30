@@ -74,6 +74,14 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            java {
+                exclude 'src/main/java/**'
+            }
+        }
+    }
+
     dependenciesInfo {
         includeInApk false
         includeInBundle false
