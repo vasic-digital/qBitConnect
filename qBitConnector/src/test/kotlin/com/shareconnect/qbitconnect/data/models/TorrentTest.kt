@@ -36,7 +36,6 @@ import org.junit.Ignore
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33], application = com.shareconnect.qbitconnect.TestApplication::class)
-@Ignore("Temporarily disabled for release build")
 class TorrentTest {
 
     @Test

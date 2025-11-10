@@ -43,7 +43,6 @@ import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33], application = com.shareconnect.qbitconnect.TestApplication::class)
-@Ignore("Temporarily disabled for release build")
 class ServerRepositoryTest {
 
     private lateinit var serverRepository: ServerRepository

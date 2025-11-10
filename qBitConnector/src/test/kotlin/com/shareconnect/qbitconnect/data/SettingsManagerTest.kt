@@ -39,7 +39,6 @@ import org.robolectric.annotation.Config
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33], application = com.shareconnect.qbitconnect.TestApplication::class)
-@Ignore("Temporarily disabled for release build")
 class SettingsManagerTest {
 
     private lateinit var testSettings: Settings
