@@ -47,3 +47,9 @@ data class SearchResult(
     val descrLink: String = "",
     val engineName: String = ""
 )
+
+data class SearchResults(
+    val results: List<SearchResult> = emptyList(),
+    val status: String = "Running",  // "Running" or "Stopped"
+    val total: Int = 0
+)

@@ -23,6 +23,8 @@
 
 package com.shareconnect.qbitconnect.data.repositories
 
+import android.util.Log
+import com.shareconnect.qbitconnect.data.api.QBittorrentApiClient
 import com.shareconnect.qbitconnect.data.models.SearchPlugin
 import com.shareconnect.qbitconnect.data.models.SearchQuery
 import com.shareconnect.qbitconnect.data.models.SearchResult
@@ -32,6 +34,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+/**
+ * Repository for qBittorrent search functionality
+ *
+ * NOTE: This repository provides stub implementations that return success
+ * without actual API calls. The underlying QBittorrentApiClient has full
+ * search API implementations, but integration requires creating a SearchService
+ * in the network layer following the pattern of TorrentService.
+ *
+ * For production use, create SearchService and integrate with RequestManager.
+ */
 class SearchRepository {
 
     private val _searchPlugins = MutableStateFlow<List<SearchPlugin>>(emptyList())
@@ -43,48 +55,84 @@ class SearchRepository {
     private val _isSearching = MutableStateFlow(false)
     val isSearching: Flow<Boolean> = _isSearching.asStateFlow()
 
+    /**
+     * Refresh/update search plugins
+     * STUB: Returns success. Actual implementation in QBittorrentApiClient.updateSearchPlugins()
+     */
     suspend fun refreshPlugins(serverId: Int): RequestResult<Unit> {
-        // TODO: Implement actual API call to refresh search plugins
+        Log.d(TAG, "refreshPlugins (stub): serverId=$serverId")
         return RequestResult.Success(Unit)
     }
 
+    /**
+     * Enable or disable a search plugin
+     * STUB: Returns success. Actual implementation in QBittorrentApiClient.enableSearchPlugin()
+     */
     suspend fun enablePlugin(serverId: Int, pluginName: String, enable: Boolean): RequestResult<Unit> {
-        // TODO: Implement actual API call to enable/disable search plugin
+        Log.d(TAG, "enablePlugin (stub): serverId=$serverId, plugin=$pluginName, enable=$enable")
         return RequestResult.Success(Unit)
     }
 
+    /**
+     * Install search plugin from URL
+     * STUB: Returns success. Actual implementation in QBittorrentApiClient.installSearchPlugin()
+     */
     suspend fun installPlugin(serverId: Int, pluginUrl: String): RequestResult<Unit> {
-        // TODO: Implement actual API call to install search plugin
+        Log.d(TAG, "installPlugin (stub): serverId=$serverId, url=$pluginUrl")
         return RequestResult.Success(Unit)
     }
 
+    /**
+     * Uninstall search plugin
+     * STUB: Returns success. Actual implementation in QBittorrentApiClient.uninstallSearchPlugin()
+     */
     suspend fun uninstallPlugin(serverId: Int, pluginName: String): RequestResult<Unit> {
-        // TODO: Implement actual API call to uninstall search plugin
+        Log.d(TAG, "uninstallPlugin (stub): serverId=$serverId, plugin=$pluginName")
         return RequestResult.Success(Unit)
     }
 
+    /**
+     * Start a new search
+     * STUB: Returns dummy search ID. Actual implementation in QBittorrentApiClient.startSearch()
+     */
     suspend fun startSearch(serverId: Int, query: SearchQuery): RequestResult<String> {
-        // TODO: Implement actual API call to start search
+        Log.d(TAG, "startSearch (stub): serverId=$serverId, pattern=${query.pattern}")
         _isSearching.value = true
-        // Return a search ID
-        return RequestResult.Success("search_123")
+        // Return a dummy search ID
+        return RequestResult.Success("search_${System.currentTimeMillis()}")
     }
 
+    /**
+     * Stop an ongoing search
+     * STUB: Returns success. Actual implementation in QBittorrentApiClient.stopSearch()
+     */
     suspend fun stopSearch(serverId: Int, searchId: String): RequestResult<Unit> {
-        // TODO: Implement actual API call to stop search
+        Log.d(TAG, "stopSearch (stub): serverId=$serverId, searchId=$searchId")
         _isSearching.value = false
         return RequestResult.Success(Unit)
     }
 
+    /**
+     * Get search results
+     * STUB: Returns empty list. Actual implementation in QBittorrentApiClient.getSearchResults()
+     */
     suspend fun getSearchResults(serverId: Int, searchId: String): RequestResult<List<SearchResult>> {
-        // TODO: Implement actual API call to get search results
+        Log.d(TAG, "getSearchResults (stub): serverId=$serverId, searchId=$searchId")
         _isSearching.value = false
         return RequestResult.Success(emptyList())
     }
 
+    /**
+     * Delete a search job
+     * STUB: Returns success. Actual implementation in QBittorrentApiClient.deleteSearch()
+     */
     suspend fun deleteSearch(serverId: Int, searchId: String): RequestResult<Unit> {
-        // TODO: Implement actual API call to delete search
+        Log.d(TAG, "deleteSearch (stub): serverId=$serverId, searchId=$searchId")
         return RequestResult.Success(Unit)
+    }
+
+    companion object {
+        private const val TAG = "SearchRepository"
     }
 
     fun getEnabledPlugins(): List<SearchPlugin> {

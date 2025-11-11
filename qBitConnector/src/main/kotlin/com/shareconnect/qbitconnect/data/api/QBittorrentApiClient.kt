@@ -27,6 +27,8 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shareconnect.qbitconnect.data.model.*
+import com.shareconnect.qbitconnect.data.models.SearchPlugin
+import com.shareconnect.qbitconnect.data.models.SearchResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.Cookie
@@ -660,6 +662,297 @@ class QBittorrentApiClient(
             }
         } catch (e: Exception) {
             Log.e(tag, "Error removing categories", e)
+            Result.failure(e)
+        }
+    }
+
+    // ================================================================================
+    // Search API Methods
+    // ================================================================================
+
+    /**
+     * Get list of search plugins
+     */
+    suspend fun getSearchPlugins(): Result<List<SearchPlugin>> = withContext(Dispatchers.IO) {
+        try {
+            ensureAuthenticated()
+
+            val request = Request.Builder()
+                .url("$baseUrl/api/v2/search/plugins")
+                .get()
+                .build()
+
+            val response = okHttpClient.newCall(request).execute()
+
+            if (response.isSuccessful) {
+                val responseBody = response.body?.string()
+                if (responseBody != null) {
+                    val plugins = gson.fromJson<List<SearchPlugin>>(
+                        responseBody,
+                        object : TypeToken<List<SearchPlugin>>() {}.type
+                    )
+                    Result.success(plugins)
+                } else {
+                    Result.failure(Exception("Empty response"))
+                }
+            } else {
+                Result.failure(Exception("Get search plugins failed: ${response.code}"))
+            }
+        } catch (e: Exception) {
+            Log.e(tag, "Error getting search plugins", e)
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Install search plugin from URL
+     */
+    suspend fun installSearchPlugin(sources: List<String>): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            ensureAuthenticated()
+
+            val formBody = FormBody.Builder()
+                .add("sources", sources.joinToString("|"))
+                .build()
+
+            val request = Request.Builder()
+                .url("$baseUrl/api/v2/search/installPlugin")
+                .post(formBody)
+                .build()
+
+            val response = okHttpClient.newCall(request).execute()
+
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Install search plugin failed: ${response.code}"))
+            }
+        } catch (e: Exception) {
+            Log.e(tag, "Error installing search plugin", e)
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Uninstall search plugin
+     */
+    suspend fun uninstallSearchPlugin(names: List<String>): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            ensureAuthenticated()
+
+            val formBody = FormBody.Builder()
+                .add("names", names.joinToString("|"))
+                .build()
+
+            val request = Request.Builder()
+                .url("$baseUrl/api/v2/search/uninstallPlugin")
+                .post(formBody)
+                .build()
+
+            val response = okHttpClient.newCall(request).execute()
+
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Uninstall search plugin failed: ${response.code}"))
+            }
+        } catch (e: Exception) {
+            Log.e(tag, "Error uninstalling search plugin", e)
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Enable/disable search plugin
+     */
+    suspend fun enableSearchPlugin(names: List<String>, enable: Boolean): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            ensureAuthenticated()
+
+            val formBody = FormBody.Builder()
+                .add("names", names.joinToString("|"))
+                .add("enable", enable.toString())
+                .build()
+
+            val request = Request.Builder()
+                .url("$baseUrl/api/v2/search/enablePlugin")
+                .post(formBody)
+                .build()
+
+            val response = okHttpClient.newCall(request).execute()
+
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Enable search plugin failed: ${response.code}"))
+            }
+        } catch (e: Exception) {
+            Log.e(tag, "Error enabling search plugin", e)
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Update search plugins
+     */
+    suspend fun updateSearchPlugins(): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            ensureAuthenticated()
+
+            val request = Request.Builder()
+                .url("$baseUrl/api/v2/search/updatePlugins")
+                .post(FormBody.Builder().build())
+                .build()
+
+            val response = okHttpClient.newCall(request).execute()
+
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Update search plugins failed: ${response.code}"))
+            }
+        } catch (e: Exception) {
+            Log.e(tag, "Error updating search plugins", e)
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Start search
+     */
+    suspend fun startSearch(
+        pattern: String,
+        plugins: List<String> = listOf("all"),
+        category: String = "all"
+    ): Result<Int> = withContext(Dispatchers.IO) {
+        try {
+            ensureAuthenticated()
+
+            val formBody = FormBody.Builder()
+                .add("pattern", pattern)
+                .add("plugins", plugins.joinToString("|"))
+                .add("category", category)
+                .build()
+
+            val request = Request.Builder()
+                .url("$baseUrl/api/v2/search/start")
+                .post(formBody)
+                .build()
+
+            val response = okHttpClient.newCall(request).execute()
+
+            if (response.isSuccessful) {
+                val responseBody = response.body?.string()
+                if (responseBody != null) {
+                    val json = gson.fromJson(responseBody, Map::class.java)
+                    val searchId = (json["id"] as? Double)?.toInt() ?: -1
+                    Result.success(searchId)
+                } else {
+                    Result.failure(Exception("Empty response"))
+                }
+            } else {
+                Result.failure(Exception("Start search failed: ${response.code}"))
+            }
+        } catch (e: Exception) {
+            Log.e(tag, "Error starting search", e)
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Stop search
+     */
+    suspend fun stopSearch(searchId: Int): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            ensureAuthenticated()
+
+            val formBody = FormBody.Builder()
+                .add("id", searchId.toString())
+                .build()
+
+            val request = Request.Builder()
+                .url("$baseUrl/api/v2/search/stop")
+                .post(formBody)
+                .build()
+
+            val response = okHttpClient.newCall(request).execute()
+
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Stop search failed: ${response.code}"))
+            }
+        } catch (e: Exception) {
+            Log.e(tag, "Error stopping search", e)
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Get search results
+     */
+    suspend fun getSearchResults(
+        searchId: Int,
+        limit: Int = 0,
+        offset: Int = 0
+    ): Result<SearchResults> = withContext(Dispatchers.IO) {
+        try {
+            ensureAuthenticated()
+
+            val urlBuilder = "$baseUrl/api/v2/search/results".toHttpUrl().newBuilder()
+            urlBuilder.addQueryParameter("id", searchId.toString())
+            if (limit > 0) urlBuilder.addQueryParameter("limit", limit.toString())
+            if (offset > 0) urlBuilder.addQueryParameter("offset", offset.toString())
+
+            val request = Request.Builder()
+                .url(urlBuilder.build())
+                .get()
+                .build()
+
+            val response = okHttpClient.newCall(request).execute()
+
+            if (response.isSuccessful) {
+                val responseBody = response.body?.string()
+                if (responseBody != null) {
+                    val searchResults = gson.fromJson(responseBody, SearchResults::class.java)
+                    Result.success(searchResults)
+                } else {
+                    Result.failure(Exception("Empty response"))
+                }
+            } else {
+                Result.failure(Exception("Get search results failed: ${response.code}"))
+            }
+        } catch (e: Exception) {
+            Log.e(tag, "Error getting search results", e)
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Delete search
+     */
+    suspend fun deleteSearch(searchId: Int): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            ensureAuthenticated()
+
+            val formBody = FormBody.Builder()
+                .add("id", searchId.toString())
+                .build()
+
+            val request = Request.Builder()
+                .url("$baseUrl/api/v2/search/delete")
+                .post(formBody)
+                .build()
+
+            val response = okHttpClient.newCall(request).execute()
+
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Delete search failed: ${response.code}"))
+            }
+        } catch (e: Exception) {
+            Log.e(tag, "Error deleting search", e)
             Result.failure(e)
         }
     }
